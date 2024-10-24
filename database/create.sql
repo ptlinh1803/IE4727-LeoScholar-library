@@ -3,7 +3,7 @@ USE leoscholar;
 
 -- Universities table
 CREATE TABLE IF NOT EXISTS universities (
-    university_id INT AUTO_INCREMENT PRIMARY KEY,
+    university_id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
-    university_id INT NOT NULL,
+    university_id VARCHAR(10) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_users_email (email),
     FOREIGN KEY (university_id) REFERENCES universities(university_id) ON DELETE CASCADE
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS reviews (
 -- Branches table
 CREATE TABLE IF NOT EXISTS branches (
     branch_id INT AUTO_INCREMENT PRIMARY KEY,
-    university_id INT NOT NULL,
+    university_id VARCHAR(10) NOT NULL,
     branch_name VARCHAR(100),
     address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -167,7 +167,7 @@ CREATE TABLE IF NOT EXISTS librarians (
     name VARCHAR(100),
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    university_id INT,
+    university_id VARCHAR(10),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (university_id) REFERENCES universities(university_id) ON DELETE CASCADE
 );
