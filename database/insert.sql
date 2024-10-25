@@ -46,7 +46,19 @@ INSERT INTO branches (university_id, branch_name, address) VALUES
 ('SMU', 'Hamon Arts Library', '6100 Hillcrest Avenue');
 
 -- Books table
--- Go to LeoScholar > Books > Import
+-- Go to phpmyadmin > leoscholar > books > Import
 -- Choose file books.csv
 -- Keep other default settings
 -- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path
+
+-- Book_Availability table
+-- Go to phpmyadmin > leoscholar > book_availability > Import
+-- Choose file book_availability.csv
+-- Keep other default settings
+-- Specify column order (no need to enclose): book_id, branch_id, available_copies
+
+-- Digital_Resources table
+-- Go to phpmyadmin > leoscholar > digital_resources > Import
+-- Choose file digital_resources.csv
+-- Keep other default settings
+-- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path, file_path, type
