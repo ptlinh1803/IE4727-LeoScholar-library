@@ -14,12 +14,22 @@
     <!-- Navbar -->
     <nav class="navbar">
       <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
-      <!-- Add your logo image here -->
       <div class="nav-links">
-        <a href="#">Home</a>
+        <a href="#" class="active-page">Home</a>
         <a href="#">Search</a>
+        <a href="#">My Shelf</a>
         <a href="#">Contribute</a>
-        <a href="#">Profile</a>
+        <div class="dropdown">
+          <a href="#" class="profile-link active-page">
+            Profile
+            <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
+          </a>
+          <div class="dropdown-content">
+            <a href="#">Settings</a>
+            <a href="#">Payment</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
       </div>
     </nav>
 

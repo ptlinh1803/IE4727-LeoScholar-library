@@ -9,7 +9,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
   background-color: #f8f9fa; /* Light background for navbar */
 }
 
@@ -19,13 +19,71 @@ body {
 
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: 50px; /* Increased space between nav links */
 }
 
 .nav-links a {
   text-decoration: none;
-  color: #333; /* Dark text color */
+  color: #bbb; /* Lighter text color for nav links */
   font-weight: 700;
+  position: relative; /* For dropdown positioning */
+  padding: 10px 15px; /* Add padding for vertical alignment */
+  display: flex; /* Use flex to align items */
+  align-items: center; /* Center align text vertically */
+}
+
+/* Add hover effect for non-profile links */
+.nav-links a:not(.profile-link):not(.dropdown-content a):hover {
+  text-decoration: underline; /* Underline on hover */
+  color: #333; /* Optional: change color on hover for better visibility */
+}
+
+.nav-links a.active-page {
+  color: #333; /* Dark text color for active page */
+}
+
+.dropdown {
+  position: relative; /* Needed for absolute positioning of dropdown */
+}
+
+.profile-link {
+  border: 1px solid lightgray; /* Thin border */
+  border-radius: 20px; /* Rounded background */
+  padding: 5px 10px; /* Padding for the profile link */
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Space between text and icon */
+}
+
+.dropdown-content {
+  display: none; /* Hide dropdown initially */
+  position: absolute; /* Positioning dropdown relative to parent */
+  top: 100%; /* Position below the profile link */
+  left: 0;
+  background-color: #fff; /* Background color for dropdown */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Small shadow */
+  z-index: 1; /* Ensure dropdown appears above other content */
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* Show dropdown on hover */
+}
+
+.dropdown-content a {
+  display: block; /* Make links block elements for easier clicking */
+  padding: 10px 15px; /* Padding for dropdown links */
+  color: #bbb; /* Text color for dropdown links */
+  text-decoration: none; /* Remove underline */
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0; /* Background on hover for dropdown links */
+  color: #333;
+}
+
+.dropdown img {
+  height: 20px;
 }
 
 /* Header styles */
