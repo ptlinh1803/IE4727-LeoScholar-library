@@ -251,8 +251,10 @@ body {
 }
 
 .book-wrapper img {
-  width: 100%;
-  height: auto;
+  width: 100%; /* Full width of the container */
+  height: 200px; /* Fixed height for uniformity */
+  object-fit: contain; /* Scale image to fit, retaining proportions */
+  background-color: #f3f3f7; /* Gray background to fill uncovered area */
   border-radius: 5px;
   margin-bottom: 10px;
 }
