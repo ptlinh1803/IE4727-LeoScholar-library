@@ -1,3 +1,5 @@
+USE leoscholar;
+
 -- Universities table
 INSERT INTO universities (university_id, name, address) VALUES
 ('NUS', 'National University of Singapore', '21 Lower Kent Ridge Rd, Singapore 119077'),
@@ -10,7 +12,8 @@ INSERT INTO universities (university_id, name, address) VALUES
 -- Users table
 INSERT INTO users (name, email, password, phone, university_id) VALUES
 ('Pham Thuy Linh', 'thuylinh001@e.ntu.edu.sg', '12be439712901640aa0a9e271b65d9fc', '12345678', 'NTU'),
-('Tran Huu Nghia', 'huunghia002@e.ntu.edu.sg', 'bbe3b53eb5210306e9dcfda8be238e9a', '87654321', 'NTU');
+('Tran Huu Nghia', 'huunghia002@e.ntu.edu.sg', 'bbe3b53eb5210306e9dcfda8be238e9a', '87654321', 'NTU'),
+('Test User', 'testuser1@e.ntu.edu.sg', '2c4bed4d73c86619fcf1627fb72011fa', '11111111', 'NTU');
 
 -- Librarians table
 INSERT INTO librarians (name, email, password, university_id) VALUES 

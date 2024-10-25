@@ -275,7 +275,7 @@ body {
 }
 
 .see-all-button {
-  display: block;
+  display: inline-block;
   margin: 50px auto; /* Centers the button */
   padding: 10px 50px;
   background-color: #11155e;
@@ -290,6 +290,28 @@ body {
 
 .see-all-button:hover {
   background-color: #0e1248; /* Slightly darker shade on hover */
+}
+
+.login-register-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.login-register-buttons button {
+  margin: 50px 0;
+}
+
+.no-books-message {
+  display: flex;
+  justify-content: center; /* Centers the image horizontally */
+  align-items: center; /* Centers the image vertically */
+  margin-top: 20px; /* Adds some space above the image */
+}
+
+.no-books-message img {
+  width: 100%;
+  max-width: 300px;
 }
 
 /* ABOUT US */
