@@ -44,3 +44,9 @@ INSERT INTO branches (university_id, branch_name, address) VALUES
 ('SMU', 'Fondren Library', '6414 Robert S. Hyer Lane'),
 ('SMU', 'Duda Family Business Library', '6214 Bishop Boulevard'),
 ('SMU', 'Hamon Arts Library', '6100 Hillcrest Avenue');
+
+-- Books table
+-- Go to LeoScholar > Books > Import
+-- Choose file books.csv
+-- Keep other default settings
+-- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path
