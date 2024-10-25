@@ -214,14 +214,8 @@ body {
 /* Discover books section */
 .discover-books {
   background-color: #f8eeec;
-  padding: 40px 20px;
+  padding: 20px;
   text-align: center;
-}
-
-.discover-books h1 {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 20px;
 }
 
 .books-grid {
@@ -229,6 +223,7 @@ body {
   grid-template-columns: repeat(6, 1fr); /* 6 books per row */
   gap: 20px;
   justify-items: center;
+  margin-top: 50px;
 }
 
 .book-wrapper {
@@ -238,6 +233,16 @@ body {
   width: 150px;
   text-align: left;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
+  text-decoration: none; /* Remove underline for the anchor */
+  color: inherit; /* Inherit text color */
+}
+
+/* Change cursor to pointer on hover */
+.book-wrapper:hover {
+  cursor: pointer; /* Change cursor to pointer */
+  transform: translateY(-5px) scale(1.05); /* Float up and scale */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* More prominent shadow */
 }
 
 .book-wrapper img {
@@ -266,13 +271,14 @@ body {
 
 .see-all-button {
   display: block;
-  margin: 20px auto; /* Centers the button */
-  padding: 10px 20px;
+  margin: 50px auto; /* Centers the button */
+  padding: 10px 50px;
   background-color: #11155e;
   color: #ffffff;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 17px;
+  font-family: "Inter", sans-serif;
   cursor: pointer;
   text-align: center;
 }
