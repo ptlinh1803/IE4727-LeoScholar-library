@@ -11,6 +11,11 @@ body {
   align-items: center;
   padding: 10px;
   background-color: #f8f9fa; /* Light background for navbar */
+  position: relative; /* Needed for menu-toggle positioning */
+}
+
+.menu-toggle {
+  display: none;
 }
 
 .navbar img {
@@ -50,9 +55,10 @@ body {
   border: 1px solid lightgray; /* Thin border */
   border-radius: 20px; /* Rounded background */
   padding: 5px 10px; /* Padding for the profile link */
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 5px; /* Space between text and icon */
+  white-space: nowrap; /* Prevents text wrapping */
 }
 
 .dropdown-content {
@@ -94,7 +100,7 @@ body {
   padding: 60px 60px 60px 100px; /* Top, right, bottom, left */
   color: white; /* Text color */
   text-align: left;
-  min-height: 500px;
+  min-height: 450px;
   display: flex; /* Use flexbox for alignment */
   align-items: center; /* Center items vertically */
 }
@@ -143,62 +149,66 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  margin: auto;
 }
 
 .submit-button img {
   width: 20px; /* Size of the icon */
   height: auto;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
 }
 
 /* What would you like to do today section */
-.actions {
-  background-image: url("img/ui/bg7.png"); /* Add your background image here */
+.services {
+  background-image: url("img/ui/bg7-low-opacity.png"); /* Add your background image here */
   background-size: cover;
-  padding: 40px;
+  background-position: center; /* Center the background image */
+  padding: 30px;
   text-align: center;
+  min-height: 450px;
 }
 
-.actions h1 {
-  font-size: 28px;
-  color: #333; /* Dark text color */
-}
-
-.button-container {
-  width: 50%;
+.service-button-container {
+  width: 60%;
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 buttons per row */
-  gap: 20px;
+  gap: 50px;
   justify-items: center;
   padding: 20px;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
-.button {
+.warm-gradient-button {
   display: flex;
   flex-direction: column;
   align-items: center;
   background: linear-gradient(
     45deg,
-    #ff4500,
-    #ff8c00
+    #d71440,
+    #f6a92a
   ); /* Gradient background */
   color: white;
   border: none;
   border-radius: 8px;
   padding: 15px;
-  width: 150px;
+  width: 250px;
   text-align: center;
   cursor: pointer;
 }
 
-.button img {
-  width: 40px; /* Adjust as needed */
+.warm-gradient-button img {
+  width: 50px; /* Adjust as needed */
   height: auto;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-.button span {
-  font-size: 14px;
+.warm-gradient-button span {
+  font-size: 17px;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
 }
 
 /* Discover books section */
@@ -337,4 +347,173 @@ body {
   color: #ffffff;
   font-size: 14px;
   margin: 0;
+}
+
+/* REUSABLE CLASSES */
+.big-blue-h1 {
+  font-size: 40px;
+  color: #11155e;
+}
+
+/* responsive screen size */
+/* Medium screens: 2 columns */
+@media (max-width: 1024px) {
+  .nav-links {
+    gap: 20px; /* Reduce gap between links */
+  }
+
+  .service-button-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 buttons per row */
+    width: 80%; /* Adjust width for better fit */
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Adjust padding */
+  .header {
+    padding: 40px 40px 40px 70px;
+  }
+
+  /* Reduce heading and image size */
+  .header h2 {
+    font-size: 30px;
+  }
+
+  .header p {
+    font-size: 16px;
+    margin: 10px 0 40px;
+  }
+
+  .header img {
+    height: 70px;
+  }
+
+  /* Adjust search bar width */
+  .search-bar input {
+    width: 300px;
+  }
+
+  .submit-button img {
+    width: 15px; /* Size of the icon */
+    height: auto;
+  }
+}
+
+/* Small screens: 1 column */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the left */
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%; /* Full-width for mobile dropdown */
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    position: absolute;
+    top: 60px; /* Adjust based on navbar height */
+    left: 0;
+  }
+
+  /* Show nav links when the menu is active */
+  .navbar.active .nav-links {
+    display: flex; /* Show links in column layout */
+  }
+
+  /* Hamburger menu button */
+  .menu-toggle {
+    display: block; /* Show toggle icon */
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: 10px; /* Adjust spacing from the right as needed */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for true vertical center */
+  }
+
+  /* No border for "Profile in small screens */
+  .nav-links .profile-link {
+    border: none;
+  }
+
+  /* Stack content vertically on smaller screens */
+  .header {
+    padding: 30px;
+    flex-direction: column;
+    align-items: flex-start; /* Keep left-aligned */
+    text-align: left; /* Left-align text */
+    justify-content: center; /* Center content vertically */
+  }
+
+  /* Further reduce heading and paragraph size */
+  .header h2 {
+    font-size: 24px;
+  }
+
+  .header p {
+    font-size: 14px;
+    margin: 10px 0 30px;
+  }
+
+  .header img {
+    height: 60px;
+    margin-bottom: 20px;
+  }
+
+  /* Adjust search bar width and spacing */
+  .search-bar input {
+    width: 250px;
+    margin-right: 10px;
+  }
+
+  .submit-button img {
+    width: 15px;
+    height: auto;
+    transform: translate(-50%, -50%); /* Keep the icon centered */
+    position: relative;
+  }
+
+  .service-button-container {
+    grid-template-columns: 1fr; /* 1 button per row */
+    width: 90%; /* Further adjust width */
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Small screens: 1 column */
+@media (max-width: 500px) {
+  .header h2 {
+    font-size: 20px;
+  }
+
+  .header p {
+    font-size: 12px;
+    margin: 5px 0 20px;
+  }
+
+  .header img {
+    height: 50px;
+  }
+
+  /* Narrow search bar on smallest screens */
+  .search-bar input {
+    width: 200px;
+  }
+
+  .submit-button img {
+    width: 15px; /* Size of the icon */
+    height: auto;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

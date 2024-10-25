@@ -13,7 +13,13 @@
   <body>
     <!-- Navbar -->
     <nav class="navbar">
-      <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
+      <a href="homepage-member.html">
+        <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
+      </a>
+
+      <!-- Hamburger Menu Icon -->
+      <span class="menu-toggle">&#9776;</span>
+
       <div class="nav-links">
         <a href="#" class="active-page">Home</a>
         <a href="#">Search</a>
@@ -57,10 +63,10 @@
     </header>
 
     <!-- What would you like to do today section -->
-    <section class="actions">
-      <h1>What would you like to do today?</h1>
-      <div class="button-container">
-        <button class="button">
+    <section class="services">
+      <h1 class="big-blue-h1">What would you like to do today?</h1>
+      <div class="service-button-container">
+        <button class="warm-gradient-button">
           <img
             src="img/ui/register-membership.png"
             alt="Register Membership Icon"
@@ -68,27 +74,27 @@
           <!-- Add your icon image here -->
           <span>Register Membership</span>
         </button>
-        <button class="button">
+        <button class="warm-gradient-button">
           <img src="img/ui/search.png" alt="Advanced Search Icon" />
           <!-- Add your icon image here -->
           <span>Advanced Search</span>
         </button>
-        <button class="button">
+        <button class="warm-gradient-button">
           <img src="img/ui/book.png" alt="Loans & Reservations Icon" />
           <!-- Add your icon image here -->
           <span>Loans & Reservations</span>
         </button>
-        <button class="button">
+        <button class="warm-gradient-button">
           <img src="img/ui/pay.png" alt="Pay fines & fees Icon" />
           <!-- Add your icon image here -->
           <span>Pay fines & fees</span>
         </button>
-        <button class="button">
+        <button class="warm-gradient-button">
           <img src="img/ui/e-book.png" alt="Digital Resources Icon" />
           <!-- Add your icon image here -->
           <span>Digital Resources</span>
         </button>
-        <button class="button">
+        <button class="warm-gradient-button">
           <img src="img/ui/donate.png" alt="Donate a book Icon" />
           <!-- Add your icon image here -->
           <span>Donate a book</span>
@@ -222,5 +228,14 @@
     <footer class="footer">
       <p>&copy; 2024 LeoScholar. All rights reserved.</p>
     </footer>
+
+    <!-- JavaScript for toggling nav-links on mobile -->
+    <script>
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".navbar").classList.toggle("active");
+        });
+    </script>
   </body>
 </html>
