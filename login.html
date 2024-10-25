@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="login_and_register_style.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" />
+	<title>LeoScholar - Login</title>
+</head>
+
+<body>
+	<div id="login-container">
+		<!-- Left Column for Member Login -->
+		<div id="login-left-column">
+			<img src="img/ui/leoscholar-logo-transparent.png" alt="LeoScholar Logo" class="logo">
+			<h3>Welcome Back!</h3>
+			<h4>Sign in to continue to your digital library</h4>
+
+			<form action="/path_to_backend_login" method="POST">
+				<label for="member-email">Email</label>
+				<input type="email" id="member-email" name="email" required>
+
+				<label for="member-password">Password</label>
+				<div class="password-frame">
+					<input type="password" id="member-password" name="password" required>
+					<span class="password-visibility" onclick="togglePassword('member-password')">👁️</span>
+				</div>
+
+				<div class="options">
+					<div class="remember-me">
+						<input type="checkbox" id="remember-me-member">
+						<label for="remember-me-member">Remember me</label>
+					</div>
+					<a href="#" class="forgot-password">Forgot password?</a>
+				</div>
+
+				<button type="submit" class="orange-button">Login as a Member</button>
+
+				<div class="options">
+					<p>New Member? <a href="register.html"><u>Register Here</u></a></p>
+					<p><a href="#">Continue as Guest</a></p> <!-- Put in <p> for identical block-level alignment-->
+				</div>
+			</form>
+		</div>
+
+		<!-- Vertical Divider -->
+		<div id="vertical-divider"></div>
+
+		<!-- Right Column for Librarian Login -->
+		<div id="login-right-column">
+			<img src="img/ui/leoscholar-logo-transparent.png" alt="LeoScholar Logo" class="logo">
+			<h3>Welcome Back!</h3>
+			<h4>Sign in to continue to your digital library</h4>
+
+			<form action="/path_to_backend_login_librarian" method="POST">
+				<label for="librarian-email">Email</label>
+				<input type="email" id="librarian-email" name="email" required>
+
+				<label for="librarian-password">Password</label>
+				<div class="password-frame">
+					<input type="password" id="librarian-password" name="password" required>
+					<span class="password-visibility" onclick="togglePassword('librarian-password')">👁️</span>
+				</div>
+
+				<div class="options">
+					<div class="remember-me">
+						<input type="checkbox" id="remember-me-librarian">
+						<label for="remember-me-librarian">Remember me</label>
+					</div>
+					<a href="#" class="forgot-password">Forgot password?</a>
+				</div>
+
+				<button type="submit" class="blue-button">Login as a Librarian</button>
+			</form>
+			<div class="options">
+				<p>New Librarian? <a href="#"><u>Contact your university to create your account</u></a></p>
+			</div>
+		</div>
+	</div>
+
+	<script src="toggle_password.js"></script>
+</body>
+
+</html>
