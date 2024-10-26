@@ -20,29 +20,32 @@
 
             <form action="register_process.php" method="POST">
                 <!-- Name Input Field -->
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="E.g. Pham Thuy Linh" class="input-field" required>
+                <label for="name">Name<br></label>
+                <input type="text" id="name" name="name" placeholder="E.g. Pham Thuy Linh" class="register-input-field"
+                    required>
 
                 <!-- University Email Input Field -->
-                <label for="email">University Email Address</label>
-                <input type="email" id="email" name="email" value="username@e.ntu.edu.sg" class="input-field" required>
+                <label for="email">University Email Address<br></label>
+                <input type="email" id="email" name="email" placeholder="username@e.ntu.edu.sg"
+                    class="register-input-field" required>
 
                 <!-- Phone Number Input Field -->
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone" value="12345678" class="input-field" required>
+                <label for="phone">Phone Number<br></label>
+                <input type="text" id="phone" name="phone" placeholder="12345678" class="register-input-field" required>
 
                 <!-- Password Input Field -->
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="input-field" required>
+                <label for="password">Password<br></label>
+                <input type="password" id="password" name="password" class="register-input-field" required>
                 <button type="button" onclick="togglePassword('password')">Show</button>
 
                 <!-- Confirm Password Input Field -->
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" class="input-field" required>
+                <label for="confirm-password">Confirm Password<br></label>
+                <input type="password" id="confirm-password" name="confirm-password" class="register-input-field"
+                    required>
                 <button type="button" onclick="togglePassword('confirm-password')">Show</button>
 
                 <!-- Register Button -->
-                <button type="submit" class="orange-button">Register</button>
+                <button type="submit" class="orange-button" id="register-button">Register</button>
             </form>
 
             <!-- Options Section -->
