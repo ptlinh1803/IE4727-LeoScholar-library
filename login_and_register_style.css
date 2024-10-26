@@ -35,21 +35,6 @@ label {
   margin-top: 5px;
 }
 
-.input-field {
-  width: 260px;
-  /* It needs to be at this exact value for the width to not change upon toggle_password(), no clue why*/
-  padding: 12px;
-  margin-top: 0px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
-  font-size: 12px;
-}
-
-.input-field:focus {
-  border-color: #666;
-}
-
 /* Updated section for visibility icon inside password field */
 .password-frame {
   width: 100%;
@@ -157,10 +142,19 @@ label {
   margin: 20px 0;
 }
 
-input[type="email"],
-input[type="password"] {
-  width: calc(100% - 30px);
+.login-input-field {
+  width: 260px;
+  /* It needs to be at this exact value for the width to not change upon toggle_password(), no clue why*/
   padding: 12px;
+  margin-top: 0px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 12px;
+}
+
+.login-input-field:focus {
+  border-color: #666;
 }
 
 /* Additional space and alignment for labels, fields, etc. */
@@ -206,7 +200,6 @@ label {
 
 .register-input-field {
   width: 350px;
-  /* It needs to be at this exact value for the width to not change upon toggle_password(), no clue why*/
   padding: 12px;
   margin-top: 0px;
   border: 1px solid #ccc;
