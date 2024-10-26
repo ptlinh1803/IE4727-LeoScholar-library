@@ -13,17 +13,24 @@ body {
   overflow: hidden;
 }
 
+h1 {
+  font-size: 25px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
 h3 {
   font-size: 15px;
   font-weight: normal;
   color: #333;
-  margin: 0;
+  margin-bottom: 10px;
 }
 
 h4 {
   font-size: 12px;
   font-weight: normal;
-  color: #aaa;
+  color: #999;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -171,7 +178,6 @@ label {
 /* ====== Registration Page Exclusive Resources ====== */
 #register-left-column {
   flex: 1;
-  padding: 10px 0px;
   box-sizing: border-box;
   background-color: #fff;
   display: flex;
@@ -187,7 +193,7 @@ label {
 
 #register-right-column {
   flex: 1;
-  padding: 50px 50px;
+  padding: 30px 30px;
   box-sizing: border-box;
   background-color: #fff;
   display: flex;
@@ -199,8 +205,8 @@ label {
 }
 
 .register-input-field {
-  width: 350px;
-  padding: 12px;
+  width: 410px;
+  padding: 10px;
   margin-top: 0px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -214,4 +220,17 @@ label {
 
 #register-button {
   margin: 10px 0;
+}
+
+#register-options {
+  display: flex;
+  justify-content: space-between;
+  width: 436px;
+  /* Hard-coded through trial-error for now */
+}
+
+#register-options a {
+  font-size: 10px;
+  color: #666;
+  text-decoration: underline;
 }
