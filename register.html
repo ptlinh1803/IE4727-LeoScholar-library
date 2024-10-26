@@ -34,14 +34,20 @@
         <input type="text" id="phone" name="phone" placeholder="12345678" class="register-input-field" required>
 
         <!-- Password Input Field -->
-        <label for="password">Password<br></label>
-        <input type="password" id="password" name="password" class="register-input-field" required>
-        <button type="button" onclick="togglePassword('password')">Show</button>
+        <label for="register-password">Password<br></label>
+        <div class="password-frame">
+          <input type="password" id="register-password" name="password" placeholder="••••••••"
+            class="register-input-field" required>
+          <span class="password-visibility" onclick="togglePassword('register-password')">👁️</span>
+        </div>
 
         <!-- Confirm Password Input Field -->
-        <label for="confirm-password">Confirm Password<br></label>
-        <input type="password" id="confirm-password" name="confirm-password" class="register-input-field" required>
-        <button type="button" onclick="togglePassword('confirm-password')">Show</button>
+        <label for="register-cf-password">Confirm Password<br></label>
+        <div class="password-frame">
+          <input type="password" id="register-cf-password" name="confirm-password" placeholder="••••••••"
+            class="register-input-field" required>
+          <span class="password-visibility" onclick="togglePassword('register-cf-password')">👁️</span>
+        </div>
 
         <!-- Register Button -->
         <button type="submit" class="orange-button" id="register-button">Register</button>

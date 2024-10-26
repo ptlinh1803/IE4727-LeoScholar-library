@@ -52,7 +52,7 @@ label {
 
 /* Updated section for visibility icon inside password field */
 .password-frame {
-  width: 290px;
+  width: 100%;
 }
 
 .password-visibility {
