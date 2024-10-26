@@ -13,15 +13,15 @@
 	<div id="login-container">
 		<!-- Left Column for Member Login -->
 		<div id="login-left-column">
-			<img src="img/ui/leoscholar-logo-transparent.png" alt="LeoScholar Logo" class="logo">
+			<img src="img/ui/leoscholar-logo-transparent.png" alt="LeoScholar Logo" class="login-logo">
 			<h3>Welcome Back!</h3>
-			<h4>Sign in to continue to your digital library</h4>
+			<h4>Sign in to continue to your Digital Library</h4>
 
 			<form action="/path_to_backend_login" method="POST">
-				<label for="member-email">Email</label>
+				<label for="member-email"><b>Email</b></label>
 				<input type="email" id="member-email" name="email" required>
 
-				<label for="member-password">Password</label>
+				<label for="member-password"><b>Password</b></label>
 				<div class="password-frame">
 					<input type="password" id="member-password" name="password" required>
 					<span class="password-visibility" onclick="togglePassword('member-password')">👁️</span>
@@ -49,15 +49,15 @@
 
 		<!-- Right Column for Librarian Login -->
 		<div id="login-right-column">
-			<img src="img/ui/leoscholar-logo-transparent.png" alt="LeoScholar Logo" class="logo">
+			<img src="img/ui/leoscholar-logo-transparent.png" alt="LeoScholar Logo" class="login-logo">
 			<h3>Welcome Back!</h3>
-			<h4>Sign in to continue to your digital library</h4>
+			<h4>Sign in to manage your university's Digital Library</h4>
 
 			<form action="/path_to_backend_login_librarian" method="POST">
-				<label for="librarian-email">Email</label>
+				<label for="librarian-email"><b>Email</b></label>
 				<input type="email" id="librarian-email" name="email" required>
 
-				<label for="librarian-password">Password</label>
+				<label for="librarian-password"><b>Password</b></label>
 				<div class="password-frame">
 					<input type="password" id="librarian-password" name="password" required>
 					<span class="password-visibility" onclick="togglePassword('librarian-password')">👁️</span>
