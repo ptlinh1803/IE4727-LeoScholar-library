@@ -77,7 +77,7 @@ else {
 
       <div class="nav-links">
         <a href="homepage-member.php" class="active-page">Home</a>
-        <a href="#">Search</a>
+        <a href="search-page.php">Search</a>
         <a href="#">My Shelf</a>
         <a href="#">Contribute</a>
         <div class="dropdown">
