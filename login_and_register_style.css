@@ -128,7 +128,7 @@ input[type="text"]:focus {
 
 /* ====== Login Page Exclusive Resources ====== */
 
-#login-container {
+.content-container {
   display: flex;
   width: 1000px;
   height: 550px;
@@ -137,8 +137,8 @@ input[type="text"]:focus {
   padding: 5px;
 }
 
-#login-left-column,
-#login-right-column {
+.left-column,
+.right-column {
   flex: 1;
   padding: 10px 0px;
   box-sizing: border-box;
