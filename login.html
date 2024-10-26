@@ -21,12 +21,12 @@
       <form action="/path_to_backend_login" method="POST">
         <label for="member-email"><b>Email</b></label>
         <input type="email" id="member-email" name="email" class="login-input-field" placeholder="username@domain.sg"
-          required>
+          required onchange="validateEmail(this)">
 
         <label for="member-password"><b>Password</b></label>
         <div class="password-frame">
           <input type="password" id="member-password" name="password" class="login-input-field" placeholder="••••••••"
-            required>
+            required onchange="validateLoginPassword(this)">
           <span class="password-visibility" onclick="togglePassword('member-password')">👁️</span>
         </div>
 
@@ -38,7 +38,7 @@
           <a href="#" class="forgot-password">Forgot password?</a>
         </div>
 
-        <button type="submit" class="orange-button">Login as a Member</button>
+        <button type="submit" class="orange-button" name="submit">Login as a Member</button>
 
         <div class="options">
           <p>New Member? <a href="register.html"><u>Register Here</u></a></p>
@@ -59,12 +59,12 @@
       <form action="/path_to_backend_login_librarian" method="POST">
         <label for="librarian-email"><b>Email</b></label>
         <input type="email" id="librarian-email" name="email" class="login-input-field" placeholder="username@domain.sg"
-          required>
+          required onchange="validateEmail(this)">
 
         <label for="librarian-password"><b>Password</b></label>
         <div class="password-frame">
           <input type="password" id="librarian-password" name="password" class="login-input-field"
-            placeholder="••••••••" required>
+            placeholder="••••••••" required onchange="validateLoginPassword(this)">
           <span class="password-visibility" onclick="togglePassword('librarian-password')">👁️</span>
         </div>
 
@@ -76,7 +76,7 @@
           <a href="#" class="forgot-password">Forgot password?</a>
         </div>
 
-        <button type="submit" class="blue-button">Login as a Librarian</button>
+        <button type="submit" class="blue-button" name="submit">Login as a Librarian</button>
       </form>
       <div class="options">
         <p>New Librarian? <a href="#"><u>Contact your university to create your account</u></a></p>
