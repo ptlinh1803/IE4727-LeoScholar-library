@@ -2,61 +2,67 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration - LeoScholar</title>
-    <link rel="stylesheet" href="login_and_register_style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration - LeoScholar</title>
+  <link rel="stylesheet" href="login_and_register_style.css">
 </head>
 
 <body>
-    <div class="content-container">
-        <!-- Left Div with Background Image and Logo -->
-        <div class="left-div">
-            <img src="logo.png" alt="LeoScholar Logo" class="center-logo">
+  <div class="content-container">
+    <!-- Left Div with Background Image and Logo -->
+    <div id="register-left-column"></div>
+
+    <!-- Right Div with Registration Form -->
+    <div id="register-right-column">
+      <h1>Membership Registration</h1>
+      <h5>For both Staffs & Students</h5>
+
+      <form action="register_process.php" method="POST">
+        <!-- Name Input Field -->
+        <label for="name"><b>Name</b><br></label>
+        <input type="text" id="name" name="name" placeholder="E.g. Pham Thuy Linh" class="register-input-field"
+          required>
+
+        <!-- University Email Input Field -->
+        <label for="email"><b>University Email Address</b><br></label>
+        <input type="email" id="email" name="email" placeholder="username@domain.sg" class="register-input-field"
+          required>
+
+        <!-- Phone Number Input Field -->
+        <label for="phone"><b>Phone Number</b><br></label>
+        <input type="text" id="phone" name="phone" placeholder="12345678" class="register-input-field" required>
+
+        <!-- Password Input Field -->
+        <label for="register-password"><b>Password</b><br></label>
+        <div class="password-frame">
+          <input type="password" id="register-password" name="password" placeholder="••••••••"
+            class="register-input-field" required>
+          <span class="password-visibility" onclick="togglePassword('register-password')">👁️</span>
         </div>
 
-        <!-- Right Div with Registration Form -->
-        <div class="right-div">
-            <h3>Membership Registration</h3>
-            <h4>For both Staffs & Students</h4>
-
-            <form action="register_process.php" method="POST">
-                <!-- Name Input Field -->
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="E.g. Pham Thuy Linh" required>
-
-                <!-- University Email Input Field -->
-                <label for="email">University Email Address</label>
-                <input type="email" id="email" name="email" value="username@e.ntu.edu.sg" required>
-
-                <!-- Phone Number Input Field -->
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone" value="12345678" required>
-
-                <!-- Password Input Field -->
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-                <button type="button" onclick="togglePassword('password')">Show</button>
-
-                <!-- Confirm Password Input Field -->
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
-                <button type="button" onclick="togglePassword('confirm-password')">Show</button>
-
-                <!-- Register Button -->
-                <button type="submit" class="orange-button">Register</button>
-            </form>
-
-            <!-- Options Section -->
-            <div class="options">
-                <p>Already a User? <u><a href="login.html">Login now</a></u></p>
-                <p><a href="#">Use as Guest</a></p>
-            </div>
+        <!-- Confirm Password Input Field -->
+        <label for="register-cf-password"><b>Confirm Password</b><br></label>
+        <div class="password-frame">
+          <input type="password" id="register-cf-password" name="confirm-password" placeholder="••••••••"
+            class="register-input-field" required>
+          <span class="password-visibility" onclick="togglePassword('register-cf-password')">👁️</span>
         </div>
+
+        <!-- Register Button -->
+        <button type="submit" class="orange-button" id="register-button">Register</button>
+      </form>
+
+      <!-- Options Section -->
+      <div id="register-options">
+        <p>Already a User? <u><a href="login.html">Login now</a></u></p>
+        <p><a href="#">Use as Guest</a></p>
+      </div>
     </div>
+  </div>
 
-    <!-- Optional JavaScript for Password Visibility Toggle -->
-    <script src="toggle_password.js"></script>
+  <!-- Optional JavaScript for Password Visibility Toggle -->
+  <script src="toggle_password.js"></script>
 </body>
 
 </html>
