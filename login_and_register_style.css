@@ -107,7 +107,7 @@ input[type="text"]:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 5px 0;
+  margin: 15px 0;
 }
 
 .options a {
@@ -131,7 +131,8 @@ input[type="text"]:focus {
 #login-container {
   display: flex;
   width: 1000px;
-  margin: 50px;
+  height: 550px;
+  margin: 20px;
   overflow: hidden;
   padding: 5px;
 }
@@ -139,7 +140,7 @@ input[type="text"]:focus {
 #login-left-column,
 #login-right-column {
   flex: 1;
-  padding: 10px 40px;
+  padding: 10px 0px;
   box-sizing: border-box;
   background-color: #fff;
   display: flex;
@@ -152,12 +153,12 @@ input[type="text"]:focus {
 #vertical-divider {
   width: 2px;
   background-color: #ccc;
-  margin: 5px 100px;
+  margin: 5px 120px;
 }
 
-.logo {
-  height: 120px;
-  margin-bottom: 0px;
+.login-logo {
+  height: 80px;
+  margin: 20px 0;
 }
 
 input[type="email"],
