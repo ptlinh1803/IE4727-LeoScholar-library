@@ -133,7 +133,7 @@ label {
   padding: 5px;
 }
 
-.left-column,
+#login-left-column,
 #login-right-column {
   flex: 1;
   padding: 10px 0px;
@@ -170,6 +170,27 @@ label {
 }
 
 /* ====== Registration Page Exclusive Resources ====== */
+#register-left-column {
+  flex: 1;
+  padding: 10px 0px;
+  box-sizing: border-box;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-image: url("img/ui/register-left-column.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: none;
+}
+
+img {
+  width: 250px;
+  align-self: center;
+}
+
 #register-right-column {
   flex: 1;
   padding: 50px 30px;
