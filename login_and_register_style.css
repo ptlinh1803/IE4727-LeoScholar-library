@@ -13,9 +13,10 @@ body {
   overflow: hidden;
 }
 
+/* Typefaces */
 h1 {
   font-size: 25px;
-  font-weight: bold;
+  font-weight: normal;
   color: #333;
   margin: 0;
 }
@@ -35,11 +36,19 @@ h4 {
   text-align: center;
 }
 
+h5 {
+  font-size: 12px;
+  font-weight: normal;
+  color: #666;
+  margin: 10px 0 5px 0;
+  text-align: center;
+}
+
 p,
 label {
   font-size: 10px;
   color: #555;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 /* Updated section for visibility icon inside password field */
@@ -219,13 +228,14 @@ label {
 }
 
 #register-button {
-  margin: 10px 0;
+  margin: 20px 0;
 }
 
 #register-options {
   display: flex;
   justify-content: space-between;
   width: 436px;
+  margin-top: 0px;
   /* Hard-coded through trial-error for now */
 }
 
