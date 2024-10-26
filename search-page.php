@@ -2,6 +2,33 @@
 include 'db-connect.php';
 session_start();
 
+// for fulltext search input--------------
+$fulltext_input = $_GET['searchQuery'] ?? '';
+
+if (!empty($fulltext_input)) {
+  $sql_fulltext_query = "
+    SELECT *
+    FROM books
+    WHERE MATCH(title, author, description, category) AGAINST(? IN NATURAL LANGUAGE MODE);
+  ";
+  $stmt = $conn->prepare($sql_fulltext_query);
+  $stmt->bind_param("s", $fulltext_input);
+  $stmt->execute();
+  $results = $stmt->get_result();
+
+  $found_books = []; // Initialize the array
+  if ($results->num_rows > 0) {
+    $message = "Discover our personalized book recommendations tailored just for you, based on your preferred categories!";
+    while ($book_row = $results->fetch_assoc()) {
+        $found_books[] = $book_row; // Store each book in the array
+    }
+  } else {
+    $message = "It looks like you haven't set any preference categories yet. Please visit your User Settings to customize your preferences and enhance your experience!";
+  }
+
+  $stmt->close(); // Close the statement
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +76,7 @@ session_start();
     <!-- Header for Search Page -->
     <header class="header-search">
       <div>
-        <form class="search-bar" action="" method="POST">
+        <form class="search-bar" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
           <button
             type="button"
             class="advanced-search-button"
@@ -66,7 +93,7 @@ session_start();
             type="text"
             class="rounded-right"
             name="searchQuery"
-            placeholder="Search..."
+            placeholder="Quick Search..."
           />
           <button type="submit" class="submit-button">
             <img src="img/ui/small-search-icon.png" alt="Search Icon" />
@@ -246,109 +273,97 @@ session_start();
       <div class="search-query">
         <p>Here is your search query:</p>
       </div>
+      
+      <?php if (!empty($found_books)) { ?>
+        <table class="book-table">
+          <thead>
+            <tr>
+              <th id="cover-col"></th>
+              <th id="title-col">Title</th>
+              <th id="author-col">Author</th>
+              <th id="category-col">Category</th>
+              <th id="format-col">Format</th>
+              <th id="availability-col">Available at</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- For loop to generate rows -->
+            <?php foreach ($found_books as $book) { ?>
+              <tr onclick="redirectToBookDetails(<?php echo $book['book_id']; ?>)">
+                <td headers="cover-col">
+                  <img src="img/books/<?php echo $book['cover_path']; ?>" alt="Book Cover" class="book-cover" />
+                </td>
+                <td headers="title-col">
+                  <?php echo htmlspecialchars($book['title']); ?>
+                </td>
+                <td headers="author-col">
+                  <?php echo htmlspecialchars($book['author']); ?>
+                </td>
+                <td headers="category-col">
+                  <?php echo htmlspecialchars($book['category']); ?>
+                </td>
+                <td headers="format-col">
+                  <div class="format-column">
+                    <div>
+                      <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                    </div>
+                    <div>
+                    <img src="<?php echo !empty($book['ebook_file_path']) ? 'img/ui/check.png' : 'img/ui/cross.png'; ?>" /> E-book
+                    </div>
+                    <div>
+                    <img src="<?php echo !empty($book['audio_file_path']) ? 'img/ui/check.png' : 'img/ui/cross.png'; ?>" /> Audio Book
+                    </div>
+                  </div>
+                </td>
+                <td headers="availability-col">
+                  <div class="availability-column">
+                  <?php
+                  // Prepare the SQL query to find unique universities
+                  $sql_uni_query = "
+                    SELECT DISTINCT u.university_id
+                    FROM universities u
+                    JOIN branches b ON u.university_id = b.university_id
+                    JOIN book_availability ba ON b.branch_id = ba.branch_id
+                    WHERE ba.book_id = ? AND ba.available_copies > 0;
+                  ";
 
-      <table class="book-table">
-        <thead>
-          <tr>
-            <th id="cover-col"></th>
-            <th id="title-col">Title</th>
-            <th id="author-col">Author</th>
-            <th id="category-col">Category</th>
-            <th id="format-col">Format</th>
-            <th id="availability-col">Available at</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Example Row -->
-          <tr onclick="redirectToBookDetails(1)">
-            <td headers="cover-col">
-              <img src="img/books/1.jpg" alt="Book Cover" class="book-cover" />
-            </td>
-            <td headers="title-col">Introduction to Mathematical Statistics</td>
-            <td headers="author-col">
-              Robert V. Hogg, Joseph W. McKean, Allen T. Craig
-            </td>
-            <td headers="category-col">Mathematics & Statistics</td>
-            <td headers="format-col">
-              <div class="format-column">
-                <div>
-                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
-                </div>
-                <div>
-                  <img src="img/ui/cross.png" alt="Not Available" /> E-book
-                </div>
-                <div>
-                  <img src="img/ui/check.png" alt="Available" /> Audio Book
-                </div>
-              </div>
-            </td>
-            <td headers="availability-col">
-              <div class="availability-column">
-                <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
-                <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
-                <div><img src="img/ui/map.png" alt="Uni Icon" /> And more</div>
-              </div>
-            </td>
-          </tr>
+                  $stmt_uni = $conn->prepare($sql_uni_query);
+                  $stmt_uni->bind_param("i", $book['book_id']);
+                  $stmt_uni->execute();
+                  $result_uni = $stmt_uni->get_result();
 
-          <tr>
-            <td headers="cover-col">
-              <img src="img/books/2.jpg" alt="Book Cover" class="book-cover" />
-            </td>
-            <td headers="title-col">Linear Algebra and Its Applications</td>
-            <td headers="author-col">Gilbert Strang</td>
-            <td headers="category-col">Mathematics & Statistics</td>
-            <td headers="format-col">
-              <div class="format-column">
-                <div>
-                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
-                </div>
-                <div><img src="img/ui/check.png" alt="Available" /> E-book</div>
-                <div>
-                  <img src="img/ui/cross.png" alt="Not Available" /> Audio Book
-                </div>
-              </div>
-            </td>
-            <td headers="availability-col">
-              <div class="availability-column">
-                <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
-                <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
-              </div>
-            </td>
-          </tr>
+                  $universities = [];
+                  while ($uni_row = $result_uni->fetch_assoc()) {
+                    $universities[] = $uni_row['university_id']; // Store each university_id
+                  }
 
-          <tr>
-            <td headers="cover-col">
-              <img src="img/books/3.jpg" alt="Book Cover" class="book-cover" />
-            </td>
-            <td headers="title-col">Linear Algebra and Its Applications</td>
-            <td headers="author-col">Gilbert Strang</td>
-            <td headers="category-col">Mathematics & Statistics</td>
-            <td headers="format-col">
-              <div class="format-column">
-                <div>
-                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
-                </div>
-                <div><img src="img/ui/check.png" alt="Available" /> E-book</div>
-                <div>
-                  <img src="img/ui/cross.png" alt="Not Available" /> Audio Book
-                </div>
-              </div>
-            </td>
-            <td headers="availability-col">
-              <div class="availability-column">
-                <div>
-                  <img src="img/ui/red-map.png" alt="Uni Icon" /> Not Available
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                  $stmt_uni->close();
 
-      <div class="no-books-message">
-        <img src="img/ui/nothing-here.png" alt="Nothing here" />
-      </div>
+                  // Display the availability based on the conditions
+                  if (empty($universities)) {
+                    echo '<div><img src="img/ui/red-map.png" alt="Uni Icon" /><span style="color:red;">Not Available</span></div>';
+                  } elseif (count($universities) <= 2) {
+                      foreach ($universities as $uni_id) {
+                        echo '<div><img src="img/ui/map.png" alt="Uni Icon" /> ' . htmlspecialchars($uni_id) . '</div>';
+                      }
+                  } else {
+                    // Show the first two universities and "And more"
+                    echo '<div><img src="img/ui/map.png" alt="Uni Icon" /> ' . htmlspecialchars($universities[0]) . '</div>';
+                    echo '<div><img src="img/ui/map.png" alt="Uni Icon" /> ' . htmlspecialchars($universities[1]) . '</div>';
+                    echo '<div><img src="img/ui/map.png" alt="Uni Icon" /> And more</div>';
+                  }
+                  ?>
+                  </div>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      <?php } else { ?>
+        <div class="no-books-message">
+          <img src="img/ui/nothing-here.png" alt="Nothing here" />
+        </div>
+      <?php } ?>
     </section>
 
     <!-- footer -->

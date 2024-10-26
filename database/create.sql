@@ -41,8 +41,11 @@ CREATE TABLE IF NOT EXISTS books (
     publication_year YEAR,
     category VARCHAR(100),
     cover_path VARCHAR(255),
+    ebook_file_path VARCHAR(255) DEFAULT NULL,
+    audio_file_path VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    INDEX idx_books_isbn (isbn)
+    INDEX idx_books_isbn (isbn),
+    FULLTEXT idx_books_search (title, author, description) -- Add this for better full-text search matching
 );
 
 -- Favourite_Books table

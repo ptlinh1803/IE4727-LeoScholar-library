@@ -141,7 +141,7 @@ body {
 .search-bar input {
   padding: 10px;
   margin-right: 30px; /* Space between input and button */
-  width: 400px;
+  width: 500px;
 }
 
 .submit-button {

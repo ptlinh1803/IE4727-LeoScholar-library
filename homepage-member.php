@@ -114,15 +114,8 @@ else {
         <img src="img/ui/leoscholar-transparent.png" alt="Logo" />
         <p>A Digital Library for a Knowledgeable Singapore</p>
 
-        <form class="search-bar" action="" method="POST">
-          <select name="searchType">
-            <option value="all">All</option>
-            <option value="title">Title</option>
-            <option value="author">Author</option>
-            <option value="category">Category</option>
-            <option value="isbn">ISBN</option>
-          </select>
-          <input type="text" name="searchQuery" placeholder="Search..." />
+        <form class="search-bar" action="search-page.php" method="GET">
+          <input type="text" name="searchQuery" placeholder="Quick Search..." />
           <button type="submit" class="submit-button">
             <img src="img/ui/small-search-icon.png" alt="Search Icon" />
           </button>
