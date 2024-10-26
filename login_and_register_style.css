@@ -35,9 +35,7 @@ label {
   margin-top: 5px;
 }
 
-input[type="email"],
-input[type="password"],
-input[type="text"] {
+.input-field {
   width: 260px;
   /* It needs to be at this exact value for the width to not change upon toggle_password(), no clue why*/
   padding: 12px;
@@ -48,9 +46,7 @@ input[type="text"] {
   font-size: 12px;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="text"]:focus {
+.input-field:focus {
   border-color: #666;
 }
 
@@ -138,7 +134,7 @@ input[type="text"]:focus {
 }
 
 .left-column,
-.right-column {
+#login-right-column {
   flex: 1;
   padding: 10px 0px;
   box-sizing: border-box;
@@ -171,4 +167,17 @@ input[type="password"] {
 label {
   margin-bottom: 5px;
   display: inline-block;
+}
+
+/* ====== Registration Page Exclusive Resources ====== */
+#register-right-column {
+  flex: 1;
+  padding: 50px 30px;
+  box-sizing: border-box;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }

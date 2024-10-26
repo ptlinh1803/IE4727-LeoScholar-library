@@ -16,31 +16,31 @@
         </div>
 
         <!-- Right Div with Registration Form -->
-        <div class="right-column">
+        <div id="register-right-column">
             <h3>Membership Registration</h3>
             <h4>For both Staffs & Students</h4>
 
             <form action="register_process.php" method="POST">
                 <!-- Name Input Field -->
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" value="E.g. Pham Thuy Linh" required>
+                <input type="text" id="name" name="name" value="E.g. Pham Thuy Linh" class="input-field" required>
 
                 <!-- University Email Input Field -->
                 <label for="email">University Email Address</label>
-                <input type="email" id="email" name="email" value="username@e.ntu.edu.sg" required>
+                <input type="email" id="email" name="email" value="username@e.ntu.edu.sg" class="input-field" required>
 
                 <!-- Phone Number Input Field -->
                 <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone" value="12345678" required>
+                <input type="text" id="phone" name="phone" value="12345678" class="input-field" required>
 
                 <!-- Password Input Field -->
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" class="input-field" required>
                 <button type="button" onclick="togglePassword('password')">Show</button>
 
                 <!-- Confirm Password Input Field -->
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
+                <input type="password" id="confirm-password" name="confirm-password" class="input-field" required>
                 <button type="button" onclick="togglePassword('confirm-password')">Show</button>
 
                 <!-- Register Button -->
