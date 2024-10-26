@@ -207,6 +207,10 @@
 .sort-dropdown {
   position: relative; /* Position relative to position the icon */
   display: inline-block; /* Allow the dropdown to behave like a button */
+  width: 100%;
+}
+
+.form-group .sort-dropdown {
   width: 202px;
 }
 

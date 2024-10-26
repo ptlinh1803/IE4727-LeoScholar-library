@@ -2,6 +2,20 @@
 include 'db-connect.php';
 session_start();
 
+// get list of categories--------------
+$sql_list_categories = "SELECT DISTINCT(category) from books;";
+$categories_results = $conn->query($sql_list_categories);
+
+if ($categories_results) {
+  $categories_list = []; // Initialize an array to store the categories
+  while ($row = $categories_results->fetch_assoc()) {
+      $categories_list[] = $row['category']; // Add each category to the array
+  }
+} else {
+  // Handle query error
+  echo "Error: " . $conn->error;
+}
+
 // for fulltext search input--------------
 $fulltext_input = $_GET['searchQuery'] ?? '';
 
@@ -117,7 +131,16 @@ if (!empty($fulltext_input)) {
             </div>
             <div>
               <label>Category:</label>
-              <input type="text" name="category" />
+              <!-- <input type="text" name="category" /> -->
+              <div class="sort-dropdown">
+                <select name="category" id="sortBy" class="sort-dropdown-select">
+                  <option value="">Select a category</option> <!-- Default option -->
+                  <?php foreach ($categories_list as $category) { ?>
+                      <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?></option>
+                  <?php } ?>
+                </select>
+                <img src="img/ui/drop-down-icon.svg" alt="Dropdown Icon" />
+              </div>
             </div>
             <div class="form-group">
               <div class="isbn-group">
@@ -426,19 +449,13 @@ if (!empty($fulltext_input)) {
 
     <!-- Show the button carousel dynamically -->
     <script>
-      // maybe this can be improved by getting unique categories from the database
-      const buttons = [
-        "Mathematics & Statistics",
-        "Natural Sciences (Physics, Chemistry, Biology)",
-        "Computer Science & Technology",
-        "Humanities & Social Science",
-        "Business & Finance",
-        "Medicine",
-        "Literature & Language",
-        "Arts & Design",
-        "Engineering",
-        "Fiction & Novels",
-      ];
+      const buttons = [];
+      <?php
+      foreach ($categories_list as $category) {
+        // Use JavaScript string literal syntax for each category
+        echo "buttons.push('$category');\n";
+      }
+      ?>
 
       let currentIndex = 0;
 
