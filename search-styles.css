@@ -232,3 +232,165 @@
   height: 14px; /* Adjust icon height */
   width: auto; /* Maintain aspect ratio */
 }
+
+/*-- Category button carousel -- */
+.discover-category {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.arrow-carousel {
+  height: 20px;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  overflow: visible;
+  width: 100%; /* Set a fixed width */
+}
+
+.category-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px; /* Set a fixed height for all buttons */
+  margin: 0 10px; /* Spacing between buttons */
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.discover-category .big-blue-h1 {
+  margin-bottom: 10px;
+}
+
+/*----------Search results: book table----------------------*/
+/* Section Styling */
+.book-section {
+  background-color: #f3f3f7;
+  width: 80%;
+  margin: 20px auto 60px;
+  padding: 10px 0;
+  overflow-x: auto; /* Add horizontal scrolling if needed */
+}
+
+.search-query {
+  width: 95%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Table Styling */
+.book-table {
+  width: 95%;
+  margin: 0 auto; /* Center the table */
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+
+.book-table th,
+.book-table td {
+  text-align: left;
+  padding: 10px;
+  vertical-align: top;
+}
+
+/* Table Header */
+.book-table th {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Table Rows */
+.book-table tbody tr {
+  background-color: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.book-table tbody tr:hover {
+  cursor: pointer;
+}
+
+.book-table tbody td {
+  padding: 10px 15px;
+  vertical-align: middle; /* Center text vertically */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+/* Add border radius to the first and last cells in the row */
+.book-table tbody tr td:first-child {
+  border-top-left-radius: 10px; /* First cell */
+  border-bottom-left-radius: 10px; /* Last row */
+}
+
+.book-table tbody tr td:last-child {
+  border-top-right-radius: 10px; /* Last cell */
+  border-bottom-right-radius: 10px; /* Last row */
+}
+
+/* Cover Image Styling */
+.book-cover {
+  width: 100%; /* Full width of the container */
+  height: 85px; /* Fixed height for uniformity */
+  min-width: 50px;
+  object-fit: contain; /* Scale image to fit, retaining proportions */
+  background-color: #f3f3f7; /* Gray background to fill uncovered area */
+  border-radius: 4px;
+}
+
+/* Truncate Text */
+.book-table td:nth-child(2),
+.book-table td:nth-child(3) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.book-table td:nth-child(2) {
+  max-width: 400px;
+}
+
+.book-table td:nth-child(3) {
+  max-width: 300px;
+}
+/* Format and Availability Columns */
+.format-column,
+.availability-column {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: nowrap; /* Prevent text from wrapping */
+}
+
+.format-column img,
+.availability-column img {
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+}
+
+.format-column div,
+.availability-column div {
+  display: flex;
+  align-items: center;
+  margin: 2px 0;
+}

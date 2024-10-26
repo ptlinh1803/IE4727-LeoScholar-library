@@ -14,7 +14,7 @@
   <body>
     <!-- Navbar -->
     <nav class="navbar">
-      <a href="homepage-member.html">
+      <a href="homepage-member.php">
         <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
       </a>
 
@@ -22,7 +22,7 @@
       <span class="menu-toggle">&#9776;</span>
 
       <div class="nav-links">
-        <a href="#">Home</a>
+        <a href="homepage-member.php">Home</a>
         <a href="#" class="active-page">Search</a>
         <a href="#">My Shelf</a>
         <a href="#">Contribute</a>
@@ -209,76 +209,137 @@
       </div>
     </header>
 
-    <!-- What would you like to do today section -->
-    <section class="services">
-      <h1 class="big-blue-h1">What would you like to do today?</h1>
-      <div class="service-button-container">
-        <button class="warm-gradient-button">
+    <!-- Discover category section -->
+    <section class="discover-category">
+      <h1 class="big-blue-h1">Discover</h1>
+      <div class="carousel">
+        <button class="arrow" onclick="moveCarousel(-1)">
           <img
-            src="img/ui/register-membership.png"
-            alt="Register Membership Icon"
+            src="img/ui/red-left-arrow.png"
+            alt="Left Arrow"
+            class="arrow-carousel"
           />
-          <!-- Add your icon image here -->
-          <span>Register Membership</span>
         </button>
-        <button class="warm-gradient-button">
-          <img src="img/ui/search.png" alt="Advanced Search Icon" />
-          <!-- Add your icon image here -->
-          <span>Advanced Search</span>
-        </button>
-        <button class="warm-gradient-button">
-          <img src="img/ui/book.png" alt="Loans & Reservations Icon" />
-          <!-- Add your icon image here -->
-          <span>Loans & Reservations</span>
-        </button>
-        <button class="warm-gradient-button">
-          <img src="img/ui/pay.png" alt="Pay fines & fees Icon" />
-          <!-- Add your icon image here -->
-          <span>Pay fines & fees</span>
-        </button>
-        <button class="warm-gradient-button">
-          <img src="img/ui/e-book.png" alt="Digital Resources Icon" />
-          <!-- Add your icon image here -->
-          <span>Digital Resources</span>
-        </button>
-        <button class="warm-gradient-button">
-          <img src="img/ui/donate.png" alt="Donate a book Icon" />
-          <!-- Add your icon image here -->
-          <span>Donate a book</span>
+        <div class="button-container">
+          <!-- Buttons will be dynamically added here -->
+        </div>
+        <button class="arrow" onclick="moveCarousel(1)">
+          <img
+            src="img/ui/red-right-arrow.png"
+            alt="Right Arrow"
+            class="arrow-carousel"
+          />
         </button>
       </div>
     </section>
 
-    <!-- About us section -->
-    <section class="about-us">
-      <div class="about-container">
-        <div class="about-columns">
-          <div class="logo-column">
-            <img
-              src="img/ui/leoscholar-logo-vertical-transparent.png"
-              alt="LeoScholar Logo"
-            />
-          </div>
-          <div class="description-column">
-            <h1 class="big-blue-h1">About us</h1>
-            <p>
-              LeoScholar is an integrated library portal that unites scholarly
-              resources from public tertiary institutions in Singapore.
-              <br /><br />
-              By providing access to resources across universities, it fosters
-              interdisciplinary research and collaboration, essential for
-              addressing multifaceted problems.
-            </p>
-          </div>
-        </div>
-        <div class="university-logos">
-          <img src="img/ui/ntu-logo.png" alt="NTU Logo" />
-          <img src="img/ui/nus-logo.png" alt="NUS Logo" />
-          <img src="img/ui/smu-logo.jpg" alt="SMU Logo" />
-          <img src="img/ui/sutd-logo.png" alt="SUTD Logo" />
-          <img src="img/ui/sit-logo.svg" alt="SIT Logo" />
-          <img src="img/ui/suss-logo.png" alt="SUSS Logo" />
-        </div>
+    <!-- Show book results section -->
+    <section class="book-section">
+      <div class="search-query">
+        <p>Here is your search query:</p>
+      </div>
+
+      <table class="book-table">
+        <thead>
+          <tr>
+            <th id="cover-col"></th>
+            <th id="title-col">Title</th>
+            <th id="author-col">Author</th>
+            <th id="category-col">Category</th>
+            <th id="format-col">Format</th>
+            <th id="availability-col">Available at</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Example Row -->
+          <tr onclick="redirectToBookDetails(1)">
+            <td headers="cover-col">
+              <img src="img/books/1.jpg" alt="Book Cover" class="book-cover" />
+            </td>
+            <td headers="title-col">Introduction to Mathematical Statistics</td>
+            <td headers="author-col">
+              Robert V. Hogg, Joseph W. McKean, Allen T. Craig
+            </td>
+            <td headers="category-col">Mathematics & Statistics</td>
+            <td headers="format-col">
+              <div class="format-column">
+                <div>
+                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                </div>
+                <div>
+                  <img src="img/ui/cross.png" alt="Not Available" /> E-book
+                </div>
+                <div>
+                  <img src="img/ui/check.png" alt="Available" /> Audio Book
+                </div>
+              </div>
+            </td>
+            <td headers="availability-col">
+              <div class="availability-column">
+                <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
+                <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
+                <div><img src="img/ui/map.png" alt="Uni Icon" /> And more</div>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td headers="cover-col">
+              <img src="img/books/2.jpg" alt="Book Cover" class="book-cover" />
+            </td>
+            <td headers="title-col">Linear Algebra and Its Applications</td>
+            <td headers="author-col">Gilbert Strang</td>
+            <td headers="category-col">Mathematics & Statistics</td>
+            <td headers="format-col">
+              <div class="format-column">
+                <div>
+                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                </div>
+                <div><img src="img/ui/check.png" alt="Available" /> E-book</div>
+                <div>
+                  <img src="img/ui/cross.png" alt="Not Available" /> Audio Book
+                </div>
+              </div>
+            </td>
+            <td headers="availability-col">
+              <div class="availability-column">
+                <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
+                <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td headers="cover-col">
+              <img src="img/books/3.jpg" alt="Book Cover" class="book-cover" />
+            </td>
+            <td headers="title-col">Linear Algebra and Its Applications</td>
+            <td headers="author-col">Gilbert Strang</td>
+            <td headers="category-col">Mathematics & Statistics</td>
+            <td headers="format-col">
+              <div class="format-column">
+                <div>
+                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                </div>
+                <div><img src="img/ui/check.png" alt="Available" /> E-book</div>
+                <div>
+                  <img src="img/ui/cross.png" alt="Not Available" /> Audio Book
+                </div>
+              </div>
+            </td>
+            <td headers="availability-col">
+              <div class="availability-column">
+                <div>
+                  <img src="img/ui/red-map.png" alt="Uni Icon" /> Not Available
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="no-books-message">
+        <img src="img/ui/nothing-here.png" alt="Nothing here" />
       </div>
     </section>
 
@@ -287,7 +348,7 @@
       <p>&copy; 2024 LeoScholar. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript for toggling nav-links on mobile -->
+    <!-- Toggling nav-links on mobile -->
     <script>
       document
         .querySelector(".menu-toggle")
@@ -296,7 +357,7 @@
         });
     </script>
 
-    <!-- JavaScript for toggling Advanced Search Form -->
+    <!-- Toggling Advanced Search Form -->
     <script>
       // When clicking "Advanced Search" button
       function toggleSearchForm() {
@@ -321,12 +382,81 @@
       }
     </script>
 
-    <!-- JavaScript for toggling dropdown in Advanced Search Form -->
+    <!-- Toggling dropdown in Advanced Search Form -->
     <script>
       function toggleDropdown(dropdownId) {
         var dropdown = document.getElementById(dropdownId);
         dropdown.style.display =
           dropdown.style.display === "block" ? "none" : "block";
+      }
+    </script>
+
+    <!-- Show the button carousel dynamically -->
+    <script>
+      // maybe this can be improved by getting unique categories from the database
+      const buttons = [
+        "Mathematics & Statistics",
+        "Natural Sciences (Physics, Chemistry, Biology)",
+        "Computer Science & Technology",
+        "Humanities & Social Science",
+        "Business & Finance",
+        "Medicine",
+        "Literature & Language",
+        "Arts & Design",
+        "Engineering",
+        "Fiction & Novels",
+      ];
+
+      let currentIndex = 0;
+
+      function createCategoryButton(category) {
+        const button = document.createElement("button");
+        button.className = "warm-gradient-button category-button";
+        button.textContent = category;
+        button.onclick = function () {
+          // Redirect to a PHP script with the selected category using GET method
+          window.location.href = `search-page.php?category=${encodeURIComponent(
+            category
+          )}`;
+        };
+        return button;
+      }
+
+      function moveCarousel(direction) {
+        const buttonContainer = document.querySelector(".button-container");
+        const totalButtons = buttons.length;
+        const visibleCount = 4; // Number of buttons to show at a time
+
+        // Update current index based on direction
+        currentIndex += direction;
+
+        // Prevent going out of bounds
+        if (currentIndex < 0) {
+          currentIndex = 0;
+        } else if (currentIndex > totalButtons - visibleCount) {
+          currentIndex = totalButtons - visibleCount;
+        }
+
+        // Clear current buttons
+        buttonContainer.innerHTML = "";
+
+        // Create buttons dynamically based on the current index
+        for (let i = currentIndex; i < currentIndex + visibleCount; i++) {
+          if (buttons[i]) {
+            const button = createCategoryButton(buttons[i]);
+            buttonContainer.appendChild(button);
+          }
+        }
+      }
+
+      // Initialize with the first set of buttons
+      moveCarousel(0);
+    </script>
+
+    <!-- Redirect to Book details page -->
+    <script>
+      function redirectToBookDetails(bookId) {
+        window.location.href = "book-details.php?book_id=" + bookId;
       }
     </script>
   </body>

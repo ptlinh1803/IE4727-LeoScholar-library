@@ -68,7 +68,7 @@ else {
   <body>
     <!-- Navbar -->
     <nav class="navbar">
-      <a href="homepage-member.html">
+      <a href="homepage-member.php">
         <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
       </a>
 
@@ -76,7 +76,7 @@ else {
       <span class="menu-toggle">&#9776;</span>
 
       <div class="nav-links">
-        <a href="#" class="active-page">Home</a>
+        <a href="homepage-member.php" class="active-page">Home</a>
         <a href="#">Search</a>
         <a href="#">My Shelf</a>
         <a href="#">Contribute</a>
@@ -140,7 +140,7 @@ else {
             alt="Register Membership Icon"
           />
           <!-- Add your icon image here -->
-          <span>Register Membership</span>
+          <span>Manage Membership</span>
         </button>
         <button class="warm-gradient-button">
           <img src="img/ui/search.png" alt="Advanced Search Icon" />

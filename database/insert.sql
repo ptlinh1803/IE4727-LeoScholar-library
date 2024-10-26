@@ -65,3 +65,10 @@ INSERT INTO branches (university_id, branch_name, address) VALUES
 -- Choose file digital_resources.csv
 -- Keep other default settings
 -- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path, file_path, type
+
+-- After importing digital_resources.csv
+-- Change the resource_id of 'Pride and Prejudice' to 35 (to match with book_id)
+-- UPDATE digital_resources
+-- SET resource_id = 35
+-- WHERE title = 'Pride and Prejudice';
+
