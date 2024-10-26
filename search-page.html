@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeoScholar</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="search-styles.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="homepage-member.html">
+        <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
+      </a>
+
+      <!-- Hamburger Menu Icon -->
+      <span class="menu-toggle">&#9776;</span>
+
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#" class="active-page">Search</a>
+        <a href="#">My Shelf</a>
+        <a href="#">Contribute</a>
+        <div class="dropdown">
+          <a href="#" class="profile-link active-page">
+            Profile
+            <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
+          </a>
+          <div class="dropdown-content">
+            <a href="#">Settings</a>
+            <a href="#">Payment</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header for Search Page -->
+    <header class="header-search">
+      <div>
+        <form class="search-bar" action="" method="POST">
+          <button
+            type="button"
+            class="advanced-search-button"
+            onclick="toggleSearchForm()"
+          >
+            Advanced Search
+            <img
+              src="img/ui/dropdown-white.png"
+              alt="Arrow Down Icon"
+              class="dropdown-icon"
+            />
+          </button>
+          <input
+            type="text"
+            class="rounded-right"
+            name="searchQuery"
+            placeholder="Search..."
+          />
+          <button type="submit" class="submit-button">
+            <img src="img/ui/small-search-icon.png" alt="Search Icon" />
+          </button>
+        </form>
+
+        <!-- Advanced Search Form -->
+        <form
+          class="advanced-search-form"
+          id="advancedSearchForm"
+          method="POST"
+        >
+          <div>
+            <label>Title:</label>
+            <input type="text" name="title" />
+          </div>
+          <div>
+            <label>Author:</label>
+            <input type="text" name="author" />
+          </div>
+          <div>
+            <label>Category:</label>
+            <input type="text" name="category" />
+          </div>
+          <div class="form-group">
+            <div class="isbn-group">
+              <label for="isbn">ISBN:</label>
+              <input type="text" id="isbn" name="isbn" class="isbn-input" />
+            </div>
+
+            <div class="publication-year-group">
+              <label>Publication Year:</label>
+              <div class="publication-year-group-input">
+                <input
+                  type="number"
+                  name="yearFrom"
+                  placeholder="From"
+                  min="1900"
+                  max="2100"
+                  class="year-input"
+                />
+                <span class="separator">-</span>
+                <input
+                  type="number"
+                  name="yearTo"
+                  placeholder="To"
+                  min="1900"
+                  max="2100"
+                  class="year-input"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="checkbox-dropdown">
+              <label>Format:</label>
+              <div
+                class="checkbox-dropdown-toggle"
+                onclick="toggleDropdown('formatsDropdown')"
+              >
+                <span>Select Formats</span>
+                <img
+                  src="img/ui/drop-down-icon.svg"
+                  alt="Arrow Down Icon"
+                  class="dropdown-icon"
+                />
+              </div>
+              <div class="checkbox-dropdown-content" id="formatsDropdown">
+                <label>
+                  <input type="checkbox" name="format" value="Hard Copy" />
+                  Hard Copy
+                </label>
+                <label>
+                  <input type="checkbox" name="format" value="E-book" />
+                  E-book
+                </label>
+                <label>
+                  <input type="checkbox" name="format" value="Audio Book" />
+                  Audio Book
+                </label>
+              </div>
+            </div>
+
+            <div class="checkbox-dropdown">
+              <label>Available at:</label>
+              <div
+                class="checkbox-dropdown-toggle"
+                onclick="toggleDropdown('availabilityDropdown')"
+              >
+                <span>Select Universities</span>
+                <img
+                  src="img/ui/drop-down-icon.svg"
+                  alt="Arrow Down Icon"
+                  class="dropdown-icon"
+                />
+              </div>
+              <div class="checkbox-dropdown-content" id="availabilityDropdown">
+                <label
+                  ><input type="checkbox" name="availableAt" value="NTU" />
+                  NTU</label
+                >
+                <label
+                  ><input type="checkbox" name="availableAt" value="NUS" />
+                  NUS</label
+                >
+                <label
+                  ><input type="checkbox" name="availableAt" value="SMU" />
+                  SMU</label
+                >
+                <label
+                  ><input type="checkbox" name="availableAt" value="SUTD" />
+                  SUTD</label
+                >
+                <label
+                  ><input type="checkbox" name="availableAt" value="SIT" />
+                  SIT</label
+                >
+                <label
+                  ><input type="checkbox" name="availableAt" value="SUSS" />
+                  SUSS</label
+                >
+              </div>
+            </div>
+
+            <div>
+              <label>Sort by:</label>
+              <div class="sort-dropdown">
+                <select name="sortBy" id="sortBy" class="sort-dropdown-select">
+                  <option value="none">None</option>
+                  <option value="titleAsc">Title A-Z</option>
+                  <option value="titleDesc">Title Z-A</option>
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                </select>
+                <img src="img/ui/drop-down-icon.svg" alt="Dropdown Icon" />
+              </div>
+            </div>
+          </div>
+
+          <div class="advanced-search-form-buttons">
+            <button type="reset" onclick="closeSearchForm()">Cancel</button>
+            <button type="submit">Apply</button>
+          </div>
+        </form>
+      </div>
+    </header>
+
+    <!-- What would you like to do today section -->
+    <section class="services">
+      <h1 class="big-blue-h1">What would you like to do today?</h1>
+      <div class="service-button-container">
+        <button class="warm-gradient-button">
+          <img
+            src="img/ui/register-membership.png"
+            alt="Register Membership Icon"
+          />
+          <!-- Add your icon image here -->
+          <span>Register Membership</span>
+        </button>
+        <button class="warm-gradient-button">
+          <img src="img/ui/search.png" alt="Advanced Search Icon" />
+          <!-- Add your icon image here -->
+          <span>Advanced Search</span>
+        </button>
+        <button class="warm-gradient-button">
+          <img src="img/ui/book.png" alt="Loans & Reservations Icon" />
+          <!-- Add your icon image here -->
+          <span>Loans & Reservations</span>
+        </button>
+        <button class="warm-gradient-button">
+          <img src="img/ui/pay.png" alt="Pay fines & fees Icon" />
+          <!-- Add your icon image here -->
+          <span>Pay fines & fees</span>
+        </button>
+        <button class="warm-gradient-button">
+          <img src="img/ui/e-book.png" alt="Digital Resources Icon" />
+          <!-- Add your icon image here -->
+          <span>Digital Resources</span>
+        </button>
+        <button class="warm-gradient-button">
+          <img src="img/ui/donate.png" alt="Donate a book Icon" />
+          <!-- Add your icon image here -->
+          <span>Donate a book</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- About us section -->
+    <section class="about-us">
+      <div class="about-container">
+        <div class="about-columns">
+          <div class="logo-column">
+            <img
+              src="img/ui/leoscholar-logo-vertical-transparent.png"
+              alt="LeoScholar Logo"
+            />
+          </div>
+          <div class="description-column">
+            <h1 class="big-blue-h1">About us</h1>
+            <p>
+              LeoScholar is an integrated library portal that unites scholarly
+              resources from public tertiary institutions in Singapore.
+              <br /><br />
+              By providing access to resources across universities, it fosters
+              interdisciplinary research and collaboration, essential for
+              addressing multifaceted problems.
+            </p>
+          </div>
+        </div>
+        <div class="university-logos">
+          <img src="img/ui/ntu-logo.png" alt="NTU Logo" />
+          <img src="img/ui/nus-logo.png" alt="NUS Logo" />
+          <img src="img/ui/smu-logo.jpg" alt="SMU Logo" />
+          <img src="img/ui/sutd-logo.png" alt="SUTD Logo" />
+          <img src="img/ui/sit-logo.svg" alt="SIT Logo" />
+          <img src="img/ui/suss-logo.png" alt="SUSS Logo" />
+        </div>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <footer class="footer">
+      <p>&copy; 2024 LeoScholar. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for toggling nav-links on mobile -->
+    <script>
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".navbar").classList.toggle("active");
+        });
+    </script>
+
+    <!-- JavaScript for toggling Advanced Search Form -->
+    <script>
+      // When clicking "Advanced Search" button
+      function toggleSearchForm() {
+        const searchForm = document.querySelector(".advanced-search-form");
+
+        // Toggle the display style of the form
+        if (
+          searchForm.style.display === "none" ||
+          searchForm.style.display === ""
+        ) {
+          searchForm.style.display = "block"; // Show the form
+        } else {
+          searchForm.style.display = "none"; // Hide the form
+        }
+      }
+
+      // When clicking "Cancel" button
+      function closeSearchForm() {
+        // Hide the advanced search form
+        const searchForm = document.querySelector(".advanced-search-form");
+        searchForm.style.display = "none"; // Hide the form
+      }
+    </script>
+
+    <!-- JavaScript for toggling dropdown in Advanced Search Form -->
+    <script>
+      function toggleDropdown(dropdownId) {
+        var dropdown = document.getElementById(dropdownId);
+        dropdown.style.display =
+          dropdown.style.display === "block" ? "none" : "block";
+      }
+    </script>
+  </body>
+</html>
