@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS books (
     publication_year YEAR,
     category VARCHAR(100),
     cover_path VARCHAR(255),
+    hard_copy INT DEFAULT 1,
     ebook_file_path VARCHAR(255) DEFAULT NULL,
     audio_file_path VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -370,11 +370,11 @@
 }
 
 .book-table td:nth-child(2) {
-  max-width: 400px;
+  max-width: 360px;
 }
 
 .book-table td:nth-child(3) {
-  max-width: 300px;
+  max-width: 250px;
 }
 /* Format and Availability Columns */
 .format-column,

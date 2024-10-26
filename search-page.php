@@ -32,15 +32,119 @@ if (!empty($fulltext_input)) {
 
   $found_books = []; // Initialize the array
   if ($results->num_rows > 0) {
-    $message = "Discover our personalized book recommendations tailored just for you, based on your preferred categories!";
     while ($book_row = $results->fetch_assoc()) {
         $found_books[] = $book_row; // Store each book in the array
     }
-  } else {
-    $message = "It looks like you haven't set any preference categories yet. Please visit your User Settings to customize your preferences and enhance your experience!";
   }
 
   $stmt->close(); // Close the statement
+} else if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
+  // Capture GET inputs
+  $title_input = $_GET['title'] ?? '';
+  $author_input = $_GET['author'] ?? '';
+  $category_input = $_GET['category'] ?? '';
+  $isbn_input = $_GET['isbn'] ?? '';
+  $yearFrom_input = $_GET['yearFrom'] ?? '';
+  $yearTo_input = $_GET['yearTo'] ?? '';
+  $formats_input = $_GET['format'] ?? [];
+  $availableAt_input = $_GET['availableAt'] ?? [];
+
+  // Start building the SQL query
+  $sql_query = "SELECT b.* FROM books b";
+  $where_conditions = [];
+
+  // Add conditions based on input
+  if (!empty($title_input)) {
+    $where_conditions[] = "b.title LIKE '%" . $conn->real_escape_string($title_input) . "%'";
+  }
+
+  if (!empty($author_input)) {
+    $where_conditions[] = "b.author LIKE '%" . $conn->real_escape_string($author_input) . "%'";
+  }
+
+  if (!empty($category_input)) {
+    $where_conditions[] = "b.category = '" . $conn->real_escape_string($category_input) . "'";
+  }
+
+  if (!empty($isbn_input)) {
+    $where_conditions[] = "b.isbn LIKE '%" . $conn->real_escape_string($isbn_input) . "%'";
+  }
+
+  if (!empty($yearFrom_input)) {
+    $where_conditions[] = "b.publication_year >= " . (int)$yearFrom_input;
+  }
+
+  if (!empty($yearTo_input)) {
+    $where_conditions[] = "b.publication_year <= " . (int)$yearTo_input;
+  }
+
+  // Handling multiple format choices: include a book if they have any of the selected options (OR)
+  if (!empty($formats_input)) {
+    $format_conditions = [];
+    if (in_array("Hard Copy", $formats_input)) {
+        $format_conditions[] = "b.hard_copy = 1";
+    }
+    if (in_array("E-book", $formats_input)) {
+        $format_conditions[] = "b.ebook_file_path IS NOT NULL AND b.ebook_file_path != ''";
+    }
+    if (in_array("Audio Book", $formats_input)) {
+        $format_conditions[] = "b.audio_file_path IS NOT NULL AND b.audio_file_path != ''";
+    }
+    if (!empty($format_conditions)) {
+        $where_conditions[] = "(" . implode(' OR ', $format_conditions) . ")";
+    }
+  }
+
+  // Handling multiple availableAt choices: include a book if they have any of the selected options (OR)
+  if (!empty($availableAt_input)) {
+    $availableAt_conditions = [];
+    // Map university names to their IDs or names in the `universities` table
+    foreach ($availableAt_input as $university) {
+        $availableAt_conditions[] = "b.book_id IN (
+            SELECT ba.book_id FROM book_availability ba
+            JOIN branches br ON ba.branch_id = br.branch_id
+            JOIN universities u ON br.university_id = u.university_id
+            WHERE u.university_id = '" . $conn->real_escape_string($university) . "'
+        )";
+    }
+    if (!empty($availableAt_conditions)) {
+        $where_conditions[] = "(" . implode(' OR ', $availableAt_conditions) . ")";
+    }
+  }
+
+  // Combine conditions if any exist
+  if (!empty($where_conditions)) {
+    $sql_query .= " WHERE " . implode(' AND ', $where_conditions);
+  }
+
+  // Handle sorting
+  if (!empty($_GET['sortBy'])) {
+    switch ($_GET['sortBy']) {
+        case 'titleAsc':
+            $sql_query .= " ORDER BY title ASC";
+            break;
+        case 'titleDesc':
+            $sql_query .= " ORDER BY title DESC";
+            break;
+        case 'newest':
+            $sql_query .= " ORDER BY publication_year DESC"; // Sort by newest publication year
+            break;
+        case 'oldest':
+            $sql_query .= " ORDER BY publication_year ASC"; // Sort by oldest publication year
+            break;
+        default:
+            break;
+    }
+}
+
+  // Prepare and execute the query
+  $results = $conn->query($sql_query);
+  $found_books = []; // Initialize the array
+  if ($results->num_rows > 0) {
+    while ($book_row = $results->fetch_assoc()) {
+        $found_books[] = $book_row; // Store each book in the array
+    }
+  }
 }
 
 ?>
@@ -119,7 +223,8 @@ if (!empty($fulltext_input)) {
           <form
             class="advanced-search-form"
             id="advancedSearchForm"
-            method="POST"
+            action="<?php echo $_SERVER['PHP_SELF']; ?>"
+            method="GET"
           >
             <div>
               <label>Title:</label>
@@ -188,15 +293,15 @@ if (!empty($fulltext_input)) {
                 </div>
                 <div class="checkbox-dropdown-content" id="formatsDropdown">
                   <label>
-                    <input type="checkbox" name="format" value="Hard Copy" />
+                    <input type="checkbox" name="format[]" value="Hard Copy" />
                     Hard Copy
                   </label>
                   <label>
-                    <input type="checkbox" name="format" value="E-book" />
+                    <input type="checkbox" name="format[]" value="E-book" />
                     E-book
                   </label>
                   <label>
-                    <input type="checkbox" name="format" value="Audio Book" />
+                    <input type="checkbox" name="format[]" value="Audio Book" />
                     Audio Book
                   </label>
                 </div>
@@ -217,27 +322,27 @@ if (!empty($fulltext_input)) {
                 </div>
                 <div class="checkbox-dropdown-content" id="availabilityDropdown">
                   <label
-                    ><input type="checkbox" name="availableAt" value="NTU" />
+                    ><input type="checkbox" name="availableAt[]" value="NTU" />
                     NTU</label
                   >
                   <label
-                    ><input type="checkbox" name="availableAt" value="NUS" />
+                    ><input type="checkbox" name="availableAt[]" value="NUS" />
                     NUS</label
                   >
                   <label
-                    ><input type="checkbox" name="availableAt" value="SMU" />
+                    ><input type="checkbox" name="availableAt[]" value="SMU" />
                     SMU</label
                   >
                   <label
-                    ><input type="checkbox" name="availableAt" value="SUTD" />
+                    ><input type="checkbox" name="availableAt[]" value="SUTD" />
                     SUTD</label
                   >
                   <label
-                    ><input type="checkbox" name="availableAt" value="SIT" />
+                    ><input type="checkbox" name="availableAt[]" value="SIT" />
                     SIT</label
                   >
                   <label
-                    ><input type="checkbox" name="availableAt" value="SUSS" />
+                    ><input type="checkbox" name="availableAt[]" value="SUSS" />
                     SUSS</label
                   >
                 </div>
@@ -247,7 +352,7 @@ if (!empty($fulltext_input)) {
                 <label>Sort by:</label>
                 <div class="sort-dropdown">
                   <select name="sortBy" id="sortBy" class="sort-dropdown-select">
-                    <option value="none">None</option>
+                    <option value="">Default</option>
                     <option value="titleAsc">Title A-Z</option>
                     <option value="titleDesc">Title Z-A</option>
                     <option value="newest">Newest</option>
@@ -293,10 +398,6 @@ if (!empty($fulltext_input)) {
 
     <!-- Show book results section -->
     <section class="book-section">
-      <div class="search-query">
-        <p>Here is your search query:</p>
-      </div>
-      
       <?php if (!empty($found_books)) { ?>
         <table class="book-table">
           <thead>
@@ -328,7 +429,7 @@ if (!empty($fulltext_input)) {
                 <td headers="format-col">
                   <div class="format-column">
                     <div>
-                      <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                      <img src="<?php echo $book['hard_copy'] == 0 ? 'img/ui/cross.png' : 'img/ui/check.png'; ?>" /> Hard Copy
                     </div>
                     <div>
                     <img src="<?php echo !empty($book['ebook_file_path']) ? 'img/ui/check.png' : 'img/ui/cross.png'; ?>" /> E-book

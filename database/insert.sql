@@ -52,7 +52,7 @@ INSERT INTO branches (university_id, branch_name, address) VALUES
 -- Go to phpmyadmin > leoscholar > books > Import
 -- Choose file full_books.csv
 -- Keep other default settings
--- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path, ebook_file_path, audio_file_path
+-- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path, hard_copy, ebook_file_path, audio_file_path
 
 -- Book_Availability table
 -- Go to phpmyadmin > leoscholar > book_availability > Import
