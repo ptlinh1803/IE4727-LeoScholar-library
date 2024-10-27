@@ -16,30 +16,9 @@ if ($categories_results) {
   echo "Error: " . $conn->error;
 }
 
-// for fulltext search input--------------
-$fulltext_input = $_GET['searchQuery'] ?? '';
-
-if (!empty($fulltext_input)) {
-  $sql_fulltext_query = "
-    SELECT *
-    FROM books
-    WHERE MATCH(title, author, description, category) AGAINST(? IN NATURAL LANGUAGE MODE);
-  ";
-  $stmt = $conn->prepare($sql_fulltext_query);
-  $stmt->bind_param("s", $fulltext_input);
-  $stmt->execute();
-  $results = $stmt->get_result();
-
-  $found_books = []; // Initialize the array
-  if ($results->num_rows > 0) {
-    while ($book_row = $results->fetch_assoc()) {
-        $found_books[] = $book_row; // Store each book in the array
-    }
-  }
-
-  $stmt->close(); // Close the statement
-} else if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
   // Capture GET inputs
+  $fulltext_input = $_GET['searchQuery'] ?? '';
   $title_input = $_GET['title'] ?? '';
   $author_input = $_GET['author'] ?? '';
   $category_input = $_GET['category'] ?? '';
@@ -54,6 +33,10 @@ if (!empty($fulltext_input)) {
   $where_conditions = [];
 
   // Add conditions based on input
+  if (!empty($fulltext_input)) {
+    $where_conditions[] = "MATCH(title, author, description, category) AGAINST('" . $conn->real_escape_string($fulltext_input) . "' IN NATURAL LANGUAGE MODE)";
+  }
+
   if (!empty($title_input)) {
     $where_conditions[] = "b.title LIKE '%" . $conn->real_escape_string($title_input) . "%'";
   }
@@ -127,10 +110,10 @@ if (!empty($fulltext_input)) {
             $sql_query .= " ORDER BY title DESC";
             break;
         case 'newest':
-            $sql_query .= " ORDER BY publication_year DESC"; // Sort by newest publication year
+            $sql_query .= " ORDER BY publication_year DESC";
             break;
         case 'oldest':
-            $sql_query .= " ORDER BY publication_year ASC"; // Sort by oldest publication year
+            $sql_query .= " ORDER BY publication_year ASC";
             break;
         default:
             break;
@@ -212,6 +195,7 @@ if (!empty($fulltext_input)) {
             class="rounded-right"
             name="searchQuery"
             placeholder="Quick Search..."
+            value="<?php echo isset($_GET['searchQuery']) ? htmlspecialchars($_GET['searchQuery']) : ''; ?>" 
           />
           <button type="submit" class="submit-button">
             <img src="img/ui/small-search-icon.png" alt="Search Icon" />
@@ -226,6 +210,14 @@ if (!empty($fulltext_input)) {
             action="<?php echo $_SERVER['PHP_SELF']; ?>"
             method="GET"
           >
+            <div>
+              <label>Quick Search:</label>
+              <input
+                type="text"
+                name="searchQuery"
+                value="<?php echo isset($_GET['searchQuery']) ? htmlspecialchars($_GET['searchQuery']) : ''; ?>" 
+              />
+            </div>
             <div>
               <label>Title:</label>
               <input 
