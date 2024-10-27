@@ -228,11 +228,19 @@ if (!empty($fulltext_input)) {
           >
             <div>
               <label>Title:</label>
-              <input type="text" name="title" />
+              <input 
+                type="text" 
+                name="title" 
+                value="<?php echo isset($_GET['title']) ? htmlspecialchars($_GET['title']) : ''; ?>" 
+              />
             </div>
             <div>
               <label>Author:</label>
-              <input type="text" name="author" />
+              <input 
+                type="text" 
+                name="author" 
+                value="<?php echo isset($_GET['author']) ? htmlspecialchars($_GET['author']) : ''; ?>"
+              />
             </div>
             <div>
               <label>Category:</label>
@@ -241,7 +249,10 @@ if (!empty($fulltext_input)) {
                 <select name="category" id="sortBy" class="sort-dropdown-select">
                   <option value="">Select a category</option> <!-- Default option -->
                   <?php foreach ($categories_list as $category) { ?>
-                      <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?></option>
+                      <option value="<?php echo htmlspecialchars($category); ?>" 
+                      <?php echo (isset($_GET['category']) && $_GET['category'] == $category) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($category); ?>
+                      </option>
                   <?php } ?>
                 </select>
                 <img src="img/ui/drop-down-icon.svg" alt="Dropdown Icon" />
@@ -250,7 +261,13 @@ if (!empty($fulltext_input)) {
             <div class="form-group">
               <div class="isbn-group">
                 <label for="isbn">ISBN:</label>
-                <input type="text" id="isbn" name="isbn" class="isbn-input" />
+                <input 
+                  type="text" 
+                  id="isbn" 
+                  name="isbn" 
+                  class="isbn-input" 
+                  value="<?php echo isset($_GET['isbn']) ? htmlspecialchars($_GET['isbn']) : ''; ?>"
+                />
               </div>
 
               <div class="publication-year-group">
@@ -263,6 +280,7 @@ if (!empty($fulltext_input)) {
                     min="1900"
                     max="2100"
                     class="year-input"
+                    value="<?php echo isset($_GET['yearFrom']) ? htmlspecialchars($_GET['yearFrom']) : ''; ?>"
                   />
                   <span class="separator">-</span>
                   <input
@@ -272,6 +290,7 @@ if (!empty($fulltext_input)) {
                     min="1900"
                     max="2100"
                     class="year-input"
+                    value="<?php echo isset($_GET['yearTo']) ? htmlspecialchars($_GET['yearTo']) : ''; ?>"
                   />
                 </div>
               </div>
@@ -293,15 +312,21 @@ if (!empty($fulltext_input)) {
                 </div>
                 <div class="checkbox-dropdown-content" id="formatsDropdown">
                   <label>
-                    <input type="checkbox" name="format[]" value="Hard Copy" />
+                    <input type="checkbox" name="format[]" value="Hard Copy" 
+                    <?php echo (isset($_GET['format']) && in_array('Hard Copy', $_GET['format'])) ? 'checked' : ''; ?>
+                    />
                     Hard Copy
                   </label>
                   <label>
-                    <input type="checkbox" name="format[]" value="E-book" />
+                    <input type="checkbox" name="format[]" value="E-book" 
+                    <?php echo (isset($_GET['format']) && in_array('E-book', $_GET['format'])) ? 'checked' : ''; ?>
+                    />
                     E-book
                   </label>
                   <label>
-                    <input type="checkbox" name="format[]" value="Audio Book" />
+                    <input type="checkbox" name="format[]" value="Audio Book" 
+                    <?php echo (isset($_GET['format']) && in_array('Audio Book', $_GET['format'])) ? 'checked' : ''; ?>
+                    />
                     Audio Book
                   </label>
                 </div>
@@ -321,30 +346,42 @@ if (!empty($fulltext_input)) {
                   />
                 </div>
                 <div class="checkbox-dropdown-content" id="availabilityDropdown">
-                  <label
-                    ><input type="checkbox" name="availableAt[]" value="NTU" />
-                    NTU</label
-                  >
-                  <label
-                    ><input type="checkbox" name="availableAt[]" value="NUS" />
-                    NUS</label
-                  >
-                  <label
-                    ><input type="checkbox" name="availableAt[]" value="SMU" />
-                    SMU</label
-                  >
-                  <label
-                    ><input type="checkbox" name="availableAt[]" value="SUTD" />
-                    SUTD</label
-                  >
-                  <label
-                    ><input type="checkbox" name="availableAt[]" value="SIT" />
-                    SIT</label
-                  >
-                  <label
-                    ><input type="checkbox" name="availableAt[]" value="SUSS" />
-                    SUSS</label
-                  >
+                  <label>
+                    <input type="checkbox" name="availableAt[]" value="NTU" 
+                    <?php echo (isset($_GET['availableAt']) && in_array('NTU', $_GET['availableAt'])) ? 'checked' : ''; ?>
+                    />
+                    NTU
+                  </label>
+                  <label>
+                    <input type="checkbox" name="availableAt[]" value="NUS" 
+                    <?php echo (isset($_GET['availableAt']) && in_array('NUS', $_GET['availableAt'])) ? 'checked' : ''; ?>
+                    />
+                    NUS
+                  </label>
+                  <label>
+                    <input type="checkbox" name="availableAt[]" value="SMU" 
+                    <?php echo (isset($_GET['availableAt']) && in_array('SMU', $_GET['availableAt'])) ? 'checked' : ''; ?>
+                    />
+                    SMU
+                  </label>
+                  <label>
+                    <input type="checkbox" name="availableAt[]" value="SUTD" 
+                    <?php echo (isset($_GET['availableAt']) && in_array('SUTD', $_GET['availableAt'])) ? 'checked' : ''; ?>
+                    />
+                    SUTD
+                  </label>
+                  <label>
+                    <input type="checkbox" name="availableAt[]" value="SIT" 
+                    <?php echo (isset($_GET['availableAt']) && in_array('SIT', $_GET['availableAt'])) ? 'checked' : ''; ?>
+                    />
+                    SIT
+                  </label>
+                  <label>
+                    <input type="checkbox" name="availableAt[]" value="SUSS" 
+                    <?php echo (isset($_GET['availableAt']) && in_array('SUSS', $_GET['availableAt'])) ? 'checked' : ''; ?>
+                    />
+                    SUSS
+                  </label>
                 </div>
               </div>
 
@@ -353,10 +390,18 @@ if (!empty($fulltext_input)) {
                 <div class="sort-dropdown">
                   <select name="sortBy" id="sortBy" class="sort-dropdown-select">
                     <option value="">Default</option>
-                    <option value="titleAsc">Title A-Z</option>
-                    <option value="titleDesc">Title Z-A</option>
-                    <option value="newest">Newest</option>
-                    <option value="oldest">Oldest</option>
+                    <option value="titleAsc" <?php echo (isset($_GET['sortBy']) && $_GET['sortBy'] == 'titleAsc') ? 'selected' : ''; ?>>
+                      Title A-Z
+                    </option>
+                    <option value="titleDesc" <?php echo (isset($_GET['sortBy']) && $_GET['sortBy'] == 'titleDesc') ? 'selected' : ''; ?>>
+                      Title Z-A
+                    </option>
+                    <option value="newest" <?php echo (isset($_GET['sortBy']) && $_GET['sortBy'] == 'newest') ? 'selected' : ''; ?>>
+                      Newest
+                    </option>
+                    <option value="oldest" <?php echo (isset($_GET['sortBy']) && $_GET['sortBy'] == 'oldest') ? 'selected' : ''; ?>>
+                      Oldest
+                    </option>
                   </select>
                   <img src="img/ui/drop-down-icon.svg" alt="Dropdown Icon" />
                 </div>
