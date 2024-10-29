@@ -1,0 +1,583 @@
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa; /* Light background for navbar */
+  position: relative; /* Needed for menu-toggle positioning */
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.navbar img {
+  height: 50px; /* Logo size */
+}
+
+.nav-links {
+  display: flex;
+  gap: 50px; /* Increased space between nav links */
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #bbb; /* Lighter text color for nav links */
+  font-weight: 700;
+  position: relative; /* For dropdown positioning */
+  padding: 10px 15px; /* Add padding for vertical alignment */
+  display: flex; /* Use flex to align items */
+  align-items: center; /* Center align text vertically */
+}
+
+/* Add hover effect for non-profile links */
+.nav-links a:not(.profile-link):not(.dropdown-content a):hover {
+  text-decoration: underline; /* Underline on hover */
+  color: #333;
+}
+
+.nav-links a.active-page {
+  color: #333; /* Dark text color for active page */
+}
+
+.dropdown {
+  position: relative; /* Needed for absolute positioning of dropdown */
+}
+
+.profile-link {
+  border: 1px solid lightgray; /* Thin border */
+  border-radius: 20px; /* Rounded background */
+  padding: 5px 10px; /* Padding for the profile link */
+  display: inline-flex;
+  align-items: center;
+  gap: 5px; /* Space between text and icon */
+  white-space: nowrap; /* Prevents text wrapping */
+}
+
+.dropdown-content {
+  display: none; /* Hide dropdown initially */
+  position: absolute; /* Positioning dropdown relative to parent */
+  top: 100%; /* Position below the profile link */
+  left: 0;
+  background-color: #fff; /* Background color for dropdown */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Small shadow */
+  z-index: 1; /* Ensure dropdown appears above other content */
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* Show dropdown on hover */
+}
+
+.dropdown-content a {
+  display: block; /* Make links block elements for easier clicking */
+  padding: 10px 15px; /* Padding for dropdown links */
+  color: #bbb; /* Text color for dropdown links */
+  text-decoration: none; /* Remove underline */
+}
+
+.dropdown-content a:hover {
+  background-color: #f0f0f0; /* Background on hover for dropdown links */
+  color: #333;
+}
+
+.dropdown img {
+  height: 20px;
+}
+
+/* Header styles */
+.header {
+  background-image: url("img/ui/home-page-bg.png"); /* Add your header image here */
+  background-size: cover;
+  background-position: center; /* Center the background image */
+  padding: 60px 60px 60px 100px; /* Top, right, bottom, left */
+  color: white; /* Text color */
+  text-align: left;
+  min-height: 450px;
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center items vertically */
+}
+
+.header h2 {
+  font-size: 36px;
+  color: black;
+  margin: 0 0 30px 0;
+}
+
+.header p {
+  color: #11155e;
+  margin: 5px 0 50px 0;
+}
+
+.header img {
+  height: 90px; /* Logo size */
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  margin: 20px 0; /* Optional: add margin for spacing */
+}
+
+.search-bar select,
+.search-bar input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 0px; /* Space between input and select */
+}
+
+.search-bar input {
+  margin-right: 30px; /* Space between input and button */
+  width: 400px;
+}
+
+.submit-button {
+  background-color: #ee3124; /* Background color */
+  border: none;
+  border-radius: 50%; /* Makes the button circular */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: auto;
+}
+
+.submit-button img {
+  width: 20px; /* Size of the icon */
+  height: auto;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+/* What would you like to do today section */
+.services {
+  background-image: url("img/ui/bg7-low-opacity.png"); /* Add your background image here */
+  background-size: cover;
+  background-position: center; /* Center the background image */
+  padding: 30px;
+  text-align: center;
+  min-height: 450px;
+}
+
+.service-button-container {
+  width: 60%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 buttons per row */
+  gap: 50px;
+  justify-items: center;
+  padding: 20px;
+  margin: 20px auto;
+}
+
+.warm-gradient-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(
+    45deg,
+    #d71440,
+    #f6a92a
+  ); /* Gradient background */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 15px;
+  width: 250px;
+  text-align: center;
+  cursor: pointer;
+}
+.warm-gradient-button:hover {
+  cursor: pointer; /* Change cursor to pointer */
+  transform: translateY(-5px) scale(1.05); /* Float up and scale */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* More prominent shadow */
+}
+
+.warm-gradient-button img {
+  width: 50px; /* Adjust as needed */
+  height: auto;
+  margin-bottom: 15px;
+}
+
+.warm-gradient-button span {
+  font-size: 17px;
+  font-weight: bold;
+  font-family: "Inter", sans-serif;
+}
+
+/* Discover books section */
+.discover-books {
+  background-color: #f8eeec;
+  padding: 20px;
+  text-align: center;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6 books per row */
+  gap: 20px;
+  justify-items: center;
+  margin-top: 50px;
+}
+
+.book-wrapper {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 10px;
+  width: 150px;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
+  text-decoration: none; /* Remove underline for the anchor */
+  color: inherit; /* Inherit text color */
+}
+
+/* Change cursor to pointer on hover */
+.book-wrapper:hover {
+  cursor: pointer; /* Change cursor to pointer */
+  transform: translateY(-5px) scale(1.05); /* Float up and scale */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* More prominent shadow */
+}
+
+.book-wrapper img {
+  width: 100%; /* Full width of the container */
+  height: 200px; /* Fixed height for uniformity */
+  object-fit: contain; /* Scale image to fit, retaining proportions */
+  background-color: #f3f3f7; /* Gray background to fill uncovered area */
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.book-wrapper .title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.book-wrapper .author {
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.see-all-button {
+  display: inline-block;
+  margin: 50px auto; /* Centers the button */
+  padding: 10px 50px;
+  background-color: #11155e;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 17px;
+  font-family: "Inter", sans-serif;
+  cursor: pointer;
+  text-align: center;
+}
+
+.see-all-button:hover {
+  background-color: #0e1248; /* Slightly darker shade on hover */
+}
+
+.login-register-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+.login-register-buttons button {
+  margin: 50px 0;
+}
+
+.no-books-message {
+  display: flex;
+  justify-content: center; /* Centers the image horizontally */
+  align-items: center; /* Centers the image vertically */
+  margin-top: 20px; /* Adds some space above the image */
+}
+
+.no-books-message img {
+  width: 100%;
+  max-width: 300px;
+}
+
+/* ABOUT US */
+.about-us {
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.about-container {
+  width: 80%;
+}
+
+.about-columns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.logo-column img {
+  height: 250px;
+  width: auto;
+  margin-right: 50px;
+}
+
+.description-column {
+  text-align: center;
+}
+
+.description-column p {
+  font-family: "Inria Serif", serif;
+  font-size: 20px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.university-logos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 logos per row */
+  gap: 20px;
+  justify-items: center;
+  align-items: center;
+}
+
+.university-logos img {
+  width: 150px;
+  height: auto;
+}
+
+/* Footer */
+.footer {
+  background-color: #11155e;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer p {
+  font-family: "Inria Serif", serif;
+  color: #ffffff;
+  font-size: 15px;
+  margin: 0;
+}
+
+/* REUSABLE CLASSES */
+.big-blue-h1 {
+  font-size: 40px;
+  color: #11155e;
+}
+
+/* responsive screen size */
+/* Medium screens: 2 columns */
+@media (max-width: 1024px) {
+  .nav-links {
+    gap: 20px; /* Reduce gap between links */
+  }
+
+  .service-button-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 buttons per row */
+    width: 80%; /* Adjust width for better fit */
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Adjust padding */
+  .header {
+    padding: 40px 40px 40px 70px;
+  }
+
+  /* Reduce heading and image size */
+  .header h2 {
+    font-size: 30px;
+  }
+
+  .header p {
+    font-size: 16px;
+    margin: 10px 0 40px;
+  }
+
+  .header img {
+    height: 70px;
+  }
+
+  /* Adjust search bar width */
+  .search-bar input {
+    width: 300px;
+  }
+
+  .submit-button img {
+    width: 15px; /* Size of the icon */
+    height: auto;
+  }
+}
+
+/* Small screens: 1 column */
+@media (max-width: 768px) {
+  .big-blue-h1 {
+    font-size: 35px;
+  }
+
+  .navbar {
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start; /* Align items to the left */
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%; /* Full-width for mobile dropdown */
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    position: absolute;
+    top: 60px; /* Adjust based on navbar height */
+    left: 0;
+  }
+
+  /* Show nav links when the menu is active */
+  .navbar.active .nav-links {
+    display: flex; /* Show links in column layout */
+  }
+
+  /* Hamburger menu button */
+  .menu-toggle {
+    display: block; /* Show toggle icon */
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    right: 10px; /* Adjust spacing from the right as needed */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for true vertical center */
+  }
+
+  /* No border for "Profile in small screens */
+  .nav-links .profile-link {
+    border: none;
+  }
+
+  /* Stack content vertically on smaller screens */
+  .header {
+    padding: 30px;
+    flex-direction: column;
+    align-items: flex-start; /* Keep left-aligned */
+    text-align: left; /* Left-align text */
+    justify-content: center; /* Center content vertically */
+  }
+
+  /* Further reduce heading and paragraph size */
+  .header h2 {
+    font-size: 24px;
+  }
+
+  .header p {
+    font-size: 14px;
+    margin: 10px 0 30px;
+  }
+
+  .header img {
+    height: 60px;
+    margin-bottom: 20px;
+  }
+
+  /* Adjust search bar width and spacing */
+  .search-bar input {
+    width: 250px;
+    margin-right: 10px;
+  }
+
+  .submit-button img {
+    width: 15px;
+    height: auto;
+    transform: translate(-50%, -50%); /* Keep the icon centered */
+    position: relative;
+  }
+
+  .service-button-container {
+    grid-template-columns: 1fr; /* 1 button per row */
+    width: 90%; /* Further adjust width */
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .logo-column img {
+    height: 150px;
+    margin-right: 30px;
+  }
+
+  .description-column p {
+    font-size: 14px;
+  }
+
+  .university-logos img {
+    width: 100px;
+  }
+}
+
+/* Small screens: 1 column */
+@media (max-width: 500px) {
+  .big-blue-h1 {
+    font-size: 30px;
+  }
+
+  .header h2 {
+    font-size: 20px;
+  }
+
+  .header p {
+    font-size: 12px;
+    margin: 5px 0 20px;
+  }
+
+  .header img {
+    height: 50px;
+  }
+
+  /* Narrow search bar on smallest screens */
+  .search-bar input {
+    width: 200px;
+  }
+
+  .submit-button img {
+    width: 15px; /* Size of the icon */
+    height: auto;
+  }
+
+  .books-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .logo-column img {
+    height: 100px;
+    margin-right: 20px;
+  }
+
+  .description-column p {
+    font-size: 12px;
+  }
+
+  .university-logos img {
+    width: 80px;
+  }
+}
