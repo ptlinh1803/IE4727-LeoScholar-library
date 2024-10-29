@@ -65,7 +65,7 @@ function validateField(field) {
       break;
     case 'password':
       isValid = validatePassword(value);
-      errorMessage = 'Password must be at least 8 characters long and contain a number.';
+      errorMessage = 'Both password and confirm password must be at least 8 characters long and contain a number.';
       break;
     case 'name':
       isValid = validateName(value);
@@ -92,38 +92,35 @@ function validateField(field) {
 // 3. Iterate the function in part 2 through the entire page
 function validateAllFields() {
   const inputFields = document.querySelectorAll('input[name="email"], input[name="password"], input[name="name"], input[name="phone"]');
+  const passwordFields = document.querySelectorAll('input[name="password"]');
+  const registerSubmitButton = document.getElementById('register-button');
 
+  // Function to update button based on overall field validity
+  function updateButtonState() {
+    const allFieldsValid = Array.from(inputFields).every(field => validateField(field)) && validateIdenticalPasswords();
+    registerSubmitButton.disabled = !allFieldsValid;
+  }
+
+  // Set blur event listeners for individual validation
   inputFields.forEach((field) => {
-    field.addEventListener('change', function () {
-      if (!validateField(this)) {
-        return false;
-      }
-    })
+    field.addEventListener('blur', updateButtonState);
   });
 
-  // Add event listener to verify identical passwords as well
-  const passwordFields = document.querySelectorAll('input[name="password"]');
+  // Set blur event listeners for identical password validation
   passwordFields.forEach((field) => {
-    field.addEventListener('change', function () {
-      if (!validateIdenticalPasswords()) {
-        return false;
-      }
-    })
-  })
-
-  return true;
+    field.addEventListener('blur', updateButtonState);
+  });
 }
 
 // Run the function when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', validateAllFields());
+document.addEventListener('DOMContentLoaded', validateAllFields);
 
 // Prevent form submission if some fields are not validated
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('form');
   if (form) {
     form.addEventListener('submit', (event) => {
-      if (!validateAllFields()) {
-        event.preventDefault();
+      if (document.getElementById('register-button').disabled) {
         alert("Please fill in all the fields correctly first.");
       }
     });
