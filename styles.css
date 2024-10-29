@@ -25,6 +25,7 @@ body {
 .nav-links {
   display: flex;
   gap: 50px; /* Increased space between nav links */
+  z-index: 20;
 }
 
 .nav-links a {
@@ -433,6 +434,10 @@ body {
   .submit-button img {
     width: 15px; /* Size of the icon */
     height: auto;
+  }
+
+  .no-books-message img {
+    max-width: 200px;
   }
 }
 

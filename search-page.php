@@ -197,8 +197,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
             placeholder="Quick Search..."
             value="<?php echo isset($_GET['searchQuery']) ? htmlspecialchars($_GET['searchQuery']) : ''; ?>" 
           />
-          <button type="submit" class="submit-button">
-            <img src="img/ui/small-search-icon.png" alt="Search Icon" />
+          <button type="submit" class="submit-button" style="color: white;">
+            Go
           </button>
         </form>
 
@@ -288,7 +288,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
               </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group stack-column">
               <div class="checkbox-dropdown">
                 <label>Format:</label>
                 <div
@@ -610,10 +610,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
         return button;
       }
 
+      // Determine visible button count based on screen width
+      function getVisibleCount() {
+        if (window.innerWidth <= 600) return 1;
+        if (window.innerWidth <= 900) return 2;
+        if (window.innerWidth <= 1200) return 3;
+        return 4; // Default visible count for larger screens
+      }
+
       function moveCarousel(direction) {
         const buttonContainer = document.querySelector(".button-container");
         const totalButtons = buttons.length;
-        const visibleCount = 4; // Number of buttons to show at a time
+        const visibleCount = getVisibleCount(); // Number of buttons to show at a time
 
         // Update current index based on direction
         currentIndex += direction;
@@ -636,6 +644,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
           }
         }
       }
+
+      // Event listener for screen resizing
+      window.addEventListener("resize", () => moveCarousel(0));
 
       // Initialize with the first set of buttons
       moveCarousel(0);

@@ -17,6 +17,8 @@
 
 /* Styles for Advanced Search Button and Form */
 .advanced-search-button {
+  display: flex;
+  align-items: center;
   background-color: #11155e;
   color: white;
   padding: 10px 12px;
@@ -25,6 +27,7 @@
   cursor: pointer;
   font-family: "Inter", sans-serif;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .advanced-search-button img {
@@ -37,6 +40,7 @@
   padding: 9px;
   border-radius: 0 20px 20px 0;
   width: 500px;
+  max-width: 95%; /* Ensure input doesn't overflow */
 }
 
 .advanced-search-form {
@@ -47,6 +51,7 @@
   padding: 20px;
   position: absolute;
   width: 730px;
+  max-width: 95%;
   left: 50%;
   transform: translateX(-50%);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -242,6 +247,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* overflow-x: auto; */
 }
 
 .arrow-carousel {
@@ -397,4 +403,45 @@
   display: flex;
   align-items: center;
   margin: 2px 0;
+}
+
+/*-----RESPONSIVE-----*/
+@media (max-width: 1024px) {
+  /* Set a max width for search-bar and reduce input width */
+  .search-bar {
+    flex-direction: column; /* Stack elements vertically on small screens */
+    align-items: stretch;
+    max-width: 100%;
+  }
+
+  .advanced-search-button,
+  .submit-button {
+    width: 30%; /* Make each element fill the available width */
+    border-radius: 20px; /* Fully rounded on small screens */
+    margin: 5px auto; /* Space between stacked elements */
+  }
+
+  .search-bar .rounded-right {
+    border-radius: 0px;
+    margin: 5px auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .advanced-search-form .stack-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .separator {
+    margin: 0 5px;
+  }
+
+  .advanced-search-form .isbn-group {
+    width: 55%;
+  }
+
+  .advanced-search-form .isbn-group input {
+    max-width: 90%;
+  }
 }

@@ -116,8 +116,8 @@ else {
 
         <form class="search-bar" action="search-page.php" method="GET">
           <input type="text" name="searchQuery" placeholder="Quick Search..." />
-          <button type="submit" class="submit-button">
-            <img src="img/ui/small-search-icon.png" alt="Search Icon" />
+          <button type="submit" class="submit-button" style="color: white;">
+            Go
           </button>
         </form>
       </div>
