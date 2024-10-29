@@ -19,20 +19,21 @@
       <h1>Membership Registration</h1>
       <h5>For both Staffs & Students</h5>
 
-      <form action="register_process.php" method="POST">
+      <form action="register.php" method="POST">
         <!-- Name Input Field -->
         <label for="name"><b>Name</b><br></label>
-        <input type="text" id="name" name="name" placeholder="E.g. Pham Thuy Linh" class="register-input-field"
+        <input type="text" id="register-name" name="name" placeholder="E.g. Pham Thuy Linh" class="register-input-field"
           required>
 
         <!-- University Email Input Field -->
         <label for="email"><b>University Email Address</b><br></label>
-        <input type="email" id="email" name="email" placeholder="username@domain.sg" class="register-input-field"
-          required>
+        <input type="email" id="register-email" name="email" placeholder="username@domain.sg"
+          class="register-input-field" required>
 
         <!-- Phone Number Input Field -->
         <label for="phone"><b>Phone Number</b><br></label>
-        <input type="text" id="phone" name="phone" placeholder="12345678" class="register-input-field" required>
+        <input type="text" id="register-phone" name="phone" placeholder="12345678" class="register-input-field"
+          required>
 
         <!-- Password Input Field -->
         <label for="register-password"><b>Password</b><br></label>
