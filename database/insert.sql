@@ -48,6 +48,16 @@ INSERT INTO branches (university_id, branch_name, address) VALUES
 ('SMU', 'Duda Family Business Library', '6214 Bishop Boulevard'),
 ('SMU', 'Hamon Arts Library', '6100 Hillcrest Avenue');
 
+-- Favourite Books table
+INSERT INTO favourite_books (user_id, book_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7);
+
 -- Books table
 -- Go to phpmyadmin > leoscholar > books > Import
 -- Choose file full_books.csv

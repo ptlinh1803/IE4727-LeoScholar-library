@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS favourite_books (
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE
 );
 
--- Reviews table
+-- Reviews table (maybe this is not necessary...)
 CREATE TABLE IF NOT EXISTS reviews (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
