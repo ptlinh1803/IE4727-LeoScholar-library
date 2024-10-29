@@ -8,7 +8,7 @@
 // 1. Validation Functions
 // Email validation function
 function validateEmail(value) {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[\w\.-]+@e\.(ntu|nus|smu|sit|sutd|suss)\.edu\.sg$/;
   return emailRegex.test(value);
 }
 
@@ -61,7 +61,7 @@ function validateField(field) {
   switch (field.name) {
     case 'email':
       isValid = validateEmail(value);
-      errorMessage = 'Please enter a valid email address.';
+      errorMessage = 'Please enter a valid email address from an approved institution';
       break;
     case 'password':
       isValid = validatePassword(value);
