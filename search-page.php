@@ -128,6 +128,29 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
         $found_books[] = $book_row; // Store each book in the array
     }
   }
+
+  // Get current books per page
+  if (!empty($found_books)) {
+    // Set the number of items per page
+    $booksPerPage = 10;
+
+    // Get the current page from the URL, default to page 1 if not set
+    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $currentPage = max(1, $currentPage); // Ensure currentPage is at least 1
+
+    // Calculate the offset and total pages
+    $totalBooks = count($found_books);
+    $totalPages = ceil($totalBooks / $booksPerPage);
+    $offset = ($currentPage - 1) * $booksPerPage;
+
+    // Get the books for the current page
+    $booksOnCurrentPage = array_slice($found_books, $offset, $booksPerPage);
+  } else {
+      // Handle the case where there are no books found
+      $booksOnCurrentPage = [];
+      $totalPages = 1;
+      $currentPage = 1;
+  }
 }
 
 ?>
@@ -200,6 +223,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
           <button type="submit" class="submit-button" style="color: white;">
             Go
           </button>
+          <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="submit-button reset-button" style="color: white;" onclick="resetForm()">
+            Reset
+          </a>
         </form>
 
         <!-- Advanced Search Form -->
@@ -449,7 +475,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
           </thead>
           <tbody>
             <!-- For loop to generate rows -->
-            <?php foreach ($found_books as $book) { ?>
+            <?php foreach ($booksOnCurrentPage as $book) { ?>
               <tr onclick="redirectToBookDetails(<?php echo $book['book_id']; ?>)">
                 <td headers="cover-col">
                   <img src="img/books/<?php echo $book['cover_path']; ?>" alt="Book Cover" class="book-cover" />
@@ -520,6 +546,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
             <?php } ?>
           </tbody>
         </table>
+
+        <div class="pagination">
+            <?php if ($currentPage > 1): ?>
+                <a href="?page=<?php echo $currentPage - 1; ?>" class="arrow">Previous</a>
+            <?php endif; ?>
+
+            <span>Page <?php echo $currentPage; ?> of <?php echo $totalPages; ?></span>
+
+            <?php if ($currentPage < $totalPages): ?>
+                <a href="?page=<?php echo $currentPage + 1; ?>" class="arrow">Next</a>
+            <?php endif; ?>
+        </div>
+
       <?php } else { ?>
         <div class="no-books-message">
           <img src="img/ui/nothing-here.png" alt="Nothing here" />
@@ -656,6 +695,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     <script>
       function redirectToBookDetails(bookId) {
         window.location.href = "book-details.php?book_id=" + bookId;
+      }
+    </script>
+
+    <!-- Clear all the search inputs with Reset button --> 
+    <script>
+      function resetForm() {
+        // Redirect to the current page without any query parameters
+        window.location.href = window.location.origin + window.location.pathname;
       }
     </script>
   </body>
