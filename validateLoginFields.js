@@ -2,7 +2,10 @@
 // The script consist of 3 parts:
 // 1. Defining all the validation functions
 // 2. Creating a function that takes in the type of the element at hand and apply the validation function accordingly
-// 3. Create a function that iterates the process of part 2 through the entire HTML
+// 3. Defining a function to enable/disable login buttons (member & librarian)
+// 4. Set up login validation for each login section (member & librarian)
+// 5. addEventListener to run validation when the script is fully loaded
+// 6. addEventListener to disable/enable submit button
 
 
 // 1. Validation Functions
@@ -31,7 +34,7 @@ function validateField(field) {
       break;
     case 'password':
       isValid = validatePassword(value);
-      errorMessage = 'Both password and confirm password must be at least 8 characters long and contain a number.';
+      errorMessage = 'Password must be at least 8 characters long and contain a number.';
       break;
   }
 
@@ -45,33 +48,48 @@ function validateField(field) {
   return isValid;
 }
 
-// 3. Iterate the function in part 2 through the entire page
-function validateAllFields() {
-  const inputFields = document.querySelectorAll('input[name="email"], input[name="password"]');
-  const registerSubmitButton = document.getElementById('register-button');
+// Enable/disable button based on field validation on each side
+function updateButtonState(form) {
+  const fields = form.querySelectorAll(`input[type="email"], input[type="password"]`);
+  const loginButton = form.querySelector(`button`);
+  const allFieldsValid = Array.from(fields).every(field => validateField(field));
 
-  // Function to update button based on overall field validity
-  function updateButtonState() {
-    const allFieldsValid = Array.from(inputFields).every(field => validateField(field)) && validateIdenticalPasswords();
-    registerSubmitButton.disabled = !allFieldsValid;
-  }
+  loginButton.disabled = !allFieldsValid;
+}
 
-  // Set blur event listeners for individual validation
-  inputFields.forEach((field) => {
-    field.addEventListener('blur', updateButtonState);
+// 4. Set up validation for each login section
+function setupValidation(form) {
+  const fields = form.querySelectorAll(`input[type="email"], input[type="password"]`);
+
+  // Apply blur event listener to validate each field individually
+  fields.forEach((field) => {
+    field.addEventListener('blur', () => {
+      updateButtonState(form);
+    });
   });
 }
 
-// Run the function when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', validateAllFields);
-
-// Prevent form submission if some fields are not validated
+// 5. Initialize validation and prevent submission on DOM load
 document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('form');
-  if (form) {
-    form.addEventListener('submit', (event) => {
-      if (document.getElementById('register-button').disabled) {
-        alert("Please fill in all the fields correctly first.");
+  const memberForm = document.getElementById('member-form');
+  const librarianForm = document.getElementById('librarian-form');
+
+  if (memberForm) {
+    setupValidation(memberForm);
+    memberForm.addEventListener('submit', (event) => {
+      if (memberForm.querySelector('button').disabled) {
+        event.preventDefault();
+        alert("Please fill in all the fields correctly for Member Login.");
+      }
+    });
+  }
+
+  if (librarianForm) {
+    setupValidation(librarianForm);
+    librarianForm.addEventListener('submit', (event) => {
+      if (librarianForm.querySelector('button').disabled) {
+        event.preventDefault();
+        alert("Please fill in all the fields correctly for Librarian Login.");
       }
     });
   }
