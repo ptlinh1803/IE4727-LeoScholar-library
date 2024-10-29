@@ -1,6 +1,6 @@
-// This script provides functions to validate the fields in login.html and register.html
+// This script provides functions to validate the fields in and register.html
 // The script consist of 3 parts:
-// 1. Defining all the validation functions (except identical passwords, that will be in validateIdenticalPasswords.js)
+// 1. Defining all the validation functions
 // 2. Creating a function that takes in the type of the element at hand and apply the validation function accordingly
 // 3. Create a function that iterates the process of part 2 through the entire HTML
 
