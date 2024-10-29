@@ -65,7 +65,7 @@ else {
   <body>
     <!-- Navbar -->
     <nav class="navbar">
-      <a href="homepage-member.html">
+      <a href="homepage-member.php">
         <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
       </a>
 
@@ -73,8 +73,8 @@ else {
       <span class="menu-toggle">&#9776;</span>
 
       <div class="nav-links">
-        <a href="#" class="active-page">Home</a>
-        <a href="#">Search</a>
+        <a href="homepage-member.php" class="active-page">Home</a>
+        <a href="search-page.php">Search</a>
         <a href="#">My Shelf</a>
         <a href="#">Contribute</a>
         <div class="dropdown">
@@ -111,17 +111,10 @@ else {
         <img src="img/ui/leoscholar-transparent.png" alt="Logo" />
         <p>A Digital Library for a Knowledgeable Singapore</p>
 
-        <form class="search-bar" action="" method="POST">
-          <select name="searchType">
-            <option value="all">All</option>
-            <option value="title">Title</option>
-            <option value="author">Author</option>
-            <option value="category">Category</option>
-            <option value="isbn">ISBN</option>
-          </select>
-          <input type="text" name="searchQuery" placeholder="Search..." />
-          <button type="submit" class="submit-button">
-            <img src="img/ui/small-search-icon.png" alt="Search Icon" />
+        <form class="search-bar" action="search-page.php" method="GET">
+          <input type="text" name="searchQuery" placeholder="Quick Search..." />
+          <button type="submit" class="submit-button" style="color: white;">
+            Go
           </button>
         </form>
       </div>
@@ -137,7 +130,7 @@ else {
             alt="Register Membership Icon"
           />
           <!-- Add your icon image here -->
-          <span>Register Membership</span>
+          <span>Manage Membership</span>
         </button>
         <button class="warm-gradient-button">
           <img src="img/ui/search.png" alt="Advanced Search Icon" />
