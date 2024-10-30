@@ -13,6 +13,9 @@
     $email = $_POST["email"];
     $password = $_POST["password"];
 
+    // Hash the received password for comparison with the db
+    $password = md5($password);
+
     // Search database for any entry with the given email & password
     $sql = "SELECT user_id FROM users WHERE email = ? AND password = ?";
     $stmt = $conn->prepare($sql);
