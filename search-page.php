@@ -189,9 +189,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
             <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
           </a>
           <div class="dropdown-content">
-            <a href="#">Settings</a>
-            <a href="#">Payment</a>
-            <a href="#">Logout</a>
+            <?php if (isset($_SESSION['user_id'])) { ?>
+              <a href="#">Settings</a>
+              <a href="#">Payment</a>
+              <a href="#">Logout</a>
+            <?php } else { ?>
+              <a href="login.php">Log in</a>
+              <a href="register.php">Register</a>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -694,7 +699,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     <!-- Redirect to Book details page -->
     <script>
       function redirectToBookDetails(bookId) {
-        window.location.href = "book-details.php?book_id=" + bookId;
+        window.open("book-details.php?book_id=" + bookId, "_blank");
       }
     </script>
 
