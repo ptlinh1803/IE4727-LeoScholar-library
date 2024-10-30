@@ -1,3 +1,5 @@
+USE leoscholar;
+
 -- Universities table
 INSERT INTO universities (university_id, name, address) VALUES
 ('NUS', 'National University of Singapore', '21 Lower Kent Ridge Rd, Singapore 119077'),
@@ -10,7 +12,8 @@ INSERT INTO universities (university_id, name, address) VALUES
 -- Users table
 INSERT INTO users (name, email, password, phone, university_id) VALUES
 ('Pham Thuy Linh', 'thuylinh001@e.ntu.edu.sg', '12be439712901640aa0a9e271b65d9fc', '12345678', 'NTU'),
-('Tran Huu Nghia', 'huunghia002@e.ntu.edu.sg', 'bbe3b53eb5210306e9dcfda8be238e9a', '87654321', 'NTU');
+('Tran Huu Nghia', 'huunghia002@e.ntu.edu.sg', 'bbe3b53eb5210306e9dcfda8be238e9a', '87654321', 'NTU'),
+('Test User', 'testuser1@e.ntu.edu.sg', '2c4bed4d73c86619fcf1627fb72011fa', '11111111', 'NTU');
 
 -- Librarians table
 INSERT INTO librarians (name, email, password, university_id) VALUES 
@@ -45,11 +48,21 @@ INSERT INTO branches (university_id, branch_name, address) VALUES
 ('SMU', 'Duda Family Business Library', '6214 Bishop Boulevard'),
 ('SMU', 'Hamon Arts Library', '6100 Hillcrest Avenue');
 
+-- Favourite Books table
+INSERT INTO favourite_books (user_id, book_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7);
+
 -- Books table
 -- Go to phpmyadmin > leoscholar > books > Import
--- Choose file books.csv
+-- Choose file full_books.csv
 -- Keep other default settings
--- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path
+-- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path, hard_copy, ebook_file_path, audio_file_path
 
 -- Book_Availability table
 -- Go to phpmyadmin > leoscholar > book_availability > Import
@@ -62,3 +75,10 @@ INSERT INTO branches (university_id, branch_name, address) VALUES
 -- Choose file digital_resources.csv
 -- Keep other default settings
 -- Specify column order (no need to enclose): isbn, title, author, description, about_author, publication_year, category, cover_path, file_path, type
+
+-- After importing digital_resources.csv
+-- Change the resource_id of 'Pride and Prejudice' to 35 (to match with book_id)
+-- UPDATE digital_resources
+-- SET resource_id = 35
+-- WHERE title = 'Pride and Prejudice';
+

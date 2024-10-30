@@ -1,0 +1,40 @@
+978-1292410654,"Options, Futures, and Other Derivatives",John Hull,"Build essential foundations around the derivatives market for your future career in finance with the definitive guide on the subject.
+Options, Futures, and Other Derivatives, Global Edition, 11th edition by John Hull, is an industry-leading text and consistent best-seller known as 'The Bible' to Business and Economics professionals.
+
+Ideal for students studying Business, Economics, and Financial Engineering and Mathematics, this edition gives you a modern look at the derivatives market by incorporating the industry's hottest topics, such as securitisation and credit crisis, bridging the gap between theory and practice.
+
+Written with the knowledge of how Maths can be a key challenge for this course, the text adopts a simple language that makes learning approachable, providing a clear explanation of ideas throughout the text.
+
+The latest edition covers the most recent regulations and trends, including the Black-Scholes-Merton formulas, overnight indexed swaps, and the valuation of commodity derivatives.
+
+Key features include:
+
+Tables, charts, examples, and market data discussions, reflecting current market conditions.
+A delicate balance between theory and practice with the use of mathematics, adding numerical examples for added clarity.
+Useful practice-focused resources to help students overcome learning obstacles.
+End-of-chapter problems reflecting contemporary key ideas to support your understanding of the topics based on the new reference rates.
+Whether you need an introductory guide to derivatives to support your existing knowledge in algebra and probability distributions, or useful study content to advance your understanding of stochastic processes, this must-have textbook will support your learning and understanding from theory to practice.
+
+","John Hull is the Maple Financial Professor of Derivatives and Risk Management at the Joseph L. Rotman School of Management, University of Toronto (UofT). In 2016, he was awarded the title of University Professor (an honour granted to only 2% of faculty at UofT). He has acted as a consultant to many financial institutions around the world and has won many teaching awards, including UofT's prestigious Northrop Frye Award.
+
+He is an internationally recognised authority on Derivatives and Risk Management and has many publications in this area. His work has an applied focus, with his research and teaching activities including risk management, regulation and machine learning, as well as derivatives. He is co-director of Rotman's Master in Finance and Master in Financial Risk Management Programs.",2021,Business & Finance,37.jpg,options_futures_and_derivatives.pdf
+978-1634624091,"AI for Data Science: Artificial Intelligence Frameworks and Functionality for Deep Learning, Optimization, and Beyond","Dr Zacharias Voulgaris Ph.D., Yunus Emrah Bulut","Master the approaches and principles of Artificial Intelligence (AI) algorithms, and apply them to Data Science projects with Python and Julia code.
+
+Aspiring and practicing Data Science and AI professionals, along with Python and Julia programmers, will practice numerous AI algorithms and develop a more holistic understanding of the field of AI, and will learn when to use each framework to tackle projects in our increasingly complex world.
+
+The first two chapters introduce the field, with Chapter 1 surveying Deep Learning models and Chapter 2 providing an overview of algorithms beyond Deep Learning, including Optimization, Fuzzy Logic, and Artificial Creativity.
+
+The next chapters focus on AI frameworks; they contain data and Python and Julia code in a provided Docker, so you can practice. Chapter 3 covers Apache's MXNet, Chapter 4 covers TensorFlow, and Chapter 5 investigates Keras. After covering these Deep Learning frameworks, we explore a series of optimization frameworks, with Chapter 6 covering Particle Swarm Optimization (PSO), Chapter 7 on Genetic Algorithms (GAs), and Chapter 8 discussing Simulated Annealing (SA).
+
+Chapter 9 begins our exploration of advanced AI methods, by covering Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs). Chapter 10 discusses optimization ensembles and how they can add value to the Data Science pipeline.
+
+Chapter 11 contains several alternative AI frameworks including Extreme Learning Machines (ELMs), Capsule Networks (CapsNets), and Fuzzy Inference Systems (FIS).
+
+Chapter 12 covers other considerations complementary to the AI topics covered, including Big Data concepts, Data Science specialization areas, and useful data resources to experiment on.
+
+A comprehensive glossary is included, as well as a series of appendices covering Transfer Learning, Reinforcement Learning, Autoencoder Systems, and Generative Adversarial Networks. There is also an appendix on the business aspects of AI in data science projects, and an appendix on how to use the Docker image to access the book's data and code.
+
+The field of AI is vast, and can be overwhelming for the newcomer to approach. This book will arm you with a solid understanding of the field, plus inspire you to explore further.","Dr. Zacharias Voulgaris was born in Athens, Greece. He studied Production Engineering and Management at the Technical University of Crete, shifted to Computer Science through a Masters in Information Systems & Technology, and then to Data Science through a PhD on machine learning. He has worked at Georgia Tech as a Research Fellow, at an e-marketing startup in Cyprus as an SEO manager, and as a Data Scientist in both Elavon (GA) and G2 Web Services (WA). He also was a Program Manager at Microsoft, on a data analytics pipeline for Bing. Zacharias has authored several books on Data Science, mentors aspiring data scientists through Thinkful, and maintains a Data Science / AI blog.
+
+Yunus Emrah Bulut was born in Amasya, Turkey. After he studied Computer Science in Bilkent University, he has worked as a computer scientist at several corporations including Turkeys biggest telecom operator and the Central Bank of Turkey. After he completed his Master of Science degree at the Economics department of the Middle East Technical University (METU), he worked several years in the research department of the Central Bank of Turkey as a research economist. More recently, he has started to work as a Data Science consultant for companies in Turkey and USA. He is also a Data Science instructor at Datajarlabs and Data Science mentor in Thinkful.",2018,Computer Science & Technology,38.jpg,ai_for_data_science.pdf
+978-0987122827,Quant Job Interview Questions and Answers,"Mark Joshi, Nicholas Denson, Andrew Downes","The quant job market has never been tougher. Extensive preparation is essential. Expanding on the successful first edition, this second edition has been updated to reflect the latest questions asked. It now provides over 300 interview questions taken from actual interviews in the City and Wall Street. Each question comes with a full detailed solution, discussion of what the interviewer is seeking and possible follow-up questions. Topics covered include option pricing, probability, mathematics, numerical algorithms and C++, as well as a discussion of the interview process and the non-technical interview. All three authors have worked as quants and they have done many interviews from both sides of the desk. Mark Joshi has written many papers and books including the very successful introductory textbook, ""The Concepts and Practice of Mathematical Finance.""",,2013,Business & Finance,39.jpg,quant_job_interview_qa.pdf
