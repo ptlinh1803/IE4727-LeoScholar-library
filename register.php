@@ -16,13 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Prepare current timestamp
   $created_at = date("Y-m-d H:i:s");
 
-  // Hash the password for security
-  $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+  // Hash the password with md5
+  $password = md5($password);
 
   // Insert data into database
   $sql = "INSERT INTO users (name, email, password, phone, university_id, created_at) VALUES (?, ?, ?, ?, ?, ?)";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("ssssss", $name, $email, $hashed_password, $phone, $university_id, $created_at);
+  $stmt->bind_param("ssssss", $name, $email, $assword, $phone, $university_id, $created_at);
 
   if ($stmt->execute()) {
     // Success message and redirect
