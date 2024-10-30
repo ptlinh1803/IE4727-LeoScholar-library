@@ -21,13 +21,23 @@
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ss", $email, $password);
 
-    if($stmt->execute()) {
-      // Assign the session with their user ID
-      $stmt->bind_result($user_id);
-      $_SESSION['user_id'] = $user_id;
-      // Redirect the user to home page
-      header("Location: homepage-member.html");
-    } else {
+    if ($stmt->execute()) {
+      // Store the result to check the number of rows
+      $stmt->store_result();
+      
+      if ($stmt->num_rows > 0) {
+          // Bind the result and assign it to the session if a match is found
+          $stmt->bind_result($user_id);
+          $stmt->fetch();
+          $_SESSION['user_id'] = $user_id;
+  
+          // Redirect the user to the home page
+          header("Location: homepage-member.html");
+      } else {
+          // Alert if no matching entry is found
+          echo "<script>alert('No matching user found. Please check your credentials.'); window.history.back();</script>";
+      }
+  } else {
       // Error handling
       echo "<script>alert('Error: " . $stmt->error . "'); window.history.back();</script>";
   }
