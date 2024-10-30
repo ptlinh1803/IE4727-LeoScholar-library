@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS books (
     audio_file_path VARCHAR(255) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_books_isbn (isbn),
-    FULLTEXT idx_books_search (title, author, description) -- Add this for better full-text search matching
+    FULLTEXT idx_books_search (title, author, description, category) -- Add this for better full-text search matching
 );
 
 -- Favourite_Books table
@@ -84,6 +84,7 @@ CREATE TABLE IF NOT EXISTS book_availability (
     book_id INT NOT NULL,
     branch_id INT NOT NULL,
     available_copies INT DEFAULT 0,
+    shelf VARCHAR(10),
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
     FOREIGN KEY (branch_id) REFERENCES branches(branch_id) ON DELETE CASCADE
 );

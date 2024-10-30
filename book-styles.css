@@ -1,0 +1,355 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+.left-side {
+  width: 15%;
+  background: linear-gradient(to bottom, #71739f, #e8a66c);
+  position: relative; /* Make this relative to position the book cover within */
+}
+
+.right-side {
+  width: 85%;
+  /* padding: 2rem 10rem; */
+  padding: 50px 60px 50px 160px;
+  background-color: #f3f3f7;
+  overflow-y: auto;
+}
+
+.back-button {
+  display: inline-block;
+  color: #fff; /* White text color */
+  text-decoration: none;
+  font-size: 14px;
+  padding: 16px 16px;
+  background-color: transparent; /* No background color */
+  border: none; /* No border */
+  cursor: pointer;
+}
+
+.back-button:hover {
+  text-decoration: underline; /* Underline on hover for effect */
+}
+
+.book-cover {
+  position: absolute;
+  top: 50px;
+  right: -125px;
+  z-index: 5;
+}
+
+.book-cover img {
+  width: 250px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-title {
+  margin-top: 0; /* Adjust to ensure title aligns with the cover image */
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.heart-icon {
+  cursor: pointer;
+  margin-left: 20px;
+  font-size: 25px;
+  color: #ccc; /* Gray color for unfilled heart */
+}
+
+.heart-icon.active {
+  color: red; /* Red color for filled heart */
+}
+
+.book-info-container {
+  display: flex;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.part-one {
+  width: 40%;
+  padding: 0 15px 0 0;
+  box-sizing: border-box;
+}
+
+.part-two {
+  width: 60%;
+  padding: 15px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+/* Columns in Part 1 */
+.part-one .info-column {
+  width: 45%;
+  float: left;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.part-one .info-column h4 {
+  margin-top: 0;
+  color: #4d4d4d;
+}
+
+.part-one .info-column div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+  color: #4d4d4d;
+}
+
+.part-one img {
+  width: 14px;
+  height: 14px;
+}
+
+.loan-button {
+  width: 70%;
+  padding: 10px;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  margin-top: 25px;
+}
+
+.loan-button {
+  background-color: #ef7c00;
+}
+
+.button-group {
+  display: flex;
+  width: 70%; /* Control width of the button container */
+  margin-top: 32px;
+}
+
+.part-one .info-column .button-group {
+  margin-bottom: 0;
+  gap: 0;
+}
+
+.info-column a {
+  text-decoration: none;
+  color: #ee3124;
+}
+
+.info-column a:hover {
+  cursor: pointer;
+}
+
+.read-button,
+.listen-button {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  color: white;
+}
+
+.read-button {
+  background-color: #11155e;
+  border-radius: 5px 0 0 5px; /* Rounded on left, straight on right */
+}
+
+.listen-button {
+  background-color: #d71440;
+  border-radius: 0 5px 5px 0; /* Straight on left, rounded on right */
+}
+
+.part-two h3 {
+  margin-top: 0;
+  margin-bottom: 8;
+  color: #4d4d4d;
+}
+
+.book-details-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.table-row {
+  display: flex;
+  margin-bottom: 8px;
+}
+
+.table-header {
+  font-weight: bold;
+  width: 150px; /* Fixed width for consistent header alignment */
+  flex-shrink: 0; /* Prevents shrinking to keep the width consistent */
+  color: #4d4d4d;
+}
+
+.table-cell {
+  flex: 1;
+  overflow-wrap: break-word;
+  text-align: left;
+  color: #4d4d4d;
+}
+
+.description {
+  padding: 0;
+  margin-top: 10px;
+}
+
+.description h2,
+.about-author h2 {
+  color: #ef7c00;
+  font-size: 20px; /* Set your desired font size */
+  text-align: left; /* Left align the heading */
+  margin-bottom: 10px; /* Distance between h2 and p */
+}
+
+.description p,
+.about-author p {
+  text-align: left; /* Left align the paragraph text */
+  color: #4d4d4d;
+  font-size: 13px;
+  max-height: calc(3 * 1.2em); /* Limit the height of the text */
+  line-height: 1.2em;
+  overflow: hidden;
+  transition: max-height 0.3s ease; /* Smooth transition */
+}
+
+.about-author {
+  background-color: white; /* White background */
+  border-radius: 10px; /* Rounded corners */
+  padding: 15px; /* Padding for the div */
+  margin-top: 20px; /* Space between the two divs */
+}
+
+#see-more-author {
+  color: #11155e; /* Set your desired color */
+  display: none; /* Initially hidden */
+  cursor: pointer;
+}
+
+#see-more-description {
+  color: #11155e; /* Set your desired color */
+  display: none; /* Initially hidden */
+  cursor: pointer;
+}
+
+.similar-books {
+  margin-top: 30px;
+}
+
+.similar-books h2 {
+  color: #d71440;
+  font-size: 22px; /* Set your desired font size */
+  text-align: left; /* Left align the heading */
+  margin-bottom: 10px; /* Distance between h2 and p */
+}
+
+.similar-books .books-grid {
+  margin-top: 30px;
+  margin-left: 0;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+/* -----------LOAN FORM----------------- */
+/* Form Container */
+.form-container {
+  display: none; /* Hidden by default */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  font-family: "Inter", sans-serif;
+  margin-top: 20px;
+  width: 450px;
+}
+
+.form-container div {
+  margin-bottom: 15px;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="date"],
+.form-container select {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#actionButton {
+  background-color: #11155e;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#actionButton.reserve {
+  background-color: #ef7c00;
+}
+
+#resetButton {
+  color: black;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#resetButton:hover {
+  background-color: #ee3124;
+  color: white;
+}
+
+/*---------- Availability table ------------------*/
+.availability-table {
+  display: none;
+  padding: 20px 0;
+}
+
+.availability-table table {
+  width: 100%; /* Full width of the parent container */
+  border-collapse: collapse; /* Combine borders for a cleaner look */
+}
+
+.availability-table th,
+.availability-table td {
+  padding: 10px; /* Space within each cell */
+  text-align: left; /* Align text to the left */
+  border: 1px solid #dddddd; /* Light gray border for cells */
+}
+
+.availability-table th {
+  background-color: #f2f2f2; /* Light gray background for header */
+  font-weight: bold; /* Bold text for header */
+}
+
+.availability-table tr:hover {
+  background-color: #e0e0e0; /* Highlight row on hover */
+}
