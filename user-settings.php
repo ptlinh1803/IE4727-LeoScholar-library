@@ -4,7 +4,7 @@ session_start(); // Start the session
 // Check if the session ID is set
 if (!isset($_SESSION['user_id'])) {
     // If not set, display the message
-    echo "<img src='img/ui/nothing-here.png' alt='Nothing here' />";
+    echo "<img src='img/ui/nothing-here.png' alt='Nothing here' style='width: auto; height: 100%;'/>";
     exit; // Stop further script execution
 }
 
