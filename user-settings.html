@@ -65,7 +65,7 @@
   <section id="settings-section">
     <!-- Fav Category Section: Disply fav-categories as the default-->
     <div id="fav-categories" class="section" style="display: none">
-      <h2>Select Your Favorite Categories</h2>
+      <h2 class="form-heading">Select Your Favorite Categories</h2>
       <div class="category-list">
         <label>
           <input type="checkbox" class="category-checkbox" value="Mathematics & Statistics" />
@@ -79,8 +79,37 @@
           <input type="checkbox" class="category-checkbox" value="Computer Science & Technology" />
           Computer Science & Technology
         </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Humanities & Social Science" />
+          Humanities & Social Science
+        </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Business & Finance" />
+          Business & Finance
+        </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Medicine" />
+          Medicine
+        </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Literature & Language" />
+          Literature & Language
+        </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Art & Design" />
+          Art & Design
+        </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Engineering" />
+          Engineering
+        </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Fiction & Novels" />
+          Fiction & Novels
+        </label>
       </div>
-      <button id="save-categories-button" onclick="displaySelectedCategories()">Save Selected Categories</button>
+      <button id="save-categories-button" class="settings-submit-button"
+        onclick="displaySelectedCategories()">Submit</button>
       <div id="selected-categories"></div>
     </div>
 
@@ -122,7 +151,7 @@
             <td><input type="text" id="phone" name="phone" value="123-456-7890"></td>
           </tr>
         </table>
-        <button type="submit" class="submit-button">Submit</button>
+        <button type="submit" class="settings-submit-button">Submit</button>
       </form>
     </div>
 
@@ -148,7 +177,7 @@
             <td><input type="password" id="confirm-new-password" name="confirm-new-password" required></td>
           </tr>
         </table>
-        <button type="submit" class="submit-button">Submit</button>
+        <button type="submit" class="settings-submit-button">Submit</button>
       </form>
     </div>
   </section>

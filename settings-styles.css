@@ -47,6 +47,22 @@
 
 .section {
   width: 100%;
+  align-items: center;
+}
+
+.settings-submit-button {
+  background-color: #ee3124;
+  /* Background color */
+  border: none;
+  border-radius: 10%;
+  /* Makes the button circular */
+  width: 80px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: auto;
 }
 
 /* Stylings for forms: Personal Info and Change Password */
