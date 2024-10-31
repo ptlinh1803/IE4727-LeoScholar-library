@@ -217,20 +217,32 @@ if (!empty($_GET['book_id'])) {
           // User has already reserved this book at this branch
           $_SESSION['alert'] = "You have already borrowed this book from this branch.";
         } else {
-          // Insert into loans table
-          $stmt = $conn->prepare("INSERT INTO loans (user_id, book_id, branch_id, loan_date, due_date) VALUES (?, ?, ?, ?, ?)");
-          $stmt->bind_param("iiiss", $user_id, $book_id, $branch_id, $from_date, $to_date);
+          // Check user's existing loans count
+          $stmt = $conn->prepare("SELECT COUNT(*) AS loan_count FROM loans WHERE user_id = ?");
+          $stmt->bind_param("i", $user_id);
           $stmt->execute();
-
-          // Update available copies
-          $stmt = $conn->prepare("UPDATE book_availability SET available_copies = available_copies - 1 WHERE book_id = ? AND branch_id = ?");
-          $stmt->bind_param("ii", $book_id, $branch_id);
-          $stmt->execute();
-
+          $stmt->bind_result($loan_count);
+          $stmt->fetch();
           $stmt->close();
 
-          $_SESSION['alert'] = "Loan successful.";  
+          if ($loan_count >= 10) {
+            // User has reached the loan limit
+            $_SESSION['alert'] = "You have reached the loan limit of 10 books.";
+          } else {
+            // Insert into loans table
+            $stmt = $conn->prepare("INSERT INTO loans (user_id, book_id, branch_id, loan_date, due_date) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("iiiss", $user_id, $book_id, $branch_id, $from_date, $to_date);
+            $stmt->execute();
 
+            // Update available copies
+            $stmt = $conn->prepare("UPDATE book_availability SET available_copies = available_copies - 1 WHERE book_id = ? AND branch_id = ?");
+            $stmt->bind_param("ii", $book_id, $branch_id);
+            $stmt->execute();
+
+            $stmt->close();
+
+            $_SESSION['alert'] = "Loan successful.";  
+          }
         }
       } else {
         // Check if the user already has a reservation for this book at this branch
@@ -727,10 +739,12 @@ if (!empty($_GET['book_id'])) {
           const fromDateValue = new Date(fromDate.value);
           const maxEndDate = new Date(fromDateValue);
           maxEndDate.setDate(maxEndDate.getDate() + 14); // To date cannot exceed 14 days from "From" date
+          const minEndDate = new Date(fromDateValue);
+          minEndDate.setDate(minEndDate.getDate() + 1);
 
-          if (new Date(toDate.value) < minFromDate) {
+          if (new Date(toDate.value) < minEndDate) {
             toDate.setCustomValidity(
-              "To date must be at least 1 day from today."
+              "To date must be at least 1 day from the selected From date."
             );
             toDate.reportValidity();
           } else if (new Date(toDate.value) > maxEndDate) {
