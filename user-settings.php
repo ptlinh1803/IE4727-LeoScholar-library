@@ -78,46 +78,7 @@ if (isset($_SESSION['message'])) {
       <h2 class="form-heading">Select Your Favorite Categories</h2>
       <form method="POST" action="update-fav-categories.php" id="update-category-form"
         class="category-list form-container" onsubmit="return confirmUpdateCategories()">
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Mathematics & Statistics" />
-          Mathematics & Statistics
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Natural Sciences" />
-          Natural Sciences
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Computer Science & Technology" />
-          Computer Science & Technology
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Humanities & Social Science" />
-          Humanities & Social Science
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Business & Finance" />
-          Business & Finance
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Medicine" />
-          Medicine
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Literature & Language" />
-          Literature & Language
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Art & Design" />
-          Art & Design
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Engineering" />
-          Engineering
-        </label>
-        <label>
-          <input type="checkbox" class="category-checkbox" value="Fiction & Novels" />
-          Fiction & Novels
-        </label>
+        <?php include "initial-fav-categories.php" ?>
         <button id="save-categories-button" class="settings-submit-button" onclick="">Submit</button>
       </form>
     </div>
