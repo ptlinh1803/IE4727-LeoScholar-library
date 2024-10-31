@@ -53,3 +53,75 @@
   color: #333;
   text-decoration: underline;
 }
+
+.status-green {
+  background-color: aquamarine;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.status-yellow {
+  background-color: #f2ac42;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.status-red {
+  background-color: #ea324c;
+  border-radius: 20px;
+  padding: 5px 10px;
+  color: white;
+  font-size: 14px;
+}
+
+.shelf-action-button {
+  width: 100%;
+  margin: 5px 0; /* Space between buttons */
+  font-family: "Inter", sans-serif;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.return {
+  border: 1px solid #ef7c00;
+  color: #ef7c00;
+  background-color: white;
+}
+
+.return:hover {
+  color: white;
+  background-color: #ef7c00;
+}
+
+.cancel {
+  border: 1px solid #ee3124;
+  color: #ee3124;
+  background-color: white;
+}
+
+.cancel:hover {
+  color: white;
+  background-color: #ee3124;
+}
+
+.acknowledge {
+  border: 1px solid #11155e;
+  color: #11155e;
+  background-color: white;
+}
+
+.acknowledge:hover {
+  color: white;
+  background-color: #11155e;
+}
+
+.action-form {
+  display: flex; /* Use flexbox to align items */
+  justify-content: flex-start; /* Align items to the left */
+  margin: 0; /* Remove default margin */
+}
