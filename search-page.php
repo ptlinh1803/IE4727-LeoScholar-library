@@ -167,6 +167,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="search-styles.css" />
+    <script src="logout_confirmation.js" defer></script>
   </head>
   <body>
     <!-- Navbar -->
@@ -189,9 +190,9 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
             <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
           </a>
           <div class="dropdown-content">
-            <a href="user-settings.html">Settings</a>
+            <a href="user-settings.php">Settings</a>
             <a href="#">Payment</a>
-            <a href="#">Logout</a>
+            <a href="#" onclick="confirmLogout()">Logout</a>
           </div>
         </div>
       </div>

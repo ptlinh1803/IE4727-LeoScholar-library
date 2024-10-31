@@ -4,11 +4,10 @@ session_start(); // Start the session
 // Check if the session ID is set
 if (!isset($_SESSION['user_id'])) {
     // If not set, display the message
-    echo "<<img src="img/ui/nothing-here.png" alt="Nothing here" />";
+    echo "<img src='img/ui/nothing-here.png' alt='Nothing here' />";
     exit; // Stop further script execution
 }
 
-// Rest of your page code goes here
 ?>
 
 <!-- The script borrows a lot of styles from search-styles.css-->
@@ -23,6 +22,7 @@ if (!isset($_SESSION['user_id'])) {
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="search-styles.css" />
   <link rel="stylesheet" href="settings-styles.css" />
+  <script src="logout_confirmation.js" defer></script>
   <script src="validateUserSettings.js" defer></script>
   <script src="settings-confirmation.js" defer></script>
 </head>
@@ -56,9 +56,9 @@ if (isset($_SESSION['message'])) {
           <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
         </a>
         <div class="dropdown-content">
-          <a href="user-settings.html" class="active-page">Settings</a>
+          <a href="user-settings.php" class="active-page">Settings</a>
           <a href="#">Payment</a>
-          <a href="#">Logout</a>
+          <a href="#" onclick="confirmLogout()">Logout</a>
         </div>
       </div>
     </div>
