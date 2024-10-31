@@ -34,11 +34,12 @@ if (!isset($_SESSION['user_id'])) {
   $get_borrowed_books_query = "
       SELECT 
           b.book_id,
-          l.branch_id,
           b.title,
           b.cover_path,
           br.university_id,
           br.branch_name,
+          l.loan_id,
+          l.branch_id,
           l.loan_date,
           l.due_date,
           l.return_date,
@@ -65,6 +66,45 @@ if (!isset($_SESSION['user_id'])) {
     }
   } else {
     $no_loan_message = "You haven't borrowed any books.";
+  }
+
+  $stmt->close();
+
+
+  // Get reserved books---------------------------------
+  $get_reserved_books_query = "
+      SELECT 
+          b.book_id,
+          b.title,
+          b.cover_path,
+          br.university_id,
+          br.branch_name,
+          r.reservation_id,
+          r.branch_id,
+          r.reservation_date,
+          r.status
+      FROM 
+          reservations r
+      JOIN 
+          books b ON r.book_id = b.book_id
+      JOIN 
+          branches br ON r.branch_id = br.branch_id
+      WHERE 
+          r.user_id = ?;
+    ";
+
+  $stmt = $conn->prepare($get_reserved_books_query);
+  $stmt->bind_param("i", $user_id); // Bind user_id as an integer
+  $stmt->execute();
+  $reserved_books_result = $stmt->get_result();
+
+  $reserved_books = [];
+  if ($reserved_books_result->num_rows > 0) {
+    while ($book_row = $reserved_books_result->fetch_assoc()) {
+        $reserved_books[] = $book_row;
+    }
+  } else {
+    $no_reserve_message = "You haven't reserved any books.";
   }
 
   $stmt->close();
@@ -138,6 +178,7 @@ if (!isset($_SESSION['user_id'])) {
         </div>
       </div>
       <div class="right-side">
+        <!-- ----------------------FAVOURITE BOOKS-------------------------- -->
         <div id="favourite-books" class="shelf-section">
           <h2>Your Favourite Books</h2>
           <?php if (!empty($favourite_books)) { ?>
@@ -168,6 +209,7 @@ if (!isset($_SESSION['user_id'])) {
           <?php } ?>
         </div>
 
+        <!-- ----------------------BORROWED BOOKS-------------------------- -->
         <div id="borrowed-books" class="shelf-section" style="display: none">
           <h2>Your Borrowed Books</h2>
           <?php if (!empty($borrowed_books)) { ?>
@@ -185,7 +227,6 @@ if (!isset($_SESSION['user_id'])) {
                 </tr>
               </thead>
               <tbody>
-                <!-- Example Row -->
                 <?php foreach ($borrowed_books as $book) { ?>
                   <tr onclick="redirectToBookDetails(<?php echo $book['book_id']; ?>)">
                     <td headers="cover-col">
@@ -264,78 +305,113 @@ if (!isset($_SESSION['user_id'])) {
           <?php } ?>
         </div>
 
+
+        <!-- ----------------------RESERVED BOOKS-------------------------- -->
         <div id="reserved-books" class="shelf-section" style="display: none">
           <h2>Your Reserved Books</h2>
-          <table class="book-table">
-            <thead>
-              <tr>
-                <th id="cover-col"></th>
-                <th id="title-col">Title</th>
-                <th id="branch-col">Branch</th>
-                <th id="reserved-on-col">Reserved on</th>
-                <th id="avail-col">Availability</th>
-                <th id="status-col">Status</th>
-                <th id="action-col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Example Row -->
-              <tr onclick="redirectToBookDetails(1)">
-                <td headers="cover-col">
-                  <img
-                    src="img/books/4.jpg"
-                    alt="Book Cover"
-                    class="book-cover"
-                  />
-                </td>
-                <td headers="title-col">
-                  Introduction to Mathematical Statistics
-                </td>
-                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
-                <td headers="reserved-on-col">31/10/2024</td>
-                <td headers="avail-col">Not available</td>
-                <td headers="status-col">
-                  <span class="status-yellow">Pending</span>
-                </td>
-                <td>
-                  <form
-                    action=""
-                    method="POST"
-                    onsubmit="return confirm('Please note that even after you acknowledge, you still need to loan the book separately. Would you like to proceed?');"
-                    class="action-form"
-                  >
-                    <input type="hidden" name="book_id" value="" />
-                    <input type="hidden" name="user_id" value="" />
-                    <!-- Replace with actual user ID -->
-                    <button
-                      type="submit"
-                      class="shelf-action-button acknowledge"
-                      onclick="event.stopPropagation();"
-                    >
-                      Loan now
-                    </button>
-                  </form>
-                  <form
-                    action=""
-                    method="POST"
-                    onsubmit="return confirm('Are you sure you want cancel this reservation?');"
-                    class="action-form"
-                  >
-                    <input type="hidden" name="book_id" value="" />
-                    <input type="hidden" name="user_id" value="" />
-                    <!-- Replace with actual user ID -->
-                    <button
-                      type="submit"
-                      class="shelf-action-button cancel"
-                      onclick="event.stopPropagation();"
-                    >
-                      Cancel
-                    </button>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <?php if (!empty($reserved_books)) { ?>
+            <table class="book-table">
+              <thead>
+                <tr>
+                  <th id="cover-col"></th>
+                  <th id="title-col">Title</th>
+                  <th id="branch-col">Branch</th>
+                  <th id="reserved-on-col">Reserved on</th>
+                  <th id="avail-col">Availability</th>
+                  <th id="status-col">Status</th>
+                  <th id="action-col"></th>
+                </tr>
+              </thead>
+              <tbody>
+              <?php foreach ($reserved_books as $book) { ?>
+                  <tr onclick="redirectToBookDetails(<?php echo $book['book_id']; ?>)">
+                    <td headers="cover-col">
+                      <img
+                        src="img/books/<?php echo $book['cover_path']; ?>"
+                        alt="Book Cover"
+                        class="book-cover"
+                      />
+                    </td>
+                    <td headers="title-col">
+                      <?php echo htmlspecialchars($book['title']); ?>
+                    </td>
+                    <td headers="branch-col">
+                      <?php echo htmlspecialchars($book['university_id']); ?> - <?php echo htmlspecialchars($book['branch_name']); ?>
+                    </td>
+                    <td headers="reserved-on-col">
+                      <?php echo !empty($book['reservation_date']) ? htmlspecialchars($book['reservation_date']) : ''; ?>
+                    </td>
+                    <td headers="avail-col">Not available</td>
+                    <td headers="status-col">
+                      <?php
+                        $status = $book['status'];
+                        $class = '';
+
+                        // Determine the class based on the status
+                        if ($status === 'fulfilled') {
+                            $class = 'status-green';
+                        } elseif ($status === 'pending') {
+                            $class = 'status-yellow';
+                        } elseif ($status === 'cancelled') {
+                            $class = 'status-red';
+                        }
+                      ?>
+                      <span class="<?php echo $class; ?>"><?php echo ucfirst(htmlspecialchars($status)); ?></span>
+                    </td>
+                    <td>
+                      <form
+                        action=""
+                        method="POST"
+                        onsubmit="return confirm('Please note that even after you acknowledge, you still need to loan the book separately. Would you like to proceed?');"
+                        class="action-form"
+                      >
+                        <input type="hidden" name="book_id" value="" />
+                        <input type="hidden" name="user_id" value="" />
+                        <!-- Replace with actual user ID -->
+                        <button
+                          type="submit"
+                          class="shelf-action-button acknowledge"
+                          onclick="event.stopPropagation();"
+                        >
+                          Loan now
+                        </button>
+                      </form>
+                      <form
+                        action=""
+                        method="POST"
+                        onsubmit="return confirm('Are you sure you want cancel this reservation?');"
+                        class="action-form"
+                      >
+                        <input type="hidden" name="book_id" value="" />
+                        <input type="hidden" name="user_id" value="" />
+                        <!-- Replace with actual user ID -->
+                        <button
+                          type="submit"
+                          class="shelf-action-button cancel"
+                          onclick="event.stopPropagation();"
+                        >
+                          Cancel
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          <?php } else { ?> 
+            <div class="no-books-message">
+                <img src="img/ui/nothing-here.png" alt="Nothing here" />
+            </div>
+            <p style="text-align: center;">
+                <?php 
+                if (!isset($_SESSION['user_id'])) {
+                    echo htmlspecialchars($message);
+                } else {
+                    echo htmlspecialchars($no_reserve_message);
+                }
+                ?>
+            </p>
+          <?php } ?>
         </div>
       </div>
     </div>
