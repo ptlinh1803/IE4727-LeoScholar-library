@@ -1,3 +1,16 @@
+<?php
+session_start(); // Start the session
+
+// Check if the session ID is set
+if (!isset($_SESSION['user_id'])) {
+    // If not set, display the message
+    echo "<<img src="img/ui/nothing-here.png" alt="Nothing here" />";
+    exit; // Stop further script execution
+}
+
+// Rest of your page code goes here
+?>
+
 <!-- The script borrows a lot of styles from search-styles.css-->
 <!DOCTYPE html>
 <html lang="en">
