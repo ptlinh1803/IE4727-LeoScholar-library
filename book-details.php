@@ -2,7 +2,7 @@
 include 'db-connect.php';
 session_start();
 
-// Get all details from "books" table
+// Get all details from "books" table ------------------
 if (!empty($_GET['book_id'])) {
   $book_id = $_GET['book_id'];
 
@@ -24,8 +24,8 @@ if (!empty($_GET['book_id'])) {
 
   $stmt->close(); // Close the statement
 
-  // find similar books (same category)
   if (!empty($book)) {
+    // find similar books (same category) -------------------
     $get_similar_book = "
         SELECT * FROM books
         WHERE category = ? AND book_id != ?
@@ -50,6 +50,38 @@ if (!empty($_GET['book_id'])) {
     // Fetch the results into the array
     while ($row = $result->fetch_assoc()) {
         $similar_books[] = $row;
+    }
+
+    // Close the statement
+    $stmt->close();
+
+    // find book availability -------------------
+    $get_availability = " 
+      SELECT 
+          branches.university_id,
+          branches.branch_name,
+          branches.address,
+          book_availability.available_copies,
+          book_availability.shelf
+      FROM 
+          book_availability
+      JOIN 
+          branches ON book_availability.branch_id = branches.branch_id
+      WHERE 
+          book_availability.book_id = ?;
+    ";
+
+    $stmt = $conn->prepare($get_availability);
+    $stmt->bind_param("i", $book['book_id']);
+    $stmt->execute();
+    $avail_result = $stmt->get_result();
+
+    // Initialize the array for availability
+    $availability = [];
+
+    // Fetch the results into the array
+    while ($row = $avail_result->fetch_assoc()) {
+      $availability[] = $row;
     }
 
     // Close the statement
@@ -151,18 +183,38 @@ if (!empty($_GET['book_id'])) {
             </div>
             <div class="info-column">
               <h4>Available at</h4>
-              <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
-              <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
-              <!-- <div><img src="img/ui/map.png" alt="Uni Icon" /> And more</div> -->
-              <div>
-                <img src="img/ui/map.png" alt="Uni Icon" />
-                <a
-                  id="tableToggleButton"
-                  onclick="toggleTable(); return false;"
-                >
-                  More details
-                </a>
-              </div>
+              <?php if (empty($availability)) { ?>
+                <div><img src="img/ui/red-map.png" alt="Uni Icon" /><span style="color:red;">Not Available</span></div>
+                <div style="min-height: 18.5px;"></div>
+                <div style="min-height: 18.5px;"></div>
+              <?php } else {
+                $displayed_universities = []; // Initialize an array to track displayed university IDs
+                $display_count = 0; // Counter to track the number of displayed IDs
+                
+                foreach ($availability as $entry) {
+                    // Check if the university ID has already been displayed
+                    if (!in_array($entry['university_id'], $displayed_universities)) {
+                        echo '<div><img src="img/ui/map.png" alt="Uni Icon" /> ' . htmlspecialchars($entry['university_id']) . '</div>';
+                        
+                        // Add the displayed university ID to the tracking array
+                        $displayed_universities[] = $entry['university_id'];
+                        $display_count++; // Increment the display counter
+                
+                        // Stop once two unique IDs have been displayed
+                        if ($display_count >= 2) {
+                            break;
+                        }
+                    }
+                }
+
+                if (count($displayed_universities) < 2) {
+                  echo  '<div style="min-height: 18.5px;"></div>';
+                }
+                
+                // show details
+                echo '<div><img src="img/ui/map.png" alt="Uni Icon" /><a id="tableToggleButton" onclick="toggleTable(); return false;">More details</a></div>';
+               } ?>
+              
               <div class="button-group">
                 <button
                   class="read-button"
@@ -195,7 +247,7 @@ if (!empty($_GET['book_id'])) {
             <h3 class="part-two-heading">Book Details</h3>
             <div class="book-details-table">
               <div class="table-row">
-                <div class="table-header">Author:</div>
+                <div class="table-header">Author(s):</div>
                 <div class="table-cell">
                   <?php echo htmlspecialchars($book['author']); ?>
                 </div>
@@ -217,42 +269,32 @@ if (!empty($_GET['book_id'])) {
         </div>
 
         <!-- Table to show availability -->
-        <div class="availability-table">
-          <table>
-            <thead>
-              <tr>
-                <th>University</th>
-                <th>Branch</th>
-                <th>Address</th>
-                <th>Available Copies</th>
-                <th>Shelf</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>NTU</td>
-                <td>Communication & Information Library</td>
-                <td>NS3-03-01</td>
-                <td>3</td>
-                <td>OP F3-3</td>
-              </tr>
-              <tr>
-                <td>NUS</td>
-                <td>Central Library</td>
-                <td>12 Kent Ridge Crescent</td>
-                <td>1</td>
-                <td>YZ F3-1</td>
-              </tr>
-              <tr>
-                <td>SMU</td>
-                <td>Duda Family Business Library</td>
-                <td>6214 Bishop Boulevard</td>
-                <td>2</td>
-                <td>ST F2-4</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <?php if (!empty($availability)) { ?>
+          <div class="availability-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>University</th>
+                  <th>Branch</th>
+                  <th>Address</th>
+                  <th>Available Copies</th>
+                  <th>Shelf</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($availability as $row) { ?>
+                  <tr>
+                    <td><?php echo htmlspecialchars($row['university_id']); ?></td>
+                    <td><?php echo htmlspecialchars($row['branch_name']); ?></td>
+                    <td><?php echo htmlspecialchars($row['address']); ?></td>
+                    <td><?php echo htmlspecialchars($row['available_copies']); ?></td>
+                    <td><?php echo htmlspecialchars($row['shelf']); ?></td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
+        <?php } ?>
 
         <!-- Form for Borrowing -->
         <form
