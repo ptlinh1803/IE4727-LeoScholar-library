@@ -47,7 +47,7 @@ function validateField(field) {
   let errorMessage = '';
 
   switch (field.name) {
-    case 'settings-password':
+    case 'settings-new-password':
       isValid = validatePassword(value);
       errorMessage = 'Passwords must be at least 8 characters long and contain a number.';
       break;

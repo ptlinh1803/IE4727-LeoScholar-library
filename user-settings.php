@@ -172,16 +172,16 @@ if (isset($_SESSION['message'])) {
           </tr>
           <tr>
             <td>Current Password</td>
-            <td><input type="password" id="settings-current-password" name="password" required></td>
+            <td><input type="password" id="settings-current-password" name="settings-current-password" required></td>
           </tr>
           <tr>
             <td>New Password</td>
-            <td><input type="password" id="settings-new-password" name="settings-password" required
+            <td><input type="password" id="settings-new-password" name="settings-new-password" required
                 onchange="validateUpdatePassword()"></td>
           </tr>
           <tr>
             <td>Confirm New Password</td>
-            <td><input type="password" id="settings-confirm-new-password" name="settings-password" required
+            <td><input type="password" id="settings-confirm-new-password" name="settings-new-password" required
                 onchange="validateUpdatePassword()"></td>
           </tr>
         </table>
