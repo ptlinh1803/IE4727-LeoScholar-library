@@ -108,26 +108,46 @@
   /* Adjust form width as needed */
 }
 
+/* Additional stylings for tables */
 .table-container {
   width: 100%;
-  /* Table takes full width of the form */
   border-collapse: collapse;
-  /* Ensure borders are merged */
   margin: 0 auto;
+  border-radius: 8px;
+  /* Round corners */
+  overflow: hidden;
+  /* Ensures borders don't overflow */
 }
 
 th {
   text-align: center;
-  /* Centered headers */
   border: 1px solid #ddd;
-  /* Visible border for header cells */
+  background-color: #11155e;
+  /* Header background color */
+  color: #ffffff;
+  /* Header text color */
+  padding: 12px;
+  /* Increased padding */
+  font-size: 1.1em;
+  /* Slightly larger font size */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+  /* Light background for even rows */
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+  /* Highlight on hover */
 }
 
 td {
   border: 1px solid #ddd;
-  /* Visible border for data cells */
-  padding: 8px;
-  /* Padding for cells */
+  padding: 12px;
+  /* Increased padding */
+  font-size: 1em;
+  /* Consistent font size */
 }
 
 input[type="text"],

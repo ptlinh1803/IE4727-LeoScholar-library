@@ -19,3 +19,6 @@ function displaySelectedCategories() {
   const selectedCategoriesDiv = document.getElementById('selected-categories');
   selectedCategoriesDiv.innerHTML = 'Selected Categories: ' + selectedCategories.join(', ') || 'None';
 }
+
+// Show fav-categories by default
+document.addEventListener("DOMContentLoaded", showSection('fav-categories'));
