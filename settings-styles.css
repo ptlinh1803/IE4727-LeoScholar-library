@@ -11,15 +11,28 @@
   position: relative;
 }
 
-/* Setting Options section */
-/* Reused discover-category from search-page.html */
-.carousel {
+/* Setting Buttons section */
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Layout adopted from search-page.html so I need a container between settings-options and button-container */
+.button-container-container {
   display: flex;
   align-items: center;
-  padding-top: 20px;
   padding-bottom: 20px;
 }
 
+.button-container {
+  display: flex;
+  overflow: visible;
+  width: 100%;
+  /* Set a fixed width */
+}
+
+/* Show chosen settings section */
 .settings-section {
   background-color: #f3f3f7;
   width: 80%;
