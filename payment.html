@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeoScholar</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="search-styles.css" />
+    <link rel="stylesheet" href="payment-styles.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="homepage-member.php">
+        <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
+      </a>
+
+      <!-- Hamburger Menu Icon -->
+      <span class="menu-toggle">&#9776;</span>
+
+      <div class="nav-links">
+        <a href="homepage-member.php">Home</a>
+        <a href="#">Search</a>
+        <a href="#">My Shelf</a>
+        <a href="#">Contribute</a>
+        <div class="dropdown">
+          <a href="#" class="profile-link active-page">
+            Profile
+            <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
+          </a>
+          <div class="dropdown-content">
+            <a href="#">Settings</a>
+            <a href="#">Payment</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header for Payment Page -->
+    <header class="header-payment">
+      <h1>Payment</h1>
+    </header>
+
+    <!-- Container -->
+    <div class="container">
+      <div class="left-side">
+        <div class="shelf-subnav">
+          <a href="#" id="favourite-tab" class="tab-link active-tab">All</a>
+          <a href="#" id="borrowed-tab" class="tab-link">Pending</a>
+          <a href="#" id="reserved-tab" class="tab-link">Completed</a>
+        </div>
+      </div>
+      <div class="right-side">
+        <div id="favourite-books" class="shelf-section">
+          <h2>All Payments</h2>
+          <table class="book-table">
+            <thead>
+              <tr>
+                <th id="cover-col"></th>
+                <th id="title-col">Title</th>
+                <th id="branch-col">Branch</th>
+                <th id="reason-col">Overdue</th>
+                <th id="amount-col">Amount</th>
+                <th id="status-col">Status</th>
+                <th id="paid-col">Paid date</th>
+                <th id="action-col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Example Row -->
+              <tr onclick="redirectToBookDetails(1)">
+                <td headers="cover-col">
+                  <img
+                    src="img/books/4.jpg"
+                    alt="Book Cover"
+                    class="book-cover"
+                  />
+                </td>
+                <td headers="title-col">
+                  Introduction to Mathematical Statistics
+                </td>
+                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                <td headers="reason-col">3 days</td>
+                <td headers="amount-col">$2.00</td>
+                <td headers="status-col">
+                  <span class="status-yellow">Pending</span>
+                </td>
+                <td headers="paid-col"></td>
+                <td>
+                  <form
+                    action=""
+                    method="POST"
+                    onsubmit="return confirm('Are you sure you want to return this book?');"
+                  >
+                    <input type="hidden" name="book_id" value="" />
+                    <input type="hidden" name="user_id" value="" />
+                    <!-- Replace with actual user ID -->
+                    <button
+                      type="submit"
+                      class="shelf-action-button return"
+                      onclick="event.stopPropagation();"
+                    >
+                      Pay
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              <tr onclick="redirectToBookDetails(1)">
+                <td headers="cover-col">
+                  <img
+                    src="img/books/3.jpg"
+                    alt="Book Cover"
+                    class="book-cover"
+                  />
+                </td>
+                <td headers="title-col">
+                  Introduction to Mathematical Statistics
+                </td>
+                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                <td headers="reason-col">3 days</td>
+                <td headers="amount-col">$2.00</td>
+                <td headers="status-col">
+                  <span class="status-green">Completed</span>
+                </td>
+                <td headers="paid-col">31/10/2024</td>
+                <td>
+                  <form
+                    action=""
+                    method="POST"
+                    onsubmit="return confirm('Are you sure you want to return this book?');"
+                  >
+                    <input type="hidden" name="book_id" value="" />
+                    <input type="hidden" name="user_id" value="" />
+                    <!-- Replace with actual user ID -->
+                    <button
+                      type="submit"
+                      class="shelf-action-button return"
+                      onclick="event.stopPropagation();"
+                    >
+                      Pay
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="borrowed-books" class="shelf-section" style="display: none">
+          <h2>Your Pending Payments</h2>
+          <table class="book-table">
+            <thead>
+              <tr>
+                <th id="cover-col"></th>
+                <th id="title-col">Title</th>
+                <th id="branch-col">Branch</th>
+                <th id="reason-col">Overdue</th>
+                <th id="amount-col">Amount</th>
+                <th id="status-col">Status</th>
+                <th id="paid-col">Paid date</th>
+                <th id="action-col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Example Row -->
+              <tr onclick="redirectToBookDetails(1)">
+                <td headers="cover-col">
+                  <img
+                    src="img/books/4.jpg"
+                    alt="Book Cover"
+                    class="book-cover"
+                  />
+                </td>
+                <td headers="title-col">
+                  Introduction to Mathematical Statistics
+                </td>
+                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                <td headers="reason-col">3 days</td>
+                <td headers="amount-col">$2.00</td>
+                <td headers="status-col">
+                  <span class="status-yellow">Pending</span>
+                </td>
+                <td headers="paid-col"></td>
+                <td>
+                  <form
+                    action=""
+                    method="POST"
+                    onsubmit="return confirm('Are you sure you want to return this book?');"
+                  >
+                    <input type="hidden" name="book_id" value="" />
+                    <input type="hidden" name="user_id" value="" />
+                    <!-- Replace with actual user ID -->
+                    <button
+                      type="submit"
+                      class="shelf-action-button return"
+                      onclick="event.stopPropagation();"
+                    >
+                      Pay
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="reserved-books" class="shelf-section" style="display: none">
+          <h2>Your Completed Payments</h2>
+          <table class="book-table">
+            <thead>
+              <tr>
+                <th id="cover-col"></th>
+                <th id="title-col">Title</th>
+                <th id="branch-col">Branch</th>
+                <th id="reason-col">Overdue</th>
+                <th id="amount-col">Amount</th>
+                <th id="status-col">Status</th>
+                <th id="paid-col">Paid date</th>
+                <th id="action-col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Example Row -->
+              <tr onclick="redirectToBookDetails(1)">
+                <td headers="cover-col">
+                  <img
+                    src="img/books/3.jpg"
+                    alt="Book Cover"
+                    class="book-cover"
+                  />
+                </td>
+                <td headers="title-col">
+                  Introduction to Mathematical Statistics
+                </td>
+                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                <td headers="reason-col">3 days</td>
+                <td headers="amount-col">$2.00</td>
+                <td headers="status-col">
+                  <span class="status-green">Completed</span>
+                </td>
+                <td headers="paid-col">31/10/2024</td>
+                <td>
+                  <form
+                    action=""
+                    method="POST"
+                    onsubmit="return confirm('Are you sure you want to return this book?');"
+                  >
+                    <input type="hidden" name="book_id" value="" />
+                    <input type="hidden" name="user_id" value="" />
+                    <!-- Replace with actual user ID -->
+                    <button
+                      type="submit"
+                      class="shelf-action-button return"
+                      onclick="event.stopPropagation();"
+                    >
+                      Pay
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="footer">
+      <p>&copy; 2024 LeoScholar. All rights reserved.</p>
+    </footer>
+
+    <!-- Toggling nav-links on mobile -->
+    <script>
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".navbar").classList.toggle("active");
+        });
+    </script>
+
+    <!-- Sub nav -->
+    <script>
+      // Function to handle tab click
+      function openTab(selectedTab, sectionId) {
+        // Get all book sections
+        const sections = document.querySelectorAll(".shelf-section");
+
+        // Hide all sections
+        sections.forEach((section) => {
+          section.style.display = "none";
+        });
+
+        // Show the selected section
+        document.getElementById(sectionId).style.display = "block"; // Change to "block" for div
+
+        // Remove 'active-tab' class from all tab links
+        document.querySelectorAll(".tab-link").forEach((tab) => {
+          tab.classList.remove("active-tab");
+        });
+
+        // Add 'active-tab' class to the selected tab link
+        selectedTab.classList.add("active-tab");
+      }
+
+      // Default to showing the "favourite-books" section
+      document
+        .getElementById("favourite-tab")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          openTab(this, "favourite-books");
+        });
+
+      // Show "borrowed-books" section on click
+      document
+        .getElementById("borrowed-tab")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          openTab(this, "borrowed-books");
+        });
+
+      // Show "reserved-books" section on click
+      document
+        .getElementById("reserved-tab")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          openTab(this, "reserved-books");
+        });
+
+      // Show the "favourite-books" section by default on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        openTab(document.getElementById("favourite-tab"), "favourite-books");
+      });
+    </script>
+
+    <!-- Redirect to Book details page -->
+    <script>
+      function redirectToBookDetails(bookId) {
+        window.location.href = "book-details.php?book_id=" + bookId;
+      }
+    </script>
+  </body>
+</html>
