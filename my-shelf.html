@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeoScholar</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="search-styles.css" />
+    <link rel="stylesheet" href="my-shelf-styles.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="homepage-member.php">
+        <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
+      </a>
+
+      <!-- Hamburger Menu Icon -->
+      <span class="menu-toggle">&#9776;</span>
+
+      <div class="nav-links">
+        <a href="homepage-member.php">Home</a>
+        <a href="#">Search</a>
+        <a href="#" class="active-page">My Shelf</a>
+        <a href="#">Contribute</a>
+        <div class="dropdown">
+          <a href="#" class="profile-link active-page">
+            Profile
+            <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
+          </a>
+          <div class="dropdown-content">
+            <a href="#">Settings</a>
+            <a href="#">Payment</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header for Search Page -->
+    <header class="header-shelf">
+      <h1 class="big-blue-h1">My Shelf</h1>
+    </header>
+
+    <!-- Container -->
+    <div class="container">
+      <div class="left-side">
+        <div class="shelf-subnav">
+          <a href="#" id="favourite-tab" class="tab-link active-tab"
+            >Favourite</a
+          >
+          <a href="#" id="borrowed-tab" class="tab-link">Borrowed</a>
+          <a href="#" id="reserved-tab" class="tab-link">Reserved</a>
+        </div>
+      </div>
+      <div class="right-side">
+        <table id="favourite-books" class="book-table">
+          <thead>
+            <tr>
+              <th id="cover-col"></th>
+              <th id="title-col">Title</th>
+              <th id="author-col">Author</th>
+              <th id="category-col">Category</th>
+              <th id="format-col">Format</th>
+              <th id="availability-col">Available at</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example Row -->
+            <tr onclick="redirectToBookDetails(1)">
+              <td headers="cover-col">
+                <img
+                  src="img/books/1.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">
+                Introduction to Mathematical Statistics
+              </td>
+              <td headers="author-col">
+                Robert V. Hogg, Joseph W. McKean, Allen T. Craig
+              </td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Audio Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
+                  <div>
+                    <img src="img/ui/map.png" alt="Uni Icon" /> And more
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td headers="cover-col">
+                <img
+                  src="img/books/2.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">Linear Algebra and Its Applications</td>
+              <td headers="author-col">Gilbert Strang</td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> Audio
+                    Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td headers="cover-col">
+                <img
+                  src="img/books/3.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">Linear Algebra and Its Applications</td>
+              <td headers="author-col">Gilbert Strang</td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> Audio
+                    Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div>
+                    <img src="img/ui/red-map.png" alt="Uni Icon" /> Not
+                    Available
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table id="borrowed-books" class="book-table" style="display: none">
+          <thead>
+            <tr>
+              <th id="cover-col"></th>
+              <th id="title-col">Title</th>
+              <th id="author-col">Author</th>
+              <th id="category-col">Category</th>
+              <th id="format-col">Format</th>
+              <th id="availability-col">Available at</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example Row -->
+            <tr onclick="redirectToBookDetails(1)">
+              <td headers="cover-col">
+                <img
+                  src="img/books/4.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">
+                Introduction to Mathematical Statistics
+              </td>
+              <td headers="author-col">
+                Robert V. Hogg, Joseph W. McKean, Allen T. Craig
+              </td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Audio Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
+                  <div>
+                    <img src="img/ui/map.png" alt="Uni Icon" /> And more
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td headers="cover-col">
+                <img
+                  src="img/books/5.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">Linear Algebra and Its Applications</td>
+              <td headers="author-col">Gilbert Strang</td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> Audio
+                    Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td headers="cover-col">
+                <img
+                  src="img/books/6.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">Linear Algebra and Its Applications</td>
+              <td headers="author-col">Gilbert Strang</td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> Audio
+                    Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div>
+                    <img src="img/ui/red-map.png" alt="Uni Icon" /> Not
+                    Available
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table id="reserved-books" class="book-table" style="display: none">
+          <thead>
+            <tr>
+              <th id="cover-col"></th>
+              <th id="title-col">Title</th>
+              <th id="author-col">Author</th>
+              <th id="category-col">Category</th>
+              <th id="format-col">Format</th>
+              <th id="availability-col">Available at</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example Row -->
+            <tr onclick="redirectToBookDetails(1)">
+              <td headers="cover-col">
+                <img
+                  src="img/books/7.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">
+                Introduction to Mathematical Statistics
+              </td>
+              <td headers="author-col">
+                Robert V. Hogg, Joseph W. McKean, Allen T. Craig
+              </td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Audio Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
+                  <div>
+                    <img src="img/ui/map.png" alt="Uni Icon" /> And more
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td headers="cover-col">
+                <img
+                  src="img/books/8.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">Linear Algebra and Its Applications</td>
+              <td headers="author-col">Gilbert Strang</td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> Audio
+                    Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NTU</div>
+                  <div><img src="img/ui/map.png" alt="Uni Icon" /> NUS</div>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td headers="cover-col">
+                <img
+                  src="img/books/9.jpg"
+                  alt="Book Cover"
+                  class="book-cover"
+                />
+              </td>
+              <td headers="title-col">Linear Algebra and Its Applications</td>
+              <td headers="author-col">Gilbert Strang</td>
+              <td headers="category-col">Mathematics & Statistics</td>
+              <td headers="format-col">
+                <div class="format-column">
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> Hard Copy
+                  </div>
+                  <div>
+                    <img src="img/ui/check.png" alt="Available" /> E-book
+                  </div>
+                  <div>
+                    <img src="img/ui/cross.png" alt="Not Available" /> Audio
+                    Book
+                  </div>
+                </div>
+              </td>
+              <td headers="availability-col">
+                <div class="availability-column">
+                  <div>
+                    <img src="img/ui/red-map.png" alt="Uni Icon" /> Not
+                    Available
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="footer">
+      <p>&copy; 2024 LeoScholar. All rights reserved.</p>
+    </footer>
+
+    <!-- Toggling nav-links on mobile -->
+    <script>
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".navbar").classList.toggle("active");
+        });
+    </script>
+
+    <!-- Functions to handle tab clicks -->
+    <script>
+      // Function to handle tab click
+      function openTab(selectedTab, tableId) {
+        // Get all tables
+        const tables = document.querySelectorAll("table");
+
+        // Hide all tables
+        tables.forEach((table) => {
+          table.style.display = "none";
+        });
+
+        // Show the selected table
+        document.getElementById(tableId).style.display = "table";
+
+        // Remove 'active-tab' class from all tab links
+        document.querySelectorAll(".tab-link").forEach((tab) => {
+          tab.classList.remove("active-tab");
+        });
+
+        // Add 'active-tab' class to the selected tab link
+        selectedTab.classList.add("active-tab");
+      }
+
+      // Default to showing the "favourite-books" table
+      document
+        .getElementById("favourite-tab")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          openTab(this, "favourite-books");
+        });
+
+      // Show "borrowed-books" table on click
+      document
+        .getElementById("borrowed-tab")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          openTab(this, "borrowed-books");
+        });
+
+      // Show "reserved-books" table on click
+      document
+        .getElementById("reserved-tab")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          openTab(this, "reserved-books");
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+* {
+  box-sizing: border-box;
+}
+
+.header-shelf {
+  /* New header class for search page */
+  background: linear-gradient(45deg, #ffdfd1, #fe6d73);
+  padding: 20px; /* Smaller padding */
+  color: black;
+  min-height: 150px; /* Reduced header height */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  position: relative; /* Allow absolutely positioned children */
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+.left-side {
+  width: 13%;
+  background: white;
+  position: relative; /* Make this relative to position the book cover within */
+}
+
+.right-side {
+  width: 87%;
+  padding: 50px;
+  background-color: #f3f3f7;
+  overflow-y: auto;
+}
+
+.shelf-subnav a {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center vertically */
+  padding: 10px 15px; /* Padding for dropdown links */
+  color: #bbb; /* Text color for dropdown links */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold;
+  min-height: 60px;
+  padding-left: 30px;
+}
+
+.shelf-subnav a:hover {
+  background-color: #f0f0f0; /* Background on hover for dropdown links */
+  color: #333;
+}
+
+.shelf-subnav a.active-tab {
+  color: #333;
+  text-decoration: underline;
+}
