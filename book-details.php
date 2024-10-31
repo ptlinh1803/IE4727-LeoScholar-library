@@ -304,7 +304,7 @@ if (!empty($_GET['book_id'])) {
       <div class="nav-links">
         <a href="homepage-member.php">Home</a>
         <a href="search-page.php">Search</a>
-        <a href="#">My Shelf</a>
+        <a href="my-shelf.php">My Shelf</a>
         <a href="#">Contribute</a>
         <div class="dropdown">
           <a href="#" class="profile-link active-page">
