@@ -33,11 +33,53 @@
 }
 
 /* Show chosen settings section */
-.settings-section {
+#settings-section {
   background-color: #f3f3f7;
-  width: 80%;
+  width: 40%;
   margin: 20px auto 60px;
   padding: 10px 0;
   overflow-x: auto;
   /* Add horizontal scrolling if needed */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#form-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  /* Space below the heading */
+}
+
+#user-info-form {
+  width: 70%;
+  /* Adjust form width as needed */
+}
+
+#user-info-table {
+  width: 100%;
+  /* Table takes full width of the form */
+  border-collapse: collapse;
+  /* Ensure borders are merged */
+}
+
+th {
+  text-align: center;
+  /* Centered headers */
+  border: 1px solid #ddd;
+  /* Visible border for header cells */
+}
+
+td {
+  border: 1px solid #ddd;
+  /* Visible border for data cells */
+  padding: 8px;
+  /* Padding for cells */
+}
+
+input[type="text"] {
+  width: 100%;
+  /* Make input fields full width */
+  box-sizing: border-box;
+  /* Include padding and border in the width calculation */
 }

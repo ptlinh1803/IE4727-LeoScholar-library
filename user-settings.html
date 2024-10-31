@@ -51,15 +51,18 @@
     <h4>Select the user information that you want to see/update:</h4>
     <div class="button-container-container">
       <div class="button-container">
-        <button class="warm-gradient-button category-button">Favorite Categories</button>
-        <button class="warm-gradient-button category-button">Personal Information</button>
-        <button class="warm-gradient-button category-button">Change Password</button>
+        <button class="warm-gradient-button category-button" onclick="displayContent('fav-categories')">Favorite Book
+          Categories</button>
+        <button class="warm-gradient-button category-button" onclick="displayContent('personal-info')">Personal
+          Information</button>
+        <button class="warm-gradient-button category-button" onclick="displayContent('change-password')">Change
+          Password</button>
       </div>
     </div>
   </section>
 
   <!-- Show chosen user information section -->
-  <section class="book-section">
+  <section id="settings-section">
   </section>
 
   <!-- footer -->
@@ -75,6 +78,8 @@
         document.querySelector(".navbar").classList.toggle("active");
       });
   </script>
+
+  <script src="display-settings.js"></script>
 </body>
 
 </html>
