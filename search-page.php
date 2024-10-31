@@ -189,7 +189,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
             <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
           </a>
           <div class="dropdown-content">
-            <a href="#">Settings</a>
+            <a href="user-settings.html">Settings</a>
             <a href="#">Payment</a>
             <a href="#">Logout</a>
           </div>
