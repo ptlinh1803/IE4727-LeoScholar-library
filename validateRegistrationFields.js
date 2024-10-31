@@ -52,7 +52,7 @@ function validateIdenticalPasswords() {
 }
 
 
-// 2. Detect and apply the right validation function
+// 2. Detect and apply the right validation function, attach alert messages
 function validateField(field) {
   const value = field.value;
   let isValid = false;

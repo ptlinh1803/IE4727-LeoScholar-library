@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="search-styles.css" />
   <link rel="stylesheet" href="settings-styles.css" />
+  <script src="validateUserSettings.js" defer></script>
 </head>
 
 <body>
@@ -109,7 +110,6 @@
         </label>
       </div>
       <button id="save-categories-button" class="settings-submit-button" onclick="">Submit</button>
-      <div id="selected-categories"></div>
     </div>
 
 
@@ -124,7 +124,7 @@
           </tr>
           <tr>
             <td>Name</td>
-            <td><input type="text" id="name" name="name" value="John Doe"></td>
+            <td><input type="text" id="settings-name" name="name" value="John Doe" onchange="validateUpdateInfo()"></td>
           </tr>
           <tr>
             <td>Email</td>
@@ -140,10 +140,11 @@
           </tr>
           <tr>
             <td>Phone</td>
-            <td><input type="text" id="phone" name="phone" value="123-456-7890"></td>
+            <td><input type="text" id="settings-phone" name="phone" value="123-456-7890"
+                onchange="validateUpdateInfo()"></td>
           </tr>
         </table>
-        <button type="submit" class="settings-submit-button">Submit</button>
+        <button type="submit" class="settings-submit-button" id="submit-update-info">Submit</button>
       </form>
     </div>
 
@@ -158,18 +159,20 @@
           </tr>
           <tr>
             <td>Current Password</td>
-            <td><input type="password" id="current-password" name="current-password" required></td>
+            <td><input type="password" id="settings-current-password" name="password" required></td>
           </tr>
           <tr>
             <td>New Password</td>
-            <td><input type="password" id="new-password" name="new-password" required></td>
+            <td><input type="password" id="settings-new-password" name="password" required
+                onchange="validateUpdatePassword()"></td>
           </tr>
           <tr>
             <td>Confirm New Password</td>
-            <td><input type="password" id="confirm-new-password" name="confirm-new-password" required></td>
+            <td><input type="password" id="settings-confirm-new-password" name="password" required
+                onchange="validateUpdatePassword()"></td>
           </tr>
         </table>
-        <button type="submit" class="settings-submit-button">Submit</button>
+        <button type="submit" class="settings-submit-button" id="submit-update-password">Submit</button>
       </form>
     </div>
   </section>

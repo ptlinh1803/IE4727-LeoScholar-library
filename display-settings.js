@@ -6,19 +6,5 @@ function showSection(sectionId) {
   document.getElementById(sectionId).style.display = 'block'; // Show the selected section
 }
 
-function displaySelectedCategories() {
-  const checkboxes = document.querySelectorAll('.category-checkbox');
-  const selectedCategories = [];
-
-  checkboxes.forEach(checkbox => {
-    if (checkbox.checked) {
-      selectedCategories.push(checkbox.value);
-    }
-  });
-
-  const selectedCategoriesDiv = document.getElementById('selected-categories');
-  selectedCategoriesDiv.innerHTML = 'Selected Categories: ' + selectedCategories.join(', ') || 'None';
-}
-
 // Show fav-categories by default
 document.addEventListener("DOMContentLoaded", showSection('fav-categories'));
