@@ -2,6 +2,20 @@
 include 'db-connect.php';
 session_start();
 
+// Get all branches -------------------------
+$sql_list_branches = "SELECT * from branches;";
+$branches_results = $conn->query($sql_list_branches);
+
+if ($branches_results) {
+  $branches_list = [];
+  while ($row = $branches_results->fetch_assoc()) {
+      $branches_list[] = $row;
+  }
+} else {
+  // Handle query error
+  echo "Error: " . $conn->error;
+}
+
 // Get all details from "books" table ------------------
 if (!empty($_GET['book_id'])) {
   $book_id = $_GET['book_id'];
@@ -59,6 +73,7 @@ if (!empty($_GET['book_id'])) {
     $get_availability = " 
       SELECT 
           branches.university_id,
+          branches.branch_id,
           branches.branch_name,
           branches.address,
           book_availability.available_copies,
@@ -82,6 +97,12 @@ if (!empty($_GET['book_id'])) {
     // Fetch the results into the array
     while ($row = $avail_result->fetch_assoc()) {
       $availability[] = $row;
+    }
+
+    // Prepare the availability mapping
+    $availability_map = [];
+    foreach ($availability as $item) {
+        $availability_map[$item['branch_id']] = $item['available_copies'];
     }
 
     // Close the statement
@@ -395,9 +416,11 @@ if (!empty($_GET['book_id'])) {
             <label for="branch">Choose a branch to borrow from:</label>
             <select id="branch" onchange="updateAvailability()" required>
               <option value="">Select branch</option>
-              <option value="ntu">NTU</option>
-              <option value="nus">NUS</option>
-              <option value="smu">SMU</option>
+              <?php foreach ($branches_list as $branch) { ?>
+                <option value="<?php echo $branch['branch_id'] ?>">
+                  <?php echo $branch['university_id'] ?> - <?php echo $branch['branch_name'] ?>
+                </option>
+              <?php } ?>
             </select>
           </div>
 
@@ -638,9 +661,9 @@ if (!empty($_GET['book_id'])) {
 
         // Sample data for available copies
         const availability = {
-          ntu: 2,
-          nus: 3,
-          smu: 0,
+          <?php foreach ($availability_map as $branch_id => $copies): ?>
+            "<?php echo $branch_id; ?>": <?php echo $copies; ?>,
+          <?php endforeach; ?>
         };
 
         // Display available copies based on selected branch
