@@ -68,7 +68,8 @@
     <!-- Fav Category Section: Disply fav-categories as the default-->
     <div id="fav-categories" class="section" style="display: none">
       <h2 class="form-heading">Select Your Favorite Categories</h2>
-      <form id="update-category-form" class="category-list form-container" onsubmit="confirmUpdateCategories()">
+      <form method="POST" action="update-fav-categories.php" id="update-category-form"
+        class="category-list form-container" onsubmit="return confirmUpdateCategories()">
         <label>
           <input type="checkbox" class="category-checkbox" value="Mathematics & Statistics" />
           Mathematics & Statistics
@@ -117,7 +118,8 @@
     <!-- Update Personal Info Section -->
     <div id="update-info" class="section" style="display: none">
       <h2 class="form-heading">Update your personal particulars below:</h2>
-      <form id="update-info-form" class="form-container" onsubmit="confirmUpdateInfo()">
+      <form method="POST" action="update-info.php" id="update-info-form" class="form-container"
+        onsubmit="return confirmUpdateInfo()">
         <table id="user-info-table" class="table-container">
           <tr>
             <th>Field</th>
@@ -125,7 +127,8 @@
           </tr>
           <tr>
             <td>Name</td>
-            <td><input type="text" id="settings-name" name="name" value="John Doe" onchange="validateUpdateInfo()"></td>
+            <td><input type="text" id="settings-name" name="settings-name" value="John Doe"
+                onchange="validateUpdateInfo()"></td>
           </tr>
           <tr>
             <td>Email</td>
@@ -141,7 +144,7 @@
           </tr>
           <tr>
             <td>Phone</td>
-            <td><input type="text" id="settings-phone" name="phone" value="123-456-7890"
+            <td><input type="text" id="settings-phone" name="settings-phone" value="123-456-7890"
                 onchange="validateUpdateInfo()"></td>
           </tr>
         </table>
@@ -152,7 +155,8 @@
     <!-- Update Password Section -->
     <div id="update-password" class="section" style="display: none">
       <h2 class="form-heading">Change your password:</h2>
-      <form id="update-password-form" class="form-container" onsubmit="confirmUpdatePassword()">
+      <form action="update-password.php" method="POST" id="update-password-form" class="form-container"
+        onsubmit="return confirmUpdatePassword()">
         <table id="change-password-table" class="table-container">
           <tr>
             <th>Field</th>
@@ -195,7 +199,7 @@
   <script src="display-settings.js"></script>
 
   <!-- Prevent default submission behavior of the submit button -->
-  <script>
+  <!-- <script>
     document.getElementById("update-category-form").addEventListener("submit", function (event) {
       event.preventDefault(); // Prevents the page from refreshing
     });
@@ -205,7 +209,7 @@
     document.getElementById("update-password-form").addEventListener("submit", function (event) {
       event.preventDefault(); // Prevents the page from refreshing
     });
-  </script>
+  </script> -->
 </body>
 
 </html>
