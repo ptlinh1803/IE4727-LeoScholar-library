@@ -1,0 +1,30 @@
+/* Header styles for User Page, adopted from search page */
+.header-settings {
+  background-color: #FFDFD1;
+  /* Light blue background color */
+  padding: 20px;
+  color: black;
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Setting Options section */
+/* Reused discover-category from search-page.html */
+.carousel {
+  display: flex;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.settings-section {
+  background-color: #f3f3f7;
+  width: 80%;
+  margin: 20px auto 60px;
+  padding: 10px 0;
+  overflow-x: auto;
+  /* Add horizontal scrolling if needed */
+}
