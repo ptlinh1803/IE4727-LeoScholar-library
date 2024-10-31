@@ -29,6 +29,45 @@ if (!isset($_SESSION['user_id'])) {
   }
 
   $stmt->close();
+
+  // Get borrowed books ----------------------------
+  $get_borrowed_books_query = "
+      SELECT 
+          b.book_id,
+          l.branch_id,
+          b.title,
+          b.cover_path,
+          br.university_id,
+          br.branch_name,
+          l.loan_date,
+          l.due_date,
+          l.return_date,
+          l.status
+      FROM 
+          loans l
+      JOIN 
+          books b ON l.book_id = b.book_id
+      JOIN 
+          branches br ON l.branch_id = br.branch_id
+      WHERE 
+          l.user_id = ?;
+    ";
+  
+  $stmt = $conn->prepare($get_borrowed_books_query);
+  $stmt->bind_param("i", $user_id); // Bind user_id as an integer
+  $stmt->execute();
+  $borrowed_books_result = $stmt->get_result();
+
+  $borrowed_books = [];
+  if ($borrowed_books_result->num_rows > 0) {
+    while ($book_row = $borrowed_books_result->fetch_assoc()) {
+        $borrowed_books[] = $book_row;
+    }
+  } else {
+    $no_loan_message = "You haven't borrowed any books.";
+  }
+
+  $stmt->close();
 }
 
 ?>
@@ -131,58 +170,98 @@ if (!isset($_SESSION['user_id'])) {
 
         <div id="borrowed-books" class="shelf-section" style="display: none">
           <h2>Your Borrowed Books</h2>
-          <table class="book-table">
-            <thead>
-              <tr>
-                <th id="cover-col"></th>
-                <th id="title-col">Title</th>
-                <th id="branch-col">Branch</th>
-                <th id="loan-col">Loan Date</th>
-                <th id="due-col">Due Date</th>
-                <th id="status-col">Status</th>
-                <th id="action-col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Example Row -->
-              <tr onclick="redirectToBookDetails(1)">
-                <td headers="cover-col">
-                  <img
-                    src="img/books/4.jpg"
-                    alt="Book Cover"
-                    class="book-cover"
-                  />
-                </td>
-                <td headers="title-col">
-                  Introduction to Mathematical Statistics
-                </td>
-                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
-                <td headers="loan-col">31/10/2024</td>
-                <td headers="due-col">14/11/2024</td>
-                <td headers="status-col">
-                  <span class="status-green">Active</span>
-                </td>
-                <td>
-                  <form
-                    action=""
-                    method="POST"
-                    onsubmit="return confirm('Are you sure you want to return this book?');"
-                  >
-                    <input type="hidden" name="book_id" value="" />
-                    <input type="hidden" name="user_id" value="" />
-                    <!-- Replace with actual user ID -->
-                    <button
-                      type="submit"
-                      class="shelf-action-button return"
-                      onclick="event.stopPropagation();"
-                    >
-                      Return
-                    </button>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <?php if (!empty($borrowed_books)) { ?>
+            <table class="book-table">
+              <thead>
+                <tr>
+                  <th id="cover-col"></th>
+                  <th id="title-col">Title</th>
+                  <th id="branch-col">Branch</th>
+                  <th id="loan-col">Loan Date</th>
+                  <th id="due-col">Due Date</th>
+                  <th id="status-col">Status</th>
+                  <th id="return-col">Return Date</th>
+                  <th id="action-col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Example Row -->
+                <?php foreach ($borrowed_books as $book) { ?>
+                  <tr onclick="redirectToBookDetails(<?php echo $book['book_id']; ?>)">
+                    <td headers="cover-col">
+                      <img
+                        src="img/books/<?php echo $book['cover_path']; ?>"
+                        alt="Book Cover"
+                        class="book-cover"
+                      />
+                    </td>
+                    <td headers="title-col">
+                      <?php echo htmlspecialchars($book['title']); ?>
+                    </td>
+                    <td headers="branch-col">
+                      <?php echo htmlspecialchars($book['university_id']); ?> - <?php echo htmlspecialchars($book['branch_name']); ?>
+                    </td>
+                    <td headers="loan-col">
+                      <?php echo !empty($book['loan_date']) ? htmlspecialchars($book['loan_date']) : ''; ?>
+                    </td>
+                    <td headers="due-col">
+                      <?php echo !empty($book['due_date']) ? htmlspecialchars($book['due_date']) : ''; ?>
+                    </td>
+                    <td headers="status-col">
+                      <?php
+                        $status = $book['status'];
+                        $class = '';
+
+                        // Determine the class based on the status
+                        if ($status === 'active') {
+                            $class = 'status-green';
+                        } elseif ($status === 'returned') {
+                            $class = 'status-yellow';
+                        } elseif ($status === 'overdue') {
+                            $class = 'status-red';
+                        }
+                      ?>
+                      <span class="<?php echo $class; ?>"><?php echo ucfirst(htmlspecialchars($status)); ?></span>
+                    </td>
+                    <td headers="return-col">
+                      <?php echo !empty($book['return_date']) ? htmlspecialchars($book['return_date']) : ''; ?>
+                    </td>
+                    <td>
+                      <form
+                        action=""
+                        method="POST"
+                        onsubmit="return confirm('Are you sure you want to return this book?');"
+                      >
+                        <input type="hidden" name="book_id" value="" />
+                        <input type="hidden" name="user_id" value="" />
+                        <!-- Replace with actual user ID -->
+                        <button
+                          type="submit"
+                          class="shelf-action-button return"
+                          onclick="event.stopPropagation();"
+                        >
+                          Return
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          <?php } else { ?> 
+            <div class="no-books-message">
+                <img src="img/ui/nothing-here.png" alt="Nothing here" />
+            </div>
+            <p style="text-align: center;">
+                <?php 
+                if (!isset($_SESSION['user_id'])) {
+                    echo htmlspecialchars($message);
+                } else {
+                    echo htmlspecialchars($no_loan_message);
+                }
+                ?>
+            </p>
+          <?php } ?>
         </div>
 
         <div id="reserved-books" class="shelf-section" style="display: none">
