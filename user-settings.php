@@ -94,28 +94,7 @@ if (isset($_SESSION['message'])) {
             <th>Field</th>
             <th>Value</th>
           </tr>
-          <tr>
-            <td>Name</td>
-            <td><input type="text" id="settings-name" name="settings-name" value="John Doe"
-                onchange="validateUpdateInfo()"></td>
-          </tr>
-          <tr>
-            <td>Email</td>
-            <td>
-              <p id="email">johndoe@example.com</p>
-            </td>
-          </tr>
-          <tr>
-            <td>Institution</td>
-            <td>
-              <p id="institution">Example University</p>
-            </td>
-          </tr>
-          <tr>
-            <td>Phone</td>
-            <td><input type="text" id="settings-phone" name="settings-phone" value="123-456-7890"
-                onchange="validateUpdateInfo()"></td>
-          </tr>
+          <?php include "initial-user-info.php"?>
         </table>
         <button type="submit" class="settings-submit-button" id="submit-update-info">Submit</button>
       </form>
