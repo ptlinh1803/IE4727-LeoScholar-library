@@ -3,7 +3,7 @@ include 'db-connect.php';
 session_start();
 
 // for testing only
- $_SESSION['user_id'] = 1;
+$_SESSION['user_id'] = 1;
 
 // If not log in
 if (!isset($_SESSION['user_id'])) {

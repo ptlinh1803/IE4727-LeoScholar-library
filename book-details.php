@@ -86,6 +86,66 @@ if (!empty($_GET['book_id'])) {
 
     // Close the statement
     $stmt->close();
+
+    // check favourite-----------------------
+    $isFavourite = false; 
+    if (isset($_SESSION['user_id'])) {
+      $userId = $_SESSION['user_id'];
+      $bookId = $book['book_id'];
+
+      // Check if this book is already in the favourites
+      $query = "SELECT * FROM favourite_books WHERE user_id = ? AND book_id = ?";
+      $stmt = $conn->prepare($query);
+      $stmt->bind_param("ii", $userId, $bookId);
+      $stmt->execute();
+      $result = $stmt->get_result();
+
+      if ($result->num_rows > 0) {
+          $isFavourite = true; // Book is in favorites
+      }
+
+      $stmt->close();
+    }
+
+    // Add book to favourite --------------------------------------
+    if (isset($_POST['toggle_favourite'])) {
+      if (!isset($_SESSION['user_id'])) {
+        echo "<script>alert('Only registered members can use this feature.');</script>";
+      } else {
+        $userId = $_SESSION['user_id'];
+        $bookId = $_GET['book_id'];
+
+        // Check if this book is already in the favourites
+        $query = "SELECT * FROM favourite_books WHERE user_id = ? AND book_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ii", $userId, $bookId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+          // Remove from favourites
+          $deleteQuery = "DELETE FROM favourite_books WHERE user_id = ? AND book_id = ?";
+          $stmt = $conn->prepare($deleteQuery);
+          $stmt->bind_param("ii", $userId, $bookId);
+          $stmt->execute();
+          $isFavourite = false;
+          
+        } else {
+          // Add to favourites
+          $insertQuery = "INSERT INTO favourite_books (user_id, book_id) VALUES (?, ?)";
+          $stmt = $conn->prepare($insertQuery);
+          $stmt->bind_param("ii", $userId, $bookId);
+          $stmt->execute();
+          $isFavourite = true;
+        }
+    
+        $stmt->close();
+
+        // Redirect to the same page to avoid form resubmission
+        header("Location: book-details.php?book_id=" . $bookId);
+        exit();
+      }
+    }
   }
 }
 
@@ -156,7 +216,14 @@ if (!empty($_GET['book_id'])) {
       <div class="right-side">
         <h1 class="big-blue-h1 book-title">
           <?php echo htmlspecialchars($book['title']); ?>
-          <i class="heart-icon far fa-heart"></i>
+          <!-- <i class="heart-icon far fa-heart"></i> -->
+          <form method="POST" action="book-details.php?book_id=<?php echo $_GET['book_id']; ?>" style="display: inline;">
+            <input type="hidden" name="toggle_favourite" value="1">
+            <button type="submit" name="toggle_favourite" style="background: none; border: none; cursor: pointer;">
+              <i class="heart-icon <?php echo isset($isFavourite) && $isFavourite ? 'fas fa-heart red' : 'far fa-heart'; ?>"></i>
+            </button>
+            <input type="hidden" name="book_id" value="<?php echo $_GET['book_id']; ?>">
+          </form>
         </h1>
 
         <div class="book-info-container">
@@ -176,7 +243,7 @@ if (!empty($_GET['book_id'])) {
               <button
                 class="loan-button"
                 id="loanReserveButton"
-                onclick="toggleForm()"
+                onclick="handleLoanReserve()"
               >
                 Loan/Reserve
               </button>
@@ -336,18 +403,7 @@ if (!empty($_GET['book_id'])) {
 
           <div>
             <label for="available-copies">Available copies:</label>
-            <span
-              id="available-copies"
-              style="
-                display: block;
-                padding: 7px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                background-color: #f9f9f9;
-              "
-            >
-              N/A
-            </span>
+            <span id="available-copies" >N/A</span>
           </div>
 
           <!-- Conditional Message & Action Button -->
@@ -496,8 +552,19 @@ if (!empty($_GET['book_id'])) {
 
     <!-- Script for Loan form -->
     <script>
+      // When clicking "Loan/Reserve" button
+      function handleLoanReserve() {
+        <?php if (isset($_SESSION['user_id'])) { ?>
+          // Toggle the form display if the user is logged in
+          toggleLoanReserveForm();
+        <?php } else { ?>
+          // Show alert if the user is not logged in
+          alert("Only registered members can use this feature.");
+        <?php } ?>
+      }
+
       // Show/hide form
-      function toggleForm() {
+      function toggleLoanReserveForm() {
         const loanForm = document.getElementById("loanForm");
         const loanReserveButton = document.getElementById("loanReserveButton");
 

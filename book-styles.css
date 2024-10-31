@@ -65,7 +65,7 @@ body {
   cursor: pointer;
   margin-left: 20px;
   font-size: 25px;
-  color: #ccc; /* Gray color for unfilled heart */
+  color: red; /* Gray color for unfilled heart */
 }
 
 .heart-icon.active {
@@ -238,16 +238,12 @@ body {
   margin-top: 20px; /* Space between the two divs */
 }
 
-#see-more-author {
-  color: #11155e; /* Set your desired color */
-  display: none; /* Initially hidden */
-  cursor: pointer;
-}
-
+#see-more-author,
 #see-more-description {
   color: #11155e; /* Set your desired color */
   display: none; /* Initially hidden */
   cursor: pointer;
+  font-size: 14px;
 }
 
 .similar-books {
@@ -352,4 +348,12 @@ body {
 
 .availability-table tr:hover {
   background-color: #e0e0e0; /* Highlight row on hover */
+}
+
+#available-copies {
+  display: block;
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
