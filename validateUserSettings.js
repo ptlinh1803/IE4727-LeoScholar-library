@@ -47,15 +47,15 @@ function validateField(field) {
   let errorMessage = '';
 
   switch (field.name) {
-    case 'password':
+    case 'settings-password':
       isValid = validatePassword(value);
       errorMessage = 'Passwords must be at least 8 characters long and contain a number.';
       break;
-    case 'name':
+    case 'settings-name':
       isValid = validateName(value);
       errorMessage = 'Name should contain only letters, spaces and hyphens.';
       break;
-    case 'phone':
+    case 'settings-phone':
       isValid = validatePhoneNumber(value);
       errorMessage = 'Please enter a valid phone number.';
       break;
