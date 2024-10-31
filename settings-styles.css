@@ -95,6 +95,13 @@
   background-color: #d02820;
 }
 
+/* Styling for the button in fav-categories since that form follows a grid layout */
+#save-categories-button {
+  grid-column: span 2;
+  /* Adjust based on your column setup */
+  justify-self: center;
+}
+
 /* Stylings for forms: Personal Info and Change Password */
 .form-heading {
   text-align: center;
