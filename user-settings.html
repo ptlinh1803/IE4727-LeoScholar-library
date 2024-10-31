@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="search-styles.css" />
   <link rel="stylesheet" href="settings-styles.css" />
   <script src="validateUserSettings.js" defer></script>
+  <script src="settings-confirmation.js" defer></script>
 </head>
 
 <body>
@@ -67,7 +68,7 @@
     <!-- Fav Category Section: Disply fav-categories as the default-->
     <div id="fav-categories" class="section" style="display: none">
       <h2 class="form-heading">Select Your Favorite Categories</h2>
-      <div class="category-list">
+      <form class="category-list" onsubmit="confirmUpdateCategories()">
         <label>
           <input type="checkbox" class="category-checkbox" value="Mathematics & Statistics" />
           Mathematics & Statistics
@@ -108,15 +109,15 @@
           <input type="checkbox" class="category-checkbox" value="Fiction & Novels" />
           Fiction & Novels
         </label>
-      </div>
-      <button id="save-categories-button" class="settings-submit-button" onclick="">Submit</button>
+    </div>
+    <button id="save-categories-button" class="settings-submit-button" onclick="">Submit</button>
     </div>
 
 
     <!-- Update Personal Info Section -->
     <div id="update-info" class="section" style="display: none">
       <h2 class="form-heading">Update your personal particulars below:</h2>
-      <form id="user-info-form" class="form-container">
+      <form id="user-info-form" class="form-container" onsubmit="confirmUpdateInfo()">
         <table id="user-info-table" class="table-container">
           <tr>
             <th>Field</th>
@@ -151,7 +152,7 @@
     <!-- Update Password Section -->
     <div id="update-password" class="section" style="display: none">
       <h2 class="form-heading">Change your password:</h2>
-      <form id="change-password-form" class="form-container">
+      <form id="change-password-form" class="form-container" onsubmit="confirmUpdatePassword()">
         <table id="change-password-table" class="table-container">
           <tr>
             <th>Field</th>
