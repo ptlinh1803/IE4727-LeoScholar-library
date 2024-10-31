@@ -333,13 +333,16 @@ if (!empty($_GET['book_id'])) {
         <a href="#" class="back-button" onclick="history.back(); return false;">&lt; Back</a>
 
         <!-- Book Cover positioned on the border of left and right sides -->
-        <div class="book-cover">
-          <img src="img/books/<?php echo $book['cover_path']; ?>" alt="Book Cover" />
-        </div>
+        <?php if ((!empty($_GET['book_id'])) && (!empty($book))) { ?>
+          <div class="book-cover">
+            <img src="img/books/<?php echo $book['cover_path']; ?>" alt="Book Cover" />
+          </div>
+        <?php } ?>
       </div>
 
       <!-- Right Side with Content -->
       <div class="right-side">
+        <?php if ((!empty($_GET['book_id'])) && (!empty($book))) { ?>
         <h1 class="big-blue-h1 book-title">
           <?php echo htmlspecialchars($book['title']); ?>
           <!-- <i class="heart-icon far fa-heart"></i> -->
@@ -500,7 +503,7 @@ if (!empty($_GET['book_id'])) {
           <h2>Fill in Details</h2>
 
           <div>
-            <label for="from-date">From:</label>
+            <label>From:</label>
             <input
               type="date"
               id="from-date"
@@ -511,7 +514,7 @@ if (!empty($_GET['book_id'])) {
           </div>
 
           <div>
-            <label for="to-date">To:</label>
+            <label>To:</label>
             <input
               type="date"
               id="to-date"
@@ -522,7 +525,7 @@ if (!empty($_GET['book_id'])) {
           </div>
 
           <div>
-            <label for="branch">Choose a branch to borrow from:</label>
+            <label>Choose a branch to borrow from:</label>
             <select id="branch" name="branch_id" onchange="updateAvailability()" required>
               <option value="">Select branch</option>
               <?php foreach ($branches_list as $branch) { ?>
@@ -534,7 +537,7 @@ if (!empty($_GET['book_id'])) {
           </div>
 
           <div>
-            <label for="available-copies">Available copies:</label>
+            <label>Available copies:</label>
             <span id="available-copies" >N/A</span>
           </div>
 
@@ -580,6 +583,12 @@ if (!empty($_GET['book_id'])) {
               <?php } ?>
             </div>
           </div>
+        <?php } ?>
+
+      <?php } else { ?>
+        <div class="no-book-detail">
+          <img src="img/ui/nothing-here.png" alt="Nothing here" />
+        </div>
       <?php } ?>
       </div>
     </div>
@@ -603,12 +612,15 @@ if (!empty($_GET['book_id'])) {
       // Select the heart icon
       const heartIcon = document.querySelector(".heart-icon");
 
-      // Toggle active class on click
-      heartIcon.addEventListener("click", () => {
-        heartIcon.classList.toggle("active"); // Add/remove red color
-        heartIcon.classList.toggle("fas"); // Solid heart
-        heartIcon.classList.toggle("far"); // Outline heart
-      });
+      // Check if heartIcon is not null before adding the event listener
+      if (heartIcon) {
+        // Toggle active class on click
+        heartIcon.addEventListener("click", () => {
+          heartIcon.classList.toggle("active"); // Add/remove red color
+          heartIcon.classList.toggle("fas"); // Solid heart
+          heartIcon.classList.toggle("far"); // Outline heart
+        });
+} 
     </script>
 
     <!-- Script to display "Description" and "About the Author(s)" -->

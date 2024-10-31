@@ -357,3 +357,16 @@ body {
   border-radius: 5px;
   background-color: #f9f9f9;
 }
+
+/*--- NOTHING HERE -----*/
+.no-book-detail {
+  display: flex;
+  justify-content: center; /* Centers the image horizontally */
+  align-items: center; /* Centers the image vertically */
+  margin-top: 100px;
+}
+
+.no-book-detail img {
+  width: 100%;
+  max-width: 400px;
+}
