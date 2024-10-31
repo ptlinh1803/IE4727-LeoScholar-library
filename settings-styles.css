@@ -35,7 +35,7 @@
 /* Show chosen settings section */
 #settings-section {
   background-color: #f3f3f7;
-  width: 40%;
+  width: 60%;
   margin: 20px auto 60px;
   padding: 10px 0;
   overflow-x: auto;
@@ -45,22 +45,29 @@
   align-items: center;
 }
 
-#form-heading {
+.section {
+  width: 100%;
+}
+
+/* Stylings for forms: Personal Info and Change Password */
+.form-heading {
   text-align: center;
   margin-bottom: 20px;
   /* Space below the heading */
 }
 
-#user-info-form {
+.form-container {
   width: 70%;
+  margin: 0 auto;
   /* Adjust form width as needed */
 }
 
-#user-info-table {
+.table-container {
   width: 100%;
   /* Table takes full width of the form */
   border-collapse: collapse;
   /* Ensure borders are merged */
+  margin: 0 auto;
 }
 
 th {
@@ -77,7 +84,8 @@ td {
   /* Padding for cells */
 }
 
-input[type="text"] {
+input[type="text"],
+input[type="password"] {
   width: 100%;
   /* Make input fields full width */
   box-sizing: border-box;

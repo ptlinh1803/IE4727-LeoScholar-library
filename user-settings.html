@@ -51,11 +51,11 @@
     <h4>Select the user information that you want to see/update:</h4>
     <div class="button-container-container">
       <div class="button-container">
-        <button class="warm-gradient-button category-button" onclick="displayContent('fav-categories')">Favorite Book
+        <button class="warm-gradient-button category-button" onclick="showSection('fav-categories')">Favorite Book
           Categories</button>
-        <button class="warm-gradient-button category-button" onclick="displayContent('personal-info')">Personal
+        <button class="warm-gradient-button category-button" onclick="showSection('update-info')">Personal
           Information</button>
-        <button class="warm-gradient-button category-button" onclick="displayContent('change-password')">Change
+        <button class="warm-gradient-button category-button" onclick="showSection('update-password')">Change
           Password</button>
       </div>
     </div>
@@ -63,6 +63,94 @@
 
   <!-- Show chosen user information section -->
   <section id="settings-section">
+    <!-- Fav Category Section: Disply fav-categories as the default-->
+    <div id="fav-categories" class="section" style="display: none">
+      <h2>Select Your Favorite Categories</h2>
+      <div class="category-list">
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Mathematics & Statistics" />
+          Mathematics & Statistics
+        </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Natural Sciences" />
+          Natural Sciences
+        </label>
+        <label>
+          <input type="checkbox" class="category-checkbox" value="Computer Science & Technology" />
+          Computer Science & Technology
+        </label>
+      </div>
+      <button id="save-categories-button" onclick="displaySelectedCategories()">Save Selected Categories</button>
+      <div id="selected-categories"></div>
+    </div>
+
+    </div>
+
+    <!-- Update Personal Info Section -->
+    <div id="update-info" class="section" style="display: none">
+      <h4 class="form-heading">Update your personal particulars below:</h4>
+      <form id="user-info-form" class="form-container">
+        <table id="user-info-table" class="table-container">
+          <tr>
+            <th>Field</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>Assigned ID</td>
+            <td>
+              <p id="user_id">12345</p>
+            </td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td><input type="text" id="name" name="name" value="John Doe"></td>
+          </tr>
+          <tr>
+            <td>Email</td>
+            <td>
+              <p id="email">johndoe@example.com</p>
+            </td>
+          </tr>
+          <tr>
+            <td>Institution</td>
+            <td>
+              <p id="institution">Example University</p>
+            </td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td><input type="text" id="phone" name="phone" value="123-456-7890"></td>
+          </tr>
+        </table>
+        <button type="submit" class="submit-button">Submit</button>
+      </form>
+    </div>
+
+    <!-- Update Password Section -->
+    <div id="update-password" class="section" style="display: none">
+      <h4 class="form-heading">Change your password:</h4>
+      <form id="change-password-form" class="form-container">
+        <table id="change-password-table" class="table-container">
+          <tr>
+            <th>Field</th>
+            <th>Value</th>
+          </tr>
+          <tr>
+            <td>Current Password</td>
+            <td><input type="password" id="current-password" name="current-password" required></td>
+          </tr>
+          <tr>
+            <td>New Password</td>
+            <td><input type="password" id="new-password" name="new-password" required></td>
+          </tr>
+          <tr>
+            <td>Confirm New Password</td>
+            <td><input type="password" id="confirm-new-password" name="confirm-new-password" required></td>
+          </tr>
+        </table>
+        <button type="submit" class="submit-button">Submit</button>
+      </form>
+    </div>
   </section>
 
   <!-- footer -->
