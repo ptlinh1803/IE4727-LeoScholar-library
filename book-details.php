@@ -2,6 +2,17 @@
 include 'db-connect.php';
 session_start();
 
+// Check if there's an alert message
+if (isset($_SESSION['alert'])) {
+  $alertMessage = $_SESSION['alert'];
+  echo "<script>
+      window.addEventListener('load', function() {
+          alert('" . addslashes($alertMessage) . "');
+      });
+  </script>";
+  unset($_SESSION['alert']); // Clear the message after displaying
+}
+
 // Get all branches -------------------------
 $sql_list_branches = "SELECT * from branches;";
 $branches_results = $conn->query($sql_list_branches);
@@ -142,6 +153,7 @@ if (!empty($_GET['book_id'])) {
         $stmt->bind_param("ii", $userId, $bookId);
         $stmt->execute();
         $result = $stmt->get_result();
+        $stmt->close();
 
         if ($result->num_rows > 0) {
           // Remove from favourites
@@ -150,6 +162,9 @@ if (!empty($_GET['book_id'])) {
           $stmt->bind_param("ii", $userId, $bookId);
           $stmt->execute();
           $isFavourite = false;
+          $stmt->close();
+
+          $_SESSION['alert'] = "Book removed from Favourite.";
           
         } else {
           // Add to favourites
@@ -158,15 +173,93 @@ if (!empty($_GET['book_id'])) {
           $stmt->bind_param("ii", $userId, $bookId);
           $stmt->execute();
           $isFavourite = true;
+          $stmt->close();
+
+          $_SESSION['alert'] = "Book added to Favourite.";
         }
     
-        $stmt->close();
+        
 
         // Redirect to the same page to avoid form resubmission
         header("Location: book-details.php?book_id=" . $bookId);
         exit();
       }
     }
+
+    // Submit Loan/Reserve form --------------------------------
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['branch_id'])) {
+      $user_id = $_SESSION['user_id'];
+      $book_id = $book['book_id'];
+      $branch_id = $_POST['branch_id']; // Get branch_id from the form
+      
+      // Check availability
+      $stmt = $conn->prepare("SELECT available_copies FROM book_availability WHERE book_id = ? AND branch_id = ?");
+      $stmt->bind_param("ii", $book_id, $branch_id);
+      $stmt->execute();
+      $stmt->bind_result($available_copies);
+      $stmt->fetch();
+      $stmt->close();
+      
+
+      if ($available_copies > 0) {
+        $from_date = $_POST['from_date'];
+        $to_date = $_POST['to_date']; 
+
+        // Check if the user already has a reservation for this book at this branch
+        $check_query = "SELECT * FROM loans WHERE user_id = ? AND book_id = ? AND branch_id = ?";
+        $stmt = $conn->prepare($check_query);
+        $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        if ($result->num_rows > 0) {
+          // User has already reserved this book at this branch
+          $_SESSION['alert'] = "You have already borrowed this book from this branch.";
+        } else {
+          // Insert into loans table
+          $stmt = $conn->prepare("INSERT INTO loans (user_id, book_id, branch_id, loan_date, due_date) VALUES (?, ?, ?, ?, ?)");
+          $stmt->bind_param("iiiss", $user_id, $book_id, $branch_id, $from_date, $to_date);
+          $stmt->execute();
+
+          // Update available copies
+          $stmt = $conn->prepare("UPDATE book_availability SET available_copies = available_copies - 1 WHERE book_id = ? AND branch_id = ?");
+          $stmt->bind_param("ii", $book_id, $branch_id);
+          $stmt->execute();
+
+          $stmt->close();
+
+          $_SESSION['alert'] = "Loan successful.";  
+
+        }
+      } else {
+        // Check if the user already has a reservation for this book at this branch
+        $check_query = "SELECT * FROM reservations WHERE user_id = ? AND book_id = ? AND branch_id = ?";
+        $stmt = $conn->prepare($check_query);
+        $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+
+        if ($result->num_rows > 0) {
+            // User has already reserved this book at this branch
+            $_SESSION['alert'] = "You have already reserved this book at this branch.";
+        } else {
+            // No existing reservation, proceed to insert into reservations table
+            $reservation_date = date("Y-m-d"); // Get today's date
+            $stmt = $conn->prepare("INSERT INTO reservations (user_id, book_id, branch_id, reservation_date) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("iiis", $user_id, $book_id, $branch_id, $reservation_date);
+            $stmt->execute();
+            $stmt->close();
+    
+            $_SESSION['alert'] = "Reservation successful.";
+        }
+      }
+
+      // Redirect to the same page to avoid resubmission
+      header("Location: book-details.php?book_id=" . $book_id);
+      exit(); // Ensure no further code is executed after the redirect
+      }
   }
 }
 
@@ -388,7 +481,9 @@ if (!empty($_GET['book_id'])) {
         <form
           id="loanForm"
           class="form-container"
-          onsubmit="submitForm(); return false;"
+          onsubmit="return submitForm();"
+          method="POST"
+          action="book-details.php?book_id=<?php echo $book_id; ?>"
         >
           <h2>Fill in Details</h2>
 
@@ -397,6 +492,7 @@ if (!empty($_GET['book_id'])) {
             <input
               type="date"
               id="from-date"
+              name="from_date"
               onchange="validateDates()"
               required
             />
@@ -407,6 +503,7 @@ if (!empty($_GET['book_id'])) {
             <input
               type="date"
               id="to-date"
+              name="to_date"
               onchange="validateDates()"
               required
             />
@@ -414,7 +511,7 @@ if (!empty($_GET['book_id'])) {
 
           <div>
             <label for="branch">Choose a branch to borrow from:</label>
-            <select id="branch" onchange="updateAvailability()" required>
+            <select id="branch" name="branch_id" onchange="updateAvailability()" required>
               <option value="">Select branch</option>
               <?php foreach ($branches_list as $branch) { ?>
                 <option value="<?php echo $branch['branch_id'] ?>">
@@ -573,7 +670,7 @@ if (!empty($_GET['book_id'])) {
       }
     </script>
 
-    <!-- Script for Loan form -->
+    <!-- Script for Loan/Reserve form -->
     <script>
       // When clicking "Loan/Reserve" button
       function handleLoanReserve() {
@@ -702,13 +799,21 @@ if (!empty($_GET['book_id'])) {
       }
 
       // Form submission
-      function submitForm() {
-        const actionButton = document.getElementById("actionButton");
-        alert(`${actionButton.innerText} request submitted.`);
+      // function submitForm() {
+      //   const actionButton = document.getElementById("actionButton");
+      //   const availableCopiesField = document.getElementById("available-copies");
+      //   const availableCopies = parseInt(availableCopiesField.innerText) || 0; // Get available copies as a number
 
-        // Refresh the current page
-        location.reload(); // This will refresh the page, closing the form
-      }
+      //   if (availableCopies > 0) {
+      //     alert("Loan request submitted."); // Alert for loan request
+      //   } else {
+      //     alert("Reservation request submitted."); // Alert for reservation request
+      //   }
+
+      //   // Allow form submission to proceed and refresh the page
+      //   location.reload(); // This will refresh the page
+      //   return true;
+      // }
     </script>
 
     <!-- Script to open "Availability" table -->
