@@ -1,29 +1,32 @@
 <?php
-// Step 3: Include database connection
-  require "db-connect.php";
+// Include database connection
+require "db-connect.php";
 
-  // Step 4: Prepare and execute the query
-  $query = "SELECT cover_path, title, author, about_author, ebook_file_path, audio_file_path FROM books WHERE id = $book_id";
-  $result = mysqli_query($conn, $query);
+// Prepare and execute the query
+$query = "SELECT cover_path, title, author, about_author, ebook_file_path, audio_file_path FROM books WHERE book_id = ?";
+$stmt = $conn->prepare($query);
+$stmt->bind_param("i", $book_id);
 
-  if (!$result) {
-    echo "Error: " . mysqli_error($conn);
-    exit();
-  }
-
-  // Step 5: Store the query result into variables
-  if ($row = mysqli_fetch_assoc($result)) {
-    $cover_path = $row['cover_path'];
-    $title = $row['title'];
-    $author = $row['author'];
-    $about_author = $row['about_author'];
-    $ebook_file_path = $row['ebook_file_path'];
-    $audio_file_path = $row['audio_file_path'];
+if ($stmt->execute()) {
+  $stmt->bind_result($cover_path, $title, $author, $about_author, $ebook_file_path, $audio_file_path);
+  if ($stmt->fetch()) {
+    // Assign empty string for any NULL fields
+    $cover_path = $cover_path ?? "";
+    $title = $title ?? "";
+    $author = $author ?? "";
+    $about_author = $about_author ?? "";
+    $ebook_file_path = $ebook_file_path ?? "";
+    $audio_file_path = $audio_file_path ?? "";
   } else {
-    echo "Error: Book not found.";
-    exit();
+    echo "No book found with the given ID.";
+    exit;
   }
+} else {
+  echo "Error retrieving book details.";
+  exit;
+}
 
-  // Close the result set
-  mysqli_free_result($result);
+// Close statement and connection
+$stmt->close();
+$conn->close();
 ?>
