@@ -48,16 +48,6 @@ INSERT INTO branches (university_id, branch_name, address) VALUES
 ('SMU', 'Duda Family Business Library', '6214 Bishop Boulevard'),
 ('SMU', 'Hamon Arts Library', '6100 Hillcrest Avenue');
 
--- Favourite Books table
-INSERT INTO favourite_books (user_id, book_id) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 4),
-(2, 5),
-(2, 6),
-(2, 7);
-
 -- Books table
 -- Go to phpmyadmin > leoscholar > books > Import
 -- Choose file full_books.csv
@@ -81,4 +71,106 @@ INSERT INTO favourite_books (user_id, book_id) VALUES
 -- UPDATE digital_resources
 -- SET resource_id = 35
 -- WHERE title = 'Pride and Prejudice';
+
+-- Favourite Books table (only do after inserting Books table)
+-- INSERT INTO favourite_books (user_id, book_id) VALUES
+-- (1, 1),
+-- (1, 2),
+-- (1, 3),
+-- (2, 4),
+-- (2, 5),
+-- (2, 6),
+-- (2, 7);
+
+-- Step 1: Add the new column "Shelf" to the "book_availability" table
+-- ALTER TABLE book_availability
+-- ADD COLUMN shelf VARCHAR(10);
+
+-- Step 2: Update each row with the corresponding shelf number
+-- UPDATE book_availability
+-- SET shelf = CASE 
+--     WHEN availability_id = 1 THEN 'AB F1-1'
+--     WHEN availability_id = 2 THEN 'XY F2-2'
+--     WHEN availability_id = 3 THEN 'UV F3-5'
+--     WHEN availability_id = 4 THEN 'CD F1-4'
+--     WHEN availability_id = 5 THEN 'EF F2-3'
+--     WHEN availability_id = 6 THEN 'GH F2-6'
+--     WHEN availability_id = 7 THEN 'IJ F3-1'
+--     WHEN availability_id = 8 THEN 'KL F1-2'
+--     WHEN availability_id = 9 THEN 'MN F2-4'
+--     WHEN availability_id = 10 THEN 'OP F3-3'
+--     WHEN availability_id = 11 THEN 'QR F1-5'
+--     WHEN availability_id = 12 THEN 'ST F2-6'
+--     WHEN availability_id = 13 THEN 'UV F1-4'
+--     WHEN availability_id = 14 THEN 'WX F2-2'
+--     WHEN availability_id = 15 THEN 'YZ F3-1'
+--     WHEN availability_id = 16 THEN 'AB F1-3'
+--     WHEN availability_id = 17 THEN 'CD F1-6'
+--     WHEN availability_id = 18 THEN 'EF F2-1'
+--     WHEN availability_id = 19 THEN 'GH F3-3'
+--     WHEN availability_id = 20 THEN 'IJ F2-5'
+--     WHEN availability_id = 21 THEN 'KL F3-6'
+--     WHEN availability_id = 22 THEN 'MN F1-1'
+--     WHEN availability_id = 23 THEN 'OP F2-3'
+--     WHEN availability_id = 24 THEN 'QR F1-2'
+--     WHEN availability_id = 25 THEN 'ST F3-4'
+--     WHEN availability_id = 26 THEN 'UV F2-5'
+--     WHEN availability_id = 27 THEN 'WX F1-3'
+--     WHEN availability_id = 28 THEN 'YZ F3-2'
+--     WHEN availability_id = 29 THEN 'AB F1-5'
+--     WHEN availability_id = 30 THEN 'CD F2-1'
+--     WHEN availability_id = 31 THEN 'EF F3-4'
+--     WHEN availability_id = 32 THEN 'GH F1-6'
+--     WHEN availability_id = 33 THEN 'IJ F2-2'
+--     WHEN availability_id = 34 THEN 'KL F1-4'
+--     WHEN availability_id = 35 THEN 'MN F3-5'
+--     WHEN availability_id = 36 THEN 'OP F2-6'
+--     WHEN availability_id = 37 THEN 'QR F1-3'
+--     WHEN availability_id = 38 THEN 'ST F2-4'
+--     WHEN availability_id = 39 THEN 'UV F1-5'
+--     WHEN availability_id = 40 THEN 'WX F2-1'
+--     WHEN availability_id = 41 THEN 'YZ F3-6'
+--     WHEN availability_id = 42 THEN 'AB F3-2'
+--     WHEN availability_id = 43 THEN 'CD F1-2'
+--     WHEN availability_id = 44 THEN 'EF F1-4'
+--     WHEN availability_id = 45 THEN 'GH F3-3'
+--     WHEN availability_id = 46 THEN 'IJ F2-5'
+--     WHEN availability_id = 47 THEN 'KL F1-1'
+--     WHEN availability_id = 48 THEN 'MN F2-3'
+--     WHEN availability_id = 49 THEN 'OP F3-4'
+--     WHEN availability_id = 50 THEN 'QR F2-6'
+--     WHEN availability_id = 51 THEN 'ST F1-5'
+--     WHEN availability_id = 52 THEN 'UV F1-3'
+--     WHEN availability_id = 53 THEN 'WX F2-4'
+--     WHEN availability_id = 54 THEN 'YZ F3-1'
+--     WHEN availability_id = 55 THEN 'AB F2-6'
+--     WHEN availability_id = 56 THEN 'CD F1-6'
+--     WHEN availability_id = 57 THEN 'EF F3-2'
+--     WHEN availability_id = 58 THEN 'GH F2-1'
+--     WHEN availability_id = 59 THEN 'IJ F1-5'
+--     WHEN availability_id = 60 THEN 'KL F3-4'
+--     WHEN availability_id = 61 THEN 'MN F2-3'
+--     WHEN availability_id = 62 THEN 'OP F1-2'
+--     WHEN availability_id = 63 THEN 'QR F1-5'
+--     WHEN availability_id = 64 THEN 'ST F3-6'
+--     WHEN availability_id = 65 THEN 'UV F2-2'
+--     WHEN availability_id = 66 THEN 'WX F2-5'
+--     WHEN availability_id = 67 THEN 'YZ F3-3'
+--     WHEN availability_id = 68 THEN 'AB F1-4'
+--     WHEN availability_id = 69 THEN 'CD F3-1'
+--     WHEN availability_id = 70 THEN 'EF F2-4'
+--     WHEN availability_id = 71 THEN 'GH F1-3'
+--     WHEN availability_id = 72 THEN 'IJ F2-6'
+--     WHEN availability_id = 73 THEN 'KL F1-5'
+--     WHEN availability_id = 74 THEN 'OP F3-3'
+--     WHEN availability_id = 75 THEN 'QR F1-5'
+--     WHEN availability_id = 76 THEN 'ST F2-6'
+--     WHEN availability_id = 77 THEN 'UV F1-4'
+--     WHEN availability_id = 78 THEN 'WX F2-2'
+--     WHEN availability_id = 79 THEN 'YZ F3-1'
+--     WHEN availability_id = 80 THEN 'AB F1-3'
+--     WHEN availability_id = 81 THEN 'CD F1-6'
+--     WHEN availability_id = 82 THEN 'EF F2-1'
+--     WHEN availability_id = 83 THEN 'ST F2-4'
+--     END;
 

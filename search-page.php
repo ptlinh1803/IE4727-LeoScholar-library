@@ -160,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LeoScholar</title>
+    <title>Search Page</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
       rel="stylesheet"
@@ -190,9 +190,14 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
             <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
           </a>
           <div class="dropdown-content">
-            <a href="user-settings.php">Settings</a>
-            <a href="#">Payment</a>
-            <a href="#" onclick="confirmLogout()">Logout</a>
+            <?php if (isset($_SESSION['user_id'])) { ?>
+              <a href="user-settings.php">Settings</a>
+              <a href="#">Payment</a>
+              <a href="#" onclick="confirmLogout()">Logout</a>
+            <?php } else { ?>
+              <a href="login.html">Log in</a>
+              <a href="register.html">Register</a>
+            <?php } ?>
           </div>
         </div>
       </div>
@@ -695,7 +700,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     <!-- Redirect to Book details page -->
     <script>
       function redirectToBookDetails(bookId) {
-        window.location.href = "book-details.php?book_id=" + bookId;
+        window.open("book-details.php?book_id=" + bookId, "_blank");
       }
     </script>
 
