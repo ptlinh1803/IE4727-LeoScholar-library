@@ -50,6 +50,7 @@ $conn->close();
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="search-styles.css">
   <link rel="stylesheet" href="edit-book.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- Navigation placeholder -->
@@ -83,6 +84,7 @@ $conn->close();
   </nav>
 
   <!-- Edit Book Details Container -->
+  <section id="edit-book-content">
   <div id="edit-book-details-container">
     <h1 class="big-blue-h1">Edit Book Details</h1>
     <table id="edit-book-table">
@@ -90,13 +92,14 @@ $conn->close();
       <tr>
         <form method="POST" action="update-book-details.php">
           <td class="cell-detail-name">
-            <img src="img/books/<?php echo htmlspecialchars($cover_path); ?>" alt="Book Cover" />
+          <h4>Book Cover</h4>  
+          <img src="img/books/<?php echo htmlspecialchars($cover_path); ?>" alt="Book Cover" />
           </td>
           <td class="cell-edit upload-cell">
             <p>Current book cover: <?php echo htmlspecialchars($cover_path); ?></p>
-            <button type="button" class="upload-btn">Upload</button>
+            <button type="button" class="upload-btn main-btn">Upload</button>
           </td>
-          <td class="cell-save"><button type="submit">Save</button></td>
+          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
@@ -105,10 +108,12 @@ $conn->close();
         <form method="POST" action="update-book-details.php">
           <td class="cell-detail-name"><h4>Title</h4></td>
           <td class="cell-edit">
-            <input type="text" value="<?php echo htmlspecialchars($title); ?>" readonly>
-            <i class="fa-solid fa-pen edit-icon"></i>
+            <input type="text" id="title" value="<?php echo htmlspecialchars($title); ?>" readonly>
+            <button class="edit-icon" type="button" onclick="toggleEdit('title')">
+              <i class="fa-solid fa-pen"></i>
+            </button>
           </td>
-          <td class="cell-save"><button type="submit">Save</button></td>
+          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
@@ -117,10 +122,12 @@ $conn->close();
         <form method="POST" action="update-book-details.php">
           <td class="cell-detail-name"><h4>Author</h4></td>
           <td class="cell-edit">
-            <input type="text" value="<?php echo htmlspecialchars($author); ?>" readonly>
-            <i class="fa-solid fa-pen edit-icon"></i>
+            <input type="text" id="author" value="<?php echo htmlspecialchars($author); ?>" readonly>
+            <button class="edit-icon" type="button" onclick="toggleEdit('author')">
+              <i class="fa-solid fa-pen"></i>
+            </button>
           </td>
-          <td class="cell-save"><button type="submit">Save</button></td>
+          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
@@ -129,10 +136,12 @@ $conn->close();
         <form method="POST" action="update-book-details.php">
           <td class="cell-detail-name"><h4>About Author</h4></td>
           <td class="cell-edit">
-            <textarea readonly><?php echo htmlspecialchars($about_author); ?></textarea>
-            <i class="fa-solid fa-pen edit-icon"></i>
+            <textarea readonly id="about_author"><?php echo htmlspecialchars($about_author); ?></textarea>
+            <button class="edit-icon" type="button" onclick="toggleEdit('about_author')">
+              <i class="fa-solid fa-pen"></i>
+            </button>
           </td>
-          <td class="cell-save"><button type="submit">Save</button></td>
+          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
@@ -142,9 +151,9 @@ $conn->close();
           <td class="cell-detail-name"><h4>E-book</h4></td>
           <td class="cell-edit upload-cell">
             <p>Current e-book file: <?php echo htmlspecialchars($ebook_file_path); ?></p>
-            <button type="button" class="upload-btn">Upload</button>
+            <button type="button" class="upload-btn main-btn">Upload</button>
           </td>
-          <td class="cell-save"><button type="submit">Save</button></td>
+          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
@@ -154,9 +163,9 @@ $conn->close();
           <td class="cell-detail-name"><h4>Audio</h4></td>
           <td class="cell-edit upload-cell">
             <p>Current audio file: <?php echo htmlspecialchars($audio_file_path); ?></p>
-            <button type="button" class="upload-btn">Upload</button>
+            <button type="button" class="upload-btn main-btn">Upload</button>
           </td>
-          <td class="cell-save"><button type="submit">Save</button></td>
+          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
     </table>
@@ -166,6 +175,7 @@ $conn->close();
   <div id="edit-book-availability-container" style="width: 100%;">
     <!-- Content to be added later -->
   </div>
+  </section>
 
   <script src="toggle-edit.js"></script> <!-- Placeholder for future JS for toggle functionality -->
 </body>
