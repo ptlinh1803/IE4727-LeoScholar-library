@@ -523,6 +523,8 @@ if (!isset($_SESSION['user_id'])) {
               <div class="sort-dropdown">
                 <select name="sort_by" id="sort-by" class="sort-dropdown-select" style="color: black;">
                     <option value="">Default</option>
+                    <option value="created_at DESC">Newest</option>
+                    <option value="created_at ASC">Oldest</option>
                     <option value="due_date ASC">Due Date (ASC)</option>
                     <option value="due_date DESC">Due Date (DESC)</option>
                     <option value="loan_date ASC">Loan Date (ASC)</option>
@@ -737,6 +739,8 @@ if (!isset($_SESSION['user_id'])) {
               <div class="sort-dropdown">
                 <select name="reserved_sort_by" id="reserved-sort-by" class="sort-dropdown-select" style="color: black;">
                     <option value="">Default</option>
+                    <option value="created_at DESC">Newest</option>
+                    <option value="created_at ASC">Oldest</option>
                     <option value="reservation_date ASC">Reservation Date (ASC)</option>
                     <option value="reservation_date DESC">Reservation Date (DESC)</option>
                 </select>

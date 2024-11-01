@@ -101,6 +101,7 @@ CREATE TABLE IF NOT EXISTS loans (
     due_date DATE,
     status ENUM('active', 'returned', 'overdue') DEFAULT 'active',
     renewed BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
     FOREIGN KEY (branch_id) REFERENCES branches(branch_id) ON DELETE CASCADE
@@ -114,6 +115,7 @@ CREATE TABLE IF NOT EXISTS reservations (
     branch_id INT NOT NULL,
     reservation_date DATE,
     status ENUM('pending', 'fulfilled', 'cancelled') DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
     FOREIGN KEY (branch_id) REFERENCES branches(branch_id) ON DELETE CASCADE
@@ -129,7 +131,8 @@ CREATE TABLE IF NOT EXISTS fines (
     issued_date DATE,
     paid_date DATE,
     paid BOOLEAN DEFAULT false,
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (loan_id) REFERENCES loans(loan_id) ON DELETE CASCADE
 );
 
 -- Donations table
