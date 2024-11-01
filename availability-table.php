@@ -52,7 +52,7 @@ if (!$result_availability) {
 }
 ?>
 
-<table>
+<table id="edit-availability-table">
 <thead>
     <tr>
       <th>Branches</th>

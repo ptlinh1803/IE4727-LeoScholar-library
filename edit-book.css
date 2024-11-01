@@ -20,7 +20,7 @@
 }
 
 #edit-availability-container {
-  background-color: #f3f3f7;
+  background-color: #fceae2;
 }
 
 /* Centering elements */
@@ -35,9 +35,6 @@
   width: 70%;
   border-collapse: collapse;
   border: 1px solid #000;
-}
-
-#edit-detail-table {
   background-color: #f3f3f7;
 }
 

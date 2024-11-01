@@ -28,10 +28,8 @@ $_SESSION['librarian_id'] = 1;
     </a>
     <span class="menu-toggle">&#9776;</span>
     <div class="nav-links">
-      <a href="homepage-member.php">Home</a>
-      <a href="search-page.php">Search</a>
-      <a href="#">My Shelf</a>
-      <a href="#">Contribute</a>
+      <a href="#">Home</a>
+      <a href="#">Edit Book</a>
       <div class="dropdown">
         <a href="#" class="profile-link active-page">
           Profile
@@ -40,7 +38,6 @@ $_SESSION['librarian_id'] = 1;
         <div class="dropdown-content">
           <?php if (isset($_SESSION['librarian_id'])) { ?>
             <a href="user-settings.php" class="active-page">Settings</a>
-            <a href="#">Payment</a>
             <a href="#" onclick="confirmLogout()">Logout</a>
           <?php } else { ?>
             <a href="login.html">Log in</a>
