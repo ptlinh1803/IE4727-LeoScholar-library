@@ -37,6 +37,10 @@
   border: 1px solid #000;
 }
 
+#edit-detail-table {
+  background-color: #f3f3f7;
+}
+
 .cell {
   text-align: center;
   padding: 10px;
@@ -102,6 +106,10 @@
   cursor: pointer;
   transition: background-color 0.3s;
   justify-content: center;
+  margin: 5px auto;
+}
+
+.edit-book-container input[type="file"] {
   margin: 5px auto;
 }
 

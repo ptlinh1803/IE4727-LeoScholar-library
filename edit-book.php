@@ -69,17 +69,19 @@ $_SESSION['librarian_id'] = 1;
 <section id="edit-book-content">
   <div class="edit-book-container" id="edit-detail-container">
     <h1 class="big-blue-h1">Edit Book Details</h1>
+    <h4>Editing details of book: <?php echo htmlspecialchars($title); ?></h4>
     <table id="edit-detail-table">
       <!-- Row 1: Book Cover -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="edit-book-cover.php">
           <td class="cell">
             <h4>Book Cover</h4>  
             <img src="img/books/<?php echo htmlspecialchars($cover_path); ?>" alt="Book Cover" />
           </td>
           <td class="cell upload-cell">
             <p>Current book cover: <?php echo htmlspecialchars($cover_path); ?></p>
-            <button type="button" class="upload-btn">Upload</button>
+            <input type="file" id="cover-file" name="cover_path" required>
+            <!-- <button type="button" class="upload-btn">Upload</button> -->
           </td>
           <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
@@ -87,10 +89,10 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 2: Title -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="edit-title.php">
           <td class="cell"><h4>Title</h4></td>
           <td class="cell">
-            <input type="text" id="title" value="<?php echo htmlspecialchars($title); ?>" readonly>
+            <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" readonly>
             <button class="edit-icon" type="button" onclick="toggleEdit('title')">
               <i class="fa-solid fa-pen"></i>
             </button>
@@ -101,10 +103,10 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 3: Author -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="edit-author.php">
           <td class="cell"><h4>Author</h4></td>
           <td class="cell">
-            <input type="text" id="author" value="<?php echo htmlspecialchars($author); ?>" readonly>
+            <input type="text" id="author" name="author" value="<?php echo htmlspecialchars($author); ?>" readonly>
             <button class="edit-icon" type="button" onclick="toggleEdit('author')">
               <i class="fa-solid fa-pen"></i>
             </button>
@@ -113,12 +115,26 @@ $_SESSION['librarian_id'] = 1;
         </form>
       </tr>
 
-      <!-- Row 4: About Author -->
+      <!-- Row 4: Description -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="edit-description.php">
+          <td class="cell"><h4>Description</h4></td>
+          <td class="cell">
+            <textarea readonly id="description" name="description" rows="6"><?php echo htmlspecialchars($description); ?></textarea>
+            <button class="edit-icon" type="button" onclick="toggleEdit('description')">
+              <i class="fa-solid fa-pen"></i>
+            </button>
+          </td>
+          <td class="cell"><button type="submit" class="main-btn">Save</button></td>
+        </form>
+      </tr>
+
+      <!-- Row 5: About Author -->
+      <tr>
+        <form method="POST" action="edit-about-author.php">
           <td class="cell"><h4>About Author</h4></td>
           <td class="cell">
-            <textarea readonly id="about_author" rows="6"><?php echo htmlspecialchars($about_author); ?></textarea>
+            <textarea readonly id="about_author" name="about_author" rows="6"><?php echo htmlspecialchars($about_author); ?></textarea>
             <button class="edit-icon" type="button" onclick="toggleEdit('about_author')">
               <i class="fa-solid fa-pen"></i>
             </button>
@@ -127,25 +143,27 @@ $_SESSION['librarian_id'] = 1;
         </form>
       </tr>
 
-      <!-- Row 5: E-book -->
+      <!-- Row 6: E-book -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="upload-ebook.php">
           <td class="cell"><h4>E-book</h4></td>
           <td class="cell upload-cell">
             <p>Current e-book file: <?php echo htmlspecialchars($ebook_file_path); ?></p>
-            <button type="button" class="upload-btn">Upload</button>
+            <input type="file" id="ebook-file" name="ebook_file_path" required>
+            <!-- <button type="button" class="upload-btn">Upload</button> -->
           </td>
           <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
-      <!-- Row 6: Audio -->
+      <!-- Row 7: Audio -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="upload-audio.php">
           <td class="cell"><h4>Audio</h4></td>
           <td class="cell upload-cell">
             <p>Current audio file: <?php echo htmlspecialchars($audio_file_path); ?></p>
-            <button type="button" class="upload-btn">Upload</button>
+            <input type="file" id="audio-file" name="audio_file_path" required>
+            <!-- <button type="button" class="upload-btn">Upload</button> -->
           </td>
           <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
@@ -156,6 +174,7 @@ $_SESSION['librarian_id'] = 1;
   <!-- Edit Book Availability Container -->
   <div class="edit-book-container" id="edit-availability-container">
     <h1 class="big-blue-h1">Edit Book Availabilities</h1>
+    <h4>Editing availabilities of book: <?php echo htmlspecialchars($title); ?></h4>
     <form id="book-availalibity-form" method="POST" action="update-book-availability.php">
     <div class="table-wrapper">
       <?php include "availability-table.php" ?>
