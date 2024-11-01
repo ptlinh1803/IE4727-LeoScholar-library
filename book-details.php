@@ -205,7 +205,7 @@ if (!empty($_GET['book_id'])) {
         $from_date = $_POST['from_date'];
         $to_date = $_POST['to_date']; 
 
-        // Check if the user already has a reservation for this book at this branch
+        // Check if the user already has a loan for this book at this branch
         $check_query = "SELECT * FROM loans WHERE user_id = ? AND book_id = ? AND branch_id = ?";
         $stmt = $conn->prepare($check_query);
         $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
@@ -218,7 +218,7 @@ if (!empty($_GET['book_id'])) {
           $_SESSION['alert'] = "You have already borrowed this book from this branch.";
         } else {
           // Check user's existing loans count
-          $stmt = $conn->prepare("SELECT COUNT(*) AS loan_count FROM loans WHERE user_id = ?");
+          $stmt = $conn->prepare("SELECT COUNT(*) AS loan_count FROM loans WHERE user_id = ? AND status='active'");
           $stmt->bind_param("i", $user_id);
           $stmt->execute();
           $stmt->bind_result($loan_count);

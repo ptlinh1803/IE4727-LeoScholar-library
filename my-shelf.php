@@ -1,5 +1,6 @@
 <?php
 include 'db-connect.php';
+include 'update-loan-fine-status.php';
 session_start();
 
 // If not log in
@@ -7,6 +8,10 @@ if (!isset($_SESSION['user_id'])) {
   $message = "Hello, Guest! Please log in to access exclusive features and personalized content!";
 } else {
   $user_id = $_SESSION['user_id'];
+  // Update loans & fines for this user-------------------
+  updateOverdueStatusAndFines($conn, $user_id);
+
+
   // Get favourite books----------------------------
   $get_favourite_books_query = "
       SELECT * FROM books 
@@ -282,6 +287,22 @@ if (!isset($_SESSION['user_id'])) {
                           onclick="event.stopPropagation();"
                         >
                           Return
+                        </button>
+                      </form>
+                      <form
+                        action=""
+                        method="POST"
+                        onsubmit="return confirm('Are you sure you want to return this book?');"
+                      >
+                        <input type="hidden" name="book_id" value="" />
+                        <input type="hidden" name="user_id" value="" />
+                        <!-- Replace with actual user ID -->
+                        <button
+                          type="submit"
+                          class="shelf-action-button acknowledge"
+                          onclick="event.stopPropagation();"
+                        >
+                          Renew
                         </button>
                       </form>
                     </td>
