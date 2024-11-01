@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS loans (
     return_date DATE,
     due_date DATE,
     status ENUM('active', 'returned', 'overdue') DEFAULT 'active',
+    renewed BOOLEAN DEFAULT false,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
     FOREIGN KEY (branch_id) REFERENCES branches(branch_id) ON DELETE CASCADE

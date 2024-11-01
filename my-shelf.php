@@ -63,7 +63,8 @@ if (!isset($_SESSION['user_id'])) {
           l.loan_date,
           l.due_date,
           l.return_date,
-          l.status
+          l.status,
+          l.renewed
       FROM 
           loans l
       JOIN 
@@ -231,6 +232,28 @@ if (!isset($_SESSION['user_id'])) {
       header("Location: my-shelf.php?active_tab=borrowed");
       exit();
   }
+
+  // Renew borrowed books-------------------------------------------
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['renew_book'])) {
+    // Get form data
+    $loan_id = $_POST['loan_id'];
+
+    // Prepare the SQL to update the loan status
+    $updateLoanStatusQuery = "
+      UPDATE loans 
+      SET 
+        due_date = DATE_ADD(due_date, INTERVAL 14 DAY),
+        renewed = true
+      WHERE loan_id = ?";
+    $stmt = $conn->prepare($updateLoanStatusQuery);
+    $stmt->bind_param("i", $loan_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect back to the same page with the borrowed books tab active
+    header("Location: my-shelf.php?active_tab=borrowed");
+    exit();
+}
 }
 
 ?>
@@ -506,18 +529,18 @@ if (!isset($_SESSION['user_id'])) {
                         </button>
                       </form>
                       <form
-                        action=""
+                        action="my-shelf.php"
                         method="POST"
-                        onsubmit="return confirm('Are you sure you want to return this book?');"
+                        onsubmit="return confirm('You may renew this book only once, extending the due date by 14 days. If you would like to keep it longer after that, please return it first, then borrow it again.');"
                       >
-                        <input type="hidden" name="book_id" value="" />
-                        <input type="hidden" name="user_id" value="" />
+                      <input type="hidden" name="loan_id" value="<?php echo $book['loan_id']; ?>" />
+                      <input type="hidden" name="renew_book" value="1" />
                         <!-- Replace with actual user ID -->
                         <button
                           type="submit"
                           class="shelf-action-button acknowledge"
                           onclick="event.stopPropagation();"
-                          <?php if ($status === 'returned' || $status === 'overdue') { ?>
+                          <?php if ($status === 'returned' || $status === 'overdue' || $book['renewed'] == 1) { ?>
                             disabled
                             style="background-color: #D3D3D3; cursor: not-allowed; color: black; border: none;"
                           <?php } ?>
