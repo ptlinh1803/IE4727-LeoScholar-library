@@ -164,3 +164,31 @@ input[type="password"] {
   box-sizing: border-box;
   /* Include padding and border in the width calculation */
 }
+
+/* Password visibility button styling */
+.password-input-container {
+  position: relative;
+  /* Set position to relative for the container */
+}
+
+.password-input-container input {
+  width: calc(100% - 30px);
+  /* Full width minus space for the icon */
+  padding-right: 30px;
+  /* Padding to prevent text overlap with the icon */
+}
+
+.password-visibility {
+  position: absolute;
+  /* Position it absolutely */
+  right: 10px;
+  /* Position it to the right */
+  top: 50%;
+  /* Center it vertically */
+  transform: translateY(-50%);
+  /* Adjust for vertical alignment */
+  cursor: pointer;
+  /* Pointer cursor */
+  font-size: 18px;
+  /* Size of the icon */
+}

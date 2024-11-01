@@ -1,15 +1,3 @@
-<?php
-session_start(); // Start the session
-
-// Check if the session ID is set
-if (!isset($_SESSION['user_id'])) {
-    // If not set, display the message
-    echo "<img src='img/ui/nothing-here.png' alt='Nothing here' style='width: auto; height: 100%;'/>";
-    exit; // Stop further script execution
-}
-
-?>
-
 <!-- The script borrows a lot of styles from search-styles.css-->
 <!DOCTYPE html>
 <html lang="en">
@@ -69,6 +57,21 @@ if (isset($_SESSION['message'])) {
     <h1 class="big-blue-h1">User Settings</h1>
   </header>
 
+  <!-- Check if session's user_id is set, if not, display nothing-here.png-->
+  <?php
+session_start(); // Start the session
+
+// Check if the session ID is set
+if (!isset($_SESSION['user_id'])) {
+    // If not set, display the message
+    echo     "<div style='display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60vh;'>
+    <img src='img/ui/nothing-here.png' alt='Nothing here' style='height: 300px;' />
+    <h4> Please log in to view your user settings </h4>
+</div>"
+;
+}
+else { //Display the content of the page normally
+?>
   <!-- Select Options section -->
   <section class="settings-options">
     <h4>Select the user information that you want to see/update:</h4>
@@ -125,17 +128,32 @@ if (isset($_SESSION['message'])) {
           </tr>
           <tr>
             <td>Current Password</td>
-            <td><input type="password" id="settings-current-password" name="settings-current-password" required></td>
+            <td>
+            <div class="password-input-container">
+              <input type="password" id="settings-current-password" name="settings-current-password" required>
+            <span class="password-visibility" onclick="togglePassword('settings-current-password')">👁️</span>
+            </div>
+          </td>
           </tr>
           <tr>
             <td>New Password</td>
-            <td><input type="password" id="settings-new-password" name="settings-new-password" required
-                onchange="validateUpdatePassword()"></td>
+            <td>
+            <div class="password-input-container">
+              <input type="password" id="settings-new-password" name="settings-new-password" required
+                onchange="validateUpdatePassword()">
+              <span class="password-visibility" onclick="togglePassword('settings-new-password')">👁️</span>
+</div>
+            </td>
           </tr>
           <tr>
             <td>Confirm New Password</td>
-            <td><input type="password" id="settings-confirm-new-password" name="settings-new-password" required
-                onchange="validateUpdatePassword()"></td>
+            <td>
+            <div class="password-input-container">
+              <input type="password" id="settings-confirm-new-password" name="settings-new-password" required
+                onchange="validateUpdatePassword()">
+                <span class="password-visibility" onclick="togglePassword('settings-confirm-newpassword')">👁️</span>
+              </div>
+              </td>
           </tr>
         </table>
         <button type="submit" class="settings-submit-button" id="submit-update-password">Submit</button>
@@ -143,6 +161,7 @@ if (isset($_SESSION['message'])) {
     </div>
   </section>
 
+  <?php } ?>
   <!-- footer -->
   <footer class="footer">
     <p>&copy; 2024 LeoScholar. All rights reserved.</p>
@@ -158,6 +177,7 @@ if (isset($_SESSION['message'])) {
   </script>
 
   <script src="display-settings.js"></script>
+  <script src="toggle_password.js"></script>
 
 </body>
 
