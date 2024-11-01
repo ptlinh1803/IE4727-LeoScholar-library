@@ -50,9 +50,10 @@ function updateOverdueStatusAndFines($conn, $user_id) {
             f.reason = CONCAT('Overdue ', DATEDIFF(IF(l.return_date IS NULL, CURDATE(), l.return_date), l.due_date), ' days'),
             f.issued_date = CURDATE()
         WHERE 
-            l.status = 'overdue' 
+            l.status IN ('overdue', 'returned')
             AND f.loan_id IS NOT NULL
             AND l.user_id = ?
+            AND (l.return_date > l.due_date OR (l.status = 'overdue' AND l.return_date IS NULL))
             AND f.paid = false;";
 
     $stmt = $conn->prepare($fineUpdateSql);

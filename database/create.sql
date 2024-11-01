@@ -86,7 +86,8 @@ CREATE TABLE IF NOT EXISTS book_availability (
     available_copies INT DEFAULT 0,
     shelf VARCHAR(10),
     FOREIGN KEY (book_id) REFERENCES books(book_id) ON DELETE CASCADE,
-    FOREIGN KEY (branch_id) REFERENCES branches(branch_id) ON DELETE CASCADE
+    FOREIGN KEY (branch_id) REFERENCES branches(branch_id) ON DELETE CASCADE,
+    UNIQUE KEY (book_id, branch_id)
 );
 
 -- Loans table

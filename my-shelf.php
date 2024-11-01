@@ -191,6 +191,46 @@ if (!isset($_SESSION['user_id'])) {
   }
 
   $stmt->close();
+
+
+  // Return borrowed books-------------------------------------------
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['return_book'])) {
+      // Get form data
+      $book_id = $_POST['book_id'];
+      $user_id = $_POST['user_id'];
+      $branch_id = $_POST['branch_id'];
+      $loan_id = $_POST['loan_id'];
+
+      // Prepare the SQL to update the loan status
+      $updateLoanStatusQuery = "
+        UPDATE loans 
+        SET 
+          status = 'returned',
+          return_date = CURDATE()
+        WHERE loan_id = ?";
+      $stmt = $conn->prepare($updateLoanStatusQuery);
+      $stmt->bind_param("i", $loan_id);
+      $stmt->execute();
+
+      // Check if the update was successful
+      if ($stmt->affected_rows > 0) {
+          // Increase the available copies of the book at this branch
+          $updateAvailableCopiesQuery = "
+              INSERT INTO book_availability (book_id, branch_id, available_copies)
+              VALUES (?, ?, 1)
+              ON DUPLICATE KEY UPDATE 
+                  available_copies = available_copies + 1;";
+          $stmt = $conn->prepare($updateAvailableCopiesQuery);
+          $stmt->bind_param("ii", $book_id, $branch_id);
+          $stmt->execute();
+      }
+
+      $stmt->close();
+
+      // Redirect back to the same page with the borrowed books tab active
+      header("Location: my-shelf.php?active_tab=borrowed");
+      exit();
+  }
 }
 
 ?>
@@ -444,17 +484,23 @@ if (!isset($_SESSION['user_id'])) {
                     </td>
                     <td>
                       <form
-                        action=""
+                        action="my-shelf.php"
                         method="POST"
                         onsubmit="return confirm('Are you sure you want to return this book?');"
                       >
-                        <input type="hidden" name="book_id" value="" />
-                        <input type="hidden" name="user_id" value="" />
-                        <!-- Replace with actual user ID -->
+                      <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>" />
+                      <input type="hidden" name="branch_id" value="<?php echo $book['branch_id']; ?>" />
+                      <input type="hidden" name="loan_id" value="<?php echo $book['loan_id']; ?>" />
+                      <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>" />
+                      <input type="hidden" name="return_book" value="1" />
                         <button
                           type="submit"
                           class="shelf-action-button return"
                           onclick="event.stopPropagation();"
+                          <?php if ($status === 'returned') { ?>
+                            disabled
+                            style="background-color: #D3D3D3; cursor: not-allowed; color: black; border: none;"
+                          <?php } ?>
                         >
                           Return
                         </button>
@@ -471,6 +517,10 @@ if (!isset($_SESSION['user_id'])) {
                           type="submit"
                           class="shelf-action-button acknowledge"
                           onclick="event.stopPropagation();"
+                          <?php if ($status === 'returned' || $status === 'overdue') { ?>
+                            disabled
+                            style="background-color: #D3D3D3; cursor: not-allowed; color: black; border: none;"
+                          <?php } ?>
                         >
                           Renew
                         </button>
@@ -770,7 +820,7 @@ if (!isset($_SESSION['user_id'])) {
     <!-- Redirect to Book details page -->
     <script>
       function redirectToBookDetails(bookId) {
-        window.location.href = "book-details.php?book_id=" + bookId;
+        window.open("book-details.php?book_id=" + bookId, "_blank");
       }
     </script>
 
