@@ -141,11 +141,43 @@ if (!isset($_SESSION['user_id'])) {
       JOIN 
           branches br ON r.branch_id = br.branch_id
       WHERE 
-          r.user_id = ?;
+          r.user_id = ?
     ";
 
+  // Initialize parameters array
+  $params2 = [$user_id];
+  $types2 = "i";
+
+  $reserved_status_filter = isset($_GET['reserved_status']) ? $_GET['reserved_status'] : [];
+  $reserved_branch_filter = isset($_GET['reserved_branch_id']) ? $_GET['reserved_branch_id'] : [];
+
+  // Check if filters are applied and append to query
+  if (!empty($reserved_status_filter)) {
+    $reserved_status_placeholders = implode(',', array_fill(0, count($reserved_status_filter), '?'));
+    $get_reserved_books_query .= " AND r.status IN ($reserved_status_placeholders)";
+    $params2 = array_merge($params2, $reserved_status_filter); // Merge the status filter into params
+    $types2 .= str_repeat('s', count($reserved_status_filter)); // Assuming status is a string
+  }
+
+  if (!empty($reserved_branch_filter)) {
+    $reserved_branch_placeholders = implode(',', array_fill(0, count($reserved_branch_filter), '?'));
+    $get_reserved_books_query .= " AND r.branch_id IN ($reserved_branch_placeholders)";
+    $params2 = array_merge($params2, $reserved_branch_filter); // Merge the branch filter into params
+    $types2 .= str_repeat('i', count($reserved_branch_filter)); // Assuming branch_id is an integer
+  }
+
+  // Add sorting
+  $reserved_sort_by = isset($_GET['reserved_sort_by']) ? $_GET['reserved_sort_by'] : '';
+  if (!empty($reserved_sort_by)) {
+    $get_reserved_books_query .= " ORDER BY r.$reserved_sort_by";
+  }
+
+  // Prepare the statement
   $stmt = $conn->prepare($get_reserved_books_query);
-  $stmt->bind_param("i", $user_id); // Bind user_id as an integer
+  if ($stmt === false) {
+      die("Error preparing statement: " . $conn->error);
+  }
+  $stmt->bind_param($types2, ...$params2);
   $stmt->execute();
   $reserved_books_result = $stmt->get_result();
 
@@ -264,7 +296,7 @@ if (!isset($_SESSION['user_id'])) {
         <div id="borrowed-books" class="shelf-section" style="display: none">
           <h2>Your Borrowed Books</h2>
 
-          <!-- Filter button -->
+          <!-- Filter button & form -->
           <button id="filter-button" onclick="toggleFilterForm('filter-loan-form')" class="filter-button">
           <img src="img/ui/filter.png"/>
             Filter
@@ -310,7 +342,6 @@ if (!isset($_SESSION['user_id'])) {
               </div>
 
               <!-- Branch Filter -->
-               <!-- Status Filter -->
               <div class="checkbox-dropdown">
                 <label>Branches</label>
                 <div
@@ -469,6 +500,92 @@ if (!isset($_SESSION['user_id'])) {
         <!-- ----------------------RESERVED BOOKS-------------------------- -->
         <div id="reserved-books" class="shelf-section" style="display: none">
           <h2>Your Reserved Books</h2>
+          <!-- Filter button & form -->
+          <button id="filter-button" onclick="toggleFilterForm('filter-reserved-form')" class="filter-button">
+          <img src="img/ui/filter.png"/>
+            Filter
+          </button>
+          <form 
+            id="filter-reserved-form"
+            class="advanced-search-form filter-form"
+            method="GET" 
+            action="<?php echo $_SERVER['PHP_SELF']; ?>"
+          >
+              <input type="hidden" name="active_tab" id="active-tab-input" value="reserved">
+              <!-- Status Filter -->
+              <div class="checkbox-dropdown">
+                <label>Status</label>
+                <div
+                  class="checkbox-dropdown-toggle filter-toggle"
+                  onclick="toggleFilterForm('reserved-status-dropdown')"
+                >
+                  <span>Select Status</span>
+                  <img
+                    src="img/ui/drop-down-icon.svg"
+                    alt="Arrow Down Icon"
+                    class="dropdown-icon"
+                  />
+                </div>
+                <div class="checkbox-dropdown-content filter-dropdown" id="reserved-status-dropdown">
+                  <label>
+                    <input type="checkbox" name="reserved_status[]" value="pending" 
+                    />
+                    Pending
+                  </label>
+                  <label>
+                    <input type="checkbox" name="reserved_status[]" value="fulfilled" 
+                    />
+                    Fulfilled
+                  </label>
+                  <label>
+                    <input type="checkbox" name="reserved_status[]" value="cancelled" 
+                    />
+                    Cancelled
+                  </label>
+                </div>
+              </div>
+
+              <!-- Branch Filter -->
+              <div class="checkbox-dropdown">
+                <label>Branches</label>
+                <div
+                  class="checkbox-dropdown-toggle filter-toggle"
+                  onclick="toggleFilterForm('reserved-branch-dropdown')"
+                >
+                  <span>Select Branches</span>
+                  <img
+                    src="img/ui/drop-down-icon.svg"
+                    alt="Arrow Down Icon"
+                    class="dropdown-icon"
+                  />
+                </div>
+                <div class="checkbox-dropdown-content" id="reserved-branch-dropdown" style="width: 400px;">
+                  <?php foreach ($branches as $branch) { ?>
+                    <label>
+                      <input type="checkbox" name="reserved_branch_id[]" value="<?php echo htmlspecialchars($branch['branch_id']); ?>" 
+                      />
+                      <?php echo htmlspecialchars($branch['university_id']); ?> - <?php echo htmlspecialchars($branch['branch_name']); ?>
+                    </label>
+                  <?php } ?>
+                </div>
+              </div>
+
+              <!-- Sort By Filter -->
+              <div>
+              <label for="sort-by">Sort By:</label>
+              <div class="sort-dropdown">
+                <select name="reserved_sort_by" id="reserved-sort-by" class="sort-dropdown-select" style="color: black;">
+                    <option value="">Default</option>
+                    <option value="reservation_date ASC">Reservation Date (ASC)</option>
+                    <option value="reservation_date DESC">Reservation Date (DESC)</option>
+                </select>
+                <img src="img/ui/drop-down-icon.svg" alt="Dropdown Icon" />
+              </div>
+              </div>
+
+              <button type="submit" class="submit-filter-button">Apply Filters</button>
+          </form>
+          <!-- Display table -->
           <?php if (!empty($reserved_books)) { ?>
             <table class="book-table">
               <thead>
@@ -668,5 +785,4 @@ if (!isset($_SESSION['user_id'])) {
             }
         }
     </script>
-  </body>
 </html>
