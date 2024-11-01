@@ -53,6 +53,13 @@ if (!$result_availability) {
 ?>
 
 <table>
+<thead>
+    <tr>
+      <th>Branches</th>
+      <th>No. of Available Copies</th>
+      <th>Shelf</th>
+    </tr>
+  </thead>
 <?php
 // 3. Display results in a dynamic table
 while ($row = mysqli_fetch_assoc($result_availability)) {
@@ -61,9 +68,9 @@ while ($row = mysqli_fetch_assoc($result_availability)) {
   $shelf = $row['shelf'] !== NULL ? $row['shelf'] : "";
   ?>
   <tr>
-    <td><h4><?php echo htmlspecialchars($branch_name); ?></h4></td>
-    <td><input type="number" value="<?php echo htmlspecialchars($available_copies); ?>"></td>
-    <td><input type="text" value="<?php echo htmlspecialchars($shelf); ?>"></td>
+    <td class="cell"><h4><?php echo htmlspecialchars($branch_name); ?></h4></td>
+    <td class="cell"><input type="number" min="0" value="<?php echo htmlspecialchars($available_copies); ?>"></td>
+    <td class="cell"><input type="text" value="<?php echo htmlspecialchars($shelf); ?>"></td>
   </tr>
   <?php
 }

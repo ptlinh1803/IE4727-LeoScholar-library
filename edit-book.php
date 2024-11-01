@@ -65,103 +65,105 @@ $_SESSION['librarian_id'] = 1;
       // Retrieve the book details from the database here
       include "retrieve-book-details.php";
   ?>
-  <!-- Edit Book Details Container -->
-  <section id="edit-book-content">
-  <div id="edit-book-details-container">
+<!-- Edit Book Details Container -->
+<section id="edit-book-content">
+  <div class="edit-book-container" id="edit-detail-container">
     <h1 class="big-blue-h1">Edit Book Details</h1>
-    <table id="edit-book-table">
+    <table id="edit-detail-table">
       <!-- Row 1: Book Cover -->
       <tr>
         <form method="POST" action="update-book-details.php">
-          <td class="cell-detail-name">
-          <h4>Book Cover</h4>  
-          <img src="img/books/<?php echo htmlspecialchars($cover_path); ?>" alt="Book Cover" />
+          <td class="cell">
+            <h4>Book Cover</h4>  
+            <img src="img/books/<?php echo htmlspecialchars($cover_path); ?>" alt="Book Cover" />
           </td>
-          <td class="cell-edit upload-cell">
+          <td class="cell upload-cell">
             <p>Current book cover: <?php echo htmlspecialchars($cover_path); ?></p>
-            <button type="button" class="upload-btn main-btn">Upload</button>
+            <button type="button" class="upload-btn">Upload</button>
           </td>
-          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
+          <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
       <!-- Row 2: Title -->
       <tr>
         <form method="POST" action="update-book-details.php">
-          <td class="cell-detail-name"><h4>Title</h4></td>
-          <td class="cell-edit">
+          <td class="cell"><h4>Title</h4></td>
+          <td class="cell">
             <input type="text" id="title" value="<?php echo htmlspecialchars($title); ?>" readonly>
             <button class="edit-icon" type="button" onclick="toggleEdit('title')">
               <i class="fa-solid fa-pen"></i>
             </button>
           </td>
-          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
+          <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
       <!-- Row 3: Author -->
       <tr>
         <form method="POST" action="update-book-details.php">
-          <td class="cell-detail-name"><h4>Author</h4></td>
-          <td class="cell-edit">
+          <td class="cell"><h4>Author</h4></td>
+          <td class="cell">
             <input type="text" id="author" value="<?php echo htmlspecialchars($author); ?>" readonly>
             <button class="edit-icon" type="button" onclick="toggleEdit('author')">
               <i class="fa-solid fa-pen"></i>
             </button>
           </td>
-          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
+          <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
       <!-- Row 4: About Author -->
       <tr>
         <form method="POST" action="update-book-details.php">
-          <td class="cell-detail-name"><h4>About Author</h4></td>
-          <td class="cell-edit">
-            <textarea readonly id="about_author"><?php echo htmlspecialchars($about_author); ?></textarea>
+          <td class="cell"><h4>About Author</h4></td>
+          <td class="cell">
+            <textarea readonly id="about_author" rows="6"><?php echo htmlspecialchars($about_author); ?></textarea>
             <button class="edit-icon" type="button" onclick="toggleEdit('about_author')">
               <i class="fa-solid fa-pen"></i>
             </button>
           </td>
-          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
+          <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
       <!-- Row 5: E-book -->
       <tr>
         <form method="POST" action="update-book-details.php">
-          <td class="cell-detail-name"><h4>E-book</h4></td>
-          <td class="cell-edit upload-cell">
+          <td class="cell"><h4>E-book</h4></td>
+          <td class="cell upload-cell">
             <p>Current e-book file: <?php echo htmlspecialchars($ebook_file_path); ?></p>
-            <button type="button" class="upload-btn main-btn">Upload</button>
+            <button type="button" class="upload-btn">Upload</button>
           </td>
-          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
+          <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
 
       <!-- Row 6: Audio -->
       <tr>
         <form method="POST" action="update-book-details.php">
-          <td class="cell-detail-name"><h4>Audio</h4></td>
-          <td class="cell-edit upload-cell">
+          <td class="cell"><h4>Audio</h4></td>
+          <td class="cell upload-cell">
             <p>Current audio file: <?php echo htmlspecialchars($audio_file_path); ?></p>
-            <button type="button" class="upload-btn main-btn">Upload</button>
+            <button type="button" class="upload-btn">Upload</button>
           </td>
-          <td class="cell-save"><button type="submit" class="main-btn">Save</button></td>
+          <td class="cell"><button type="submit" class="main-btn">Save</button></td>
         </form>
       </tr>
     </table>
   </div>
 
-  <!-- Edit Book Availability Container (empty for now) -->
-  <div id="edit-book-availability-container" style="width: 100%;">
-    <h1 class="big-blue-h1">Edit Book Details</h1>
-    <form method="POST" action = "update-book-availability.php">
+  <!-- Edit Book Availability Container -->
+  <div class="edit-book-container" id="edit-availability-container">
+    <h1 class="big-blue-h1">Edit Book Availabilities</h1>
+    <form id="book-availalibity-form" method="POST" action="update-book-availability.php">
+    <div class="table-wrapper">
       <?php include "availability-table.php" ?>
+    </div>
       <button type="submit" class="main-btn">Submit Book Availabilities</button>
     </form>
   </div>
-  </section>
+</section>
 
   <?php } ?>
 
