@@ -207,7 +207,12 @@ if (!empty($_GET['book_id'])) {
         $to_date = $_POST['to_date']; 
 
         // Check if the user already has a loan for this book at this branch
-        $check_query = "SELECT * FROM loans WHERE user_id = ? AND book_id = ? AND branch_id = ?";
+        $check_query = "
+          SELECT * FROM loans 
+          WHERE user_id = ? 
+          AND book_id = ? 
+          AND branch_id = ?
+          AND status = 'active'";
         $stmt = $conn->prepare($check_query);
         $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
         $stmt->execute();
@@ -247,7 +252,12 @@ if (!empty($_GET['book_id'])) {
         }
       } else {
         // Check if the user already has a reservation for this book at this branch
-        $check_query = "SELECT * FROM reservations WHERE user_id = ? AND book_id = ? AND branch_id = ?";
+        $check_query = "
+          SELECT * FROM reservations
+          WHERE user_id = ? 
+          AND book_id = ? 
+          AND branch_id = ?
+          AND status = 'pending'";
         $stmt = $conn->prepare($check_query);
         $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
         $stmt->execute();
@@ -258,14 +268,33 @@ if (!empty($_GET['book_id'])) {
             // User has already reserved this book at this branch
             $_SESSION['alert'] = "You have already reserved this book at this branch.";
         } else {
-            // No existing reservation, proceed to insert into reservations table
-            $reservation_date = date("Y-m-d"); // Get today's date
-            $stmt = $conn->prepare("INSERT INTO reservations (user_id, book_id, branch_id, reservation_date) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("iiis", $user_id, $book_id, $branch_id, $reservation_date);
+            // check if the user is borrowing this book from this branch
+            $check_query_2 = "
+              SELECT * FROM loans 
+              WHERE user_id = ? 
+              AND book_id = ? 
+              AND branch_id = ?
+              AND status = 'active'";
+            $stmt = $conn->prepare($check_query_2);
+            $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
             $stmt->execute();
+            $result = $stmt->get_result();
             $stmt->close();
-    
-            $_SESSION['alert'] = "Reservation successful.";
+
+            if ($result->num_rows > 0) {
+              // User has already reserved this book at this branch
+              $_SESSION['alert'] = "You have already borrowed this book from this branch.";
+            } else {
+              // No existing loan or reservation, proceed to insert into reservations table
+                $reservation_date = date("Y-m-d"); // Get today's date
+                $stmt = $conn->prepare("INSERT INTO reservations (user_id, book_id, branch_id, reservation_date) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("iiis", $user_id, $book_id, $branch_id, $reservation_date);
+                $stmt->execute();
+                $stmt->close();
+        
+                $_SESSION['alert'] = "Reservation successful.";
+
+            }
         }
       }
 
