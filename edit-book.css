@@ -45,7 +45,7 @@
   text-align: center;
 }
 
-#edit-book-details-container .main-btn {
+.main-btn {
   background-color: #d71440;
   color: #ffffff;
   border: none;

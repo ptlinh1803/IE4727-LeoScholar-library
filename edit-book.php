@@ -155,7 +155,11 @@ $_SESSION['librarian_id'] = 1;
 
   <!-- Edit Book Availability Container (empty for now) -->
   <div id="edit-book-availability-container" style="width: 100%;">
-    <!-- Content to be added later -->
+    <h1 class="big-blue-h1">Edit Book Details</h1>
+    <form method="POST" action = "update-book-availability.php">
+      <?php include "availability-table.php" ?>
+      <button type="submit" class="main-btn">Submit Book Availabilities</button>
+    </form>
   </div>
   </section>
 
