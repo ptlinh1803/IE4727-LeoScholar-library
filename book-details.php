@@ -94,7 +94,8 @@ if (!empty($_GET['book_id'])) {
       JOIN 
           branches ON book_availability.branch_id = branches.branch_id
       WHERE 
-          book_availability.book_id = ?;
+          book_availability.book_id = ?
+          AND book_availability.available_copies > 0;
     ";
 
     $stmt = $conn->prepare($get_availability);
