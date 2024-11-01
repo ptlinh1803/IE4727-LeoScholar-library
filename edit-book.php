@@ -21,6 +21,13 @@ $_SESSION['librarian_id'] = 1;
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+<!-- Display any message upon form submission-->
+<?php
+if (isset($_SESSION['message'])) {
+  echo "<script>alert('" . $_SESSION['message'] . "');</script>";
+  unset($_SESSION['message']); // Clear the message after displaying it
+}
+?>
   <!-- Navigation placeholder -->
   <nav class="navbar">
     <a href="homepage-member.php">
@@ -68,9 +75,11 @@ $_SESSION['librarian_id'] = 1;
     <h1 class="big-blue-h1">Edit Book Details</h1>
     <h4>Editing details of book: <?php echo htmlspecialchars($title); ?></h4>
     <table id="edit-detail-table">
+
       <!-- Row 1: Book Cover -->
       <tr>
-        <form method="POST" action="edit-book-details.php">
+        <form method="POST" action="update-book-details.php">
+          <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell">
             <h4>Book Cover</h4>  
             <img src="img/books/<?php echo htmlspecialchars($cover_path); ?>" alt="Book Cover" />
@@ -86,7 +95,8 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 2: Title -->
       <tr>
-        <form method="POST" action="edit-book-details.php">
+        <form method="POST" action="update-book-details.php">
+          <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell"><h4>Title</h4></td>
           <td class="cell">
             <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" readonly>
@@ -100,7 +110,8 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 3: Author -->
       <tr>
-        <form method="POST" action="edit-author.php">
+        <form method="POST" action="update-book-details.php">
+          <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell"><h4>Author</h4></td>
           <td class="cell">
             <input type="text" id="author" name="author" value="<?php echo htmlspecialchars($author); ?>" readonly>
@@ -114,7 +125,8 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 4: Description -->
       <tr>
-        <form method="POST" action="edit-description.php">
+        <form method="POST" action="update-book-details.php">
+          <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell"><h4>Description</h4></td>
           <td class="cell">
             <textarea readonly id="description" name="description" rows="6"><?php echo htmlspecialchars($description); ?></textarea>
@@ -128,7 +140,8 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 5: About Author -->
       <tr>
-        <form method="POST" action="edit-about-author.php">
+        <form method="POST" action="update-book-details.php">
+          <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell"><h4>About Author</h4></td>
           <td class="cell">
             <textarea readonly id="about_author" name="about_author" rows="6"><?php echo htmlspecialchars($about_author); ?></textarea>
@@ -142,7 +155,8 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 6: E-book -->
       <tr>
-        <form method="POST" action="upload-ebook.php">
+        <form method="POST" action="update-book-details.php">
+          <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell"><h4>E-book</h4></td>
           <td class="cell upload-cell">
             <p>Current e-book file: <?php echo htmlspecialchars($ebook_file_path); ?></p>
@@ -155,7 +169,8 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 7: Audio -->
       <tr>
-        <form method="POST" action="upload-audio.php">
+        <form method="POST" action="update-book-details.php">
+          <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell"><h4>Audio</h4></td>
           <td class="cell upload-cell">
             <p>Current audio file: <?php echo htmlspecialchars($audio_file_path); ?></p>
