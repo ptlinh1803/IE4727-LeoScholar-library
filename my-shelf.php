@@ -3,6 +3,21 @@ include 'db-connect.php';
 include 'update-loan-fine-status.php';
 session_start();
 
+// Get all branches
+$branchesQuery = "SELECT * FROM branches;";
+$branchesResult = $conn->query($branchesQuery);
+
+if ($branchesResult) {
+  $branches = [];
+  while ($branch = $branchesResult->fetch_assoc()) {
+      $branches[] = $branch;
+  }
+} else {
+  // Handle query error
+  echo "Error: " . $conn->error;
+}
+
+
 // If not log in
 if (!isset($_SESSION['user_id'])) {
   $message = "Hello, Guest! Please log in to access exclusive features and personalized content!";
@@ -56,11 +71,42 @@ if (!isset($_SESSION['user_id'])) {
       JOIN 
           branches br ON l.branch_id = br.branch_id
       WHERE 
-          l.user_id = ?;
+          l.user_id = ?
     ";
-  
+  // Initialize parameters array
+  $params = [$user_id];
+  $types = "i";
+
+  $status_filter = isset($_GET['status']) ? $_GET['status'] : [];
+  $branch_filter = isset($_GET['branch_id']) ? $_GET['branch_id'] : [];
+
+  // Check if filters are applied and append to query
+  if (!empty($status_filter)) {
+    $status_placeholders = implode(',', array_fill(0, count($status_filter), '?'));
+    $get_borrowed_books_query .= " AND l.status IN ($status_placeholders)";
+    $params = array_merge($params, $status_filter); // Merge the status filter into params
+    $types .= str_repeat('s', count($status_filter)); // Assuming status is a string
+  }
+
+  if (!empty($branch_filter)) {
+    $branch_placeholders = implode(',', array_fill(0, count($branch_filter), '?'));
+    $get_borrowed_books_query .= " AND l.branch_id IN ($branch_placeholders)";
+    $params = array_merge($params, $branch_filter); // Merge the branch filter into params
+    $types .= str_repeat('i', count($branch_filter)); // Assuming branch_id is an integer
+  }
+
+  // Add sorting
+  $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : '';
+  if (!empty($sort_by)) {
+    $get_borrowed_books_query .= " ORDER BY l.$sort_by";
+  }
+
+  // Prepare the statement
   $stmt = $conn->prepare($get_borrowed_books_query);
-  $stmt->bind_param("i", $user_id); // Bind user_id as an integer
+  if ($stmt === false) {
+      die("Error preparing statement: " . $conn->error);
+  }
+  $stmt->bind_param($types, ...$params);
   $stmt->execute();
   $borrowed_books_result = $stmt->get_result();
 
@@ -70,7 +116,7 @@ if (!isset($_SESSION['user_id'])) {
         $borrowed_books[] = $book_row;
     }
   } else {
-    $no_loan_message = "You haven't borrowed any books.";
+    $no_loan_message = "No borrowed books to display.";
   }
 
   $stmt->close();
@@ -109,7 +155,7 @@ if (!isset($_SESSION['user_id'])) {
         $reserved_books[] = $book_row;
     }
   } else {
-    $no_reserve_message = "You haven't reserved any books.";
+    $no_reserve_message = "No reserved books to display.";
   }
 
   $stmt->close();
@@ -217,6 +263,99 @@ if (!isset($_SESSION['user_id'])) {
         <!-- ----------------------BORROWED BOOKS-------------------------- -->
         <div id="borrowed-books" class="shelf-section" style="display: none">
           <h2>Your Borrowed Books</h2>
+
+          <!-- Filter button -->
+          <button id="filter-button" onclick="toggleFilterForm('filter-loan-form')" class="filter-button">
+          <img src="img/ui/filter.png"/>
+            Filter
+          </button>
+          <form 
+            id="filter-loan-form"
+            class="advanced-search-form filter-form"
+            method="GET" 
+            action="<?php echo $_SERVER['PHP_SELF']; ?>"
+          >
+              <input type="hidden" name="active_tab" id="active-tab-input" value="borrowed">
+              <!-- Status Filter -->
+              <div class="checkbox-dropdown">
+                <label>Status</label>
+                <div
+                  class="checkbox-dropdown-toggle filter-toggle"
+                  onclick="toggleFilterForm('status-dropdown')"
+                >
+                  <span>Select Status</span>
+                  <img
+                    src="img/ui/drop-down-icon.svg"
+                    alt="Arrow Down Icon"
+                    class="dropdown-icon"
+                  />
+                </div>
+                <div class="checkbox-dropdown-content filter-dropdown" id="status-dropdown">
+                  <label>
+                    <input type="checkbox" name="status[]" value="active" 
+                    />
+                    Active
+                  </label>
+                  <label>
+                    <input type="checkbox" name="status[]" value="overdue" 
+                    />
+                    Overdue
+                  </label>
+                  <label>
+                    <input type="checkbox" name="status[]" value="returned" 
+                    />
+                    Returned
+                  </label>
+                </div>
+              </div>
+
+              <!-- Branch Filter -->
+               <!-- Status Filter -->
+              <div class="checkbox-dropdown">
+                <label>Branches</label>
+                <div
+                  class="checkbox-dropdown-toggle filter-toggle"
+                  onclick="toggleFilterForm('branch-dropdown')"
+                >
+                  <span>Select Branches</span>
+                  <img
+                    src="img/ui/drop-down-icon.svg"
+                    alt="Arrow Down Icon"
+                    class="dropdown-icon"
+                  />
+                </div>
+                <div class="checkbox-dropdown-content" id="branch-dropdown" style="width: 400px;">
+                  <?php foreach ($branches as $branch) { ?>
+                    <label>
+                      <input type="checkbox" name="branch_id[]" value="<?php echo htmlspecialchars($branch['branch_id']); ?>" 
+                      />
+                      <?php echo htmlspecialchars($branch['university_id']); ?> - <?php echo htmlspecialchars($branch['branch_name']); ?>
+                    </label>
+                  <?php } ?>
+                </div>
+              </div>
+
+              <!-- Sort By Filter -->
+              <div>
+              <label for="sort-by">Sort By:</label>
+              <div class="sort-dropdown">
+                <select name="sort_by" id="sort-by" class="sort-dropdown-select" style="color: black;">
+                    <option value="">Default</option>
+                    <option value="due_date ASC">Due Date (ASC)</option>
+                    <option value="due_date DESC">Due Date (DESC)</option>
+                    <option value="loan_date ASC">Loan Date (ASC)</option>
+                    <option value="loan_date DESC">Loan Date (DESC)</option>
+                    <option value="return_date ASC">Return Date (ASC)</option>
+                    <option value="return_date DESC">Return Date (DESC)</option>
+                </select>
+                <img src="img/ui/drop-down-icon.svg" alt="Dropdown Icon" />
+              </div>
+              </div>
+
+              <button type="submit" class="submit-filter-button">Apply Filters</button>
+          </form>
+
+          <!-- Display table -->
           <?php if (!empty($borrowed_books)) { ?>
             <table class="book-table">
               <thead>
@@ -499,9 +638,15 @@ if (!isset($_SESSION['user_id'])) {
           openTab(this, "reserved-books");
         });
 
-      // Show the "favourite-books" section by default on page load
       document.addEventListener("DOMContentLoaded", function () {
-        openTab(document.getElementById("favourite-tab"), "favourite-books");
+          const urlParams = new URLSearchParams(window.location.search);
+          const activeTab = urlParams.get("active_tab") || "favourite"; // Default to "favourite"
+
+          // Open the corresponding tab
+          const tabToOpen = document.getElementById(`${activeTab}-tab`);
+          if (tabToOpen) {
+              openTab(tabToOpen, `${activeTab}-books`);
+          }
       });
     </script>
 
@@ -510,6 +655,18 @@ if (!isset($_SESSION['user_id'])) {
       function redirectToBookDetails(bookId) {
         window.location.href = "book-details.php?book_id=" + bookId;
       }
+    </script>
+
+    <!-- Toggle filter form display --> 
+    <script> 
+        function toggleFilterForm(formId) {
+            var form = document.getElementById(formId);
+            if (form.style.display === "block") {
+                form.style.display = "none";
+            } else {
+                form.style.display = "block";
+            }
+        }
     </script>
   </body>
 </html>

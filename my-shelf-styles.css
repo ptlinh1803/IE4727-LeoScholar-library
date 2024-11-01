@@ -133,3 +133,51 @@
 .shelf-section .book-table td:nth-child(3) {
   max-width: 200px;
 }
+
+.filter-button {
+  display: inline-flex; /* Makes it behave as a flex container */
+  align-items: center; /* Centers content vertically */
+  justify-content: center; /* Centers content horizontally */
+  border: 1px solid #11155e;
+  padding: 5px 15px;
+  border-radius: 10px;
+  background-color: white;
+  color: #11155e;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.filter-button img {
+  height: 12px;
+  width: 12px;
+  margin-right: 7px;
+}
+
+.submit-filter-button {
+  display: inline-flex; /* Makes it behave as a flex container */
+  align-items: center; /* Centers content vertically */
+  justify-content: center;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 10px;
+  background-color: #11155e;
+  color: white;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.filter-form {
+  left: 0;
+  transform: none;
+  margin-left: 255px;
+  width: 400px;
+}
+
+.filter-dropdown {
+  width: 100%;
+}
+
+.filter-toggle {
+  width: 358px;
+  color: black;
+}
