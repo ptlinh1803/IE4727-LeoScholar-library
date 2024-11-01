@@ -34,7 +34,7 @@
           </a>
           <div class="dropdown-content">
             <a href="#">Settings</a>
-            <a href="#">Payment</a>
+            <a href="#" class="active-page">Payment</a>
             <a href="#">Logout</a>
           </div>
         </div>
@@ -50,166 +50,109 @@
     <div class="container">
       <div class="left-side">
         <div class="shelf-subnav">
-          <a href="#" id="favourite-tab" class="tab-link active-tab">All</a>
-          <a href="#" id="borrowed-tab" class="tab-link">Pending</a>
-          <a href="#" id="reserved-tab" class="tab-link">Completed</a>
+          <a href="#" id="pending-tab" class="tab-link active-tab">Pending</a>
+          <a href="#" id="completed-tab" class="tab-link">Completed</a>
         </div>
       </div>
       <div class="right-side">
-        <div id="favourite-books" class="shelf-section">
-          <h2>All Payments</h2>
-          <table class="book-table">
-            <thead>
-              <tr>
-                <th id="cover-col"></th>
-                <th id="title-col">Title</th>
-                <th id="branch-col">Branch</th>
-                <th id="reason-col">Overdue</th>
-                <th id="amount-col">Amount</th>
-                <th id="status-col">Status</th>
-                <th id="paid-col">Paid date</th>
-                <th id="action-col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Example Row -->
-              <tr onclick="redirectToBookDetails(1)">
-                <td headers="cover-col">
-                  <img
-                    src="img/books/4.jpg"
-                    alt="Book Cover"
-                    class="book-cover"
-                  />
-                </td>
-                <td headers="title-col">
-                  Introduction to Mathematical Statistics
-                </td>
-                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
-                <td headers="reason-col">3 days</td>
-                <td headers="amount-col">$2.00</td>
-                <td headers="status-col">
-                  <span class="status-yellow">Pending</span>
-                </td>
-                <td headers="paid-col"></td>
-                <td>
-                  <form
-                    action=""
-                    method="POST"
-                    onsubmit="return confirm('Are you sure you want to return this book?');"
-                  >
-                    <input type="hidden" name="book_id" value="" />
-                    <input type="hidden" name="user_id" value="" />
-                    <!-- Replace with actual user ID -->
-                    <button
-                      type="submit"
-                      class="shelf-action-button return"
-                      onclick="event.stopPropagation();"
-                    >
-                      Pay
-                    </button>
-                  </form>
-                </td>
-              </tr>
-              <tr onclick="redirectToBookDetails(1)">
-                <td headers="cover-col">
-                  <img
-                    src="img/books/3.jpg"
-                    alt="Book Cover"
-                    class="book-cover"
-                  />
-                </td>
-                <td headers="title-col">
-                  Introduction to Mathematical Statistics
-                </td>
-                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
-                <td headers="reason-col">3 days</td>
-                <td headers="amount-col">$2.00</td>
-                <td headers="status-col">
-                  <span class="status-green">Completed</span>
-                </td>
-                <td headers="paid-col">31/10/2024</td>
-                <td>
-                  <form
-                    action=""
-                    method="POST"
-                    onsubmit="return confirm('Are you sure you want to return this book?');"
-                  >
-                    <input type="hidden" name="book_id" value="" />
-                    <input type="hidden" name="user_id" value="" />
-                    <!-- Replace with actual user ID -->
-                    <button
-                      type="submit"
-                      class="shelf-action-button return"
-                      onclick="event.stopPropagation();"
-                    >
-                      Pay
-                    </button>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div id="borrowed-books" class="shelf-section" style="display: none">
+        <!-- ---------------PENDING PAYMENTS------------- -->
+        <div id="pending-payment" class="shelf-section">
           <h2>Your Pending Payments</h2>
-          <table class="book-table">
-            <thead>
-              <tr>
-                <th id="cover-col"></th>
-                <th id="title-col">Title</th>
-                <th id="branch-col">Branch</th>
-                <th id="reason-col">Overdue</th>
-                <th id="amount-col">Amount</th>
-                <th id="status-col">Status</th>
-                <th id="paid-col">Paid date</th>
-                <th id="action-col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Example Row -->
-              <tr onclick="redirectToBookDetails(1)">
-                <td headers="cover-col">
-                  <img
-                    src="img/books/4.jpg"
-                    alt="Book Cover"
-                    class="book-cover"
-                  />
-                </td>
-                <td headers="title-col">
-                  Introduction to Mathematical Statistics
-                </td>
-                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
-                <td headers="reason-col">3 days</td>
-                <td headers="amount-col">$2.00</td>
-                <td headers="status-col">
-                  <span class="status-yellow">Pending</span>
-                </td>
-                <td headers="paid-col"></td>
-                <td>
-                  <form
-                    action=""
-                    method="POST"
-                    onsubmit="return confirm('Are you sure you want to return this book?');"
-                  >
-                    <input type="hidden" name="book_id" value="" />
-                    <input type="hidden" name="user_id" value="" />
-                    <!-- Replace with actual user ID -->
-                    <button
-                      type="submit"
-                      class="shelf-action-button return"
-                      onclick="event.stopPropagation();"
-                    >
-                      Pay
-                    </button>
-                  </form>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+
+          <form id="payment-form" action="payment.php" method="POST">
+            <table class="book-table">
+              <thead>
+                <tr>
+                  <th id="cover-col"></th>
+                  <th id="title-col">Title</th>
+                  <th id="branch-col">Branch</th>
+                  <th id="reason-col">Overdue</th>
+                  <th id="amount-col">Amount</th>
+                  <th id="status-col">Status</th>
+                  <th id="action-col">Select</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Example Row -->
+                <tr>
+                  <td headers="cover-col">
+                    <img
+                      src="img/books/11.jpg"
+                      alt="Book Cover"
+                      class="book-cover"
+                    />
+                  </td>
+                  <td headers="title-col">
+                    Introduction to Mathematical Statistics
+                  </td>
+                  <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                  <td headers="reason-col">Overdue 3 days</td>
+                  <td headers="amount-col">$3.00</td>
+                  <td headers="status-col">
+                    <span class="status-yellow">Pending</span>
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      class="payment-checkbox"
+                      name="chosen_payments[]"
+                      value="fine id"
+                      data-amount="3.00"
+                      onchange="updateTotal();"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td headers="cover-col">
+                    <img
+                      src="img/books/10.jpg"
+                      alt="Book Cover"
+                      class="book-cover"
+                    />
+                  </td>
+                  <td headers="title-col">
+                    Introduction to Mathematical Statistics
+                  </td>
+                  <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                  <td headers="reason-col">4 days</td>
+                  <td headers="amount-col">$4.00</td>
+                  <td headers="status-col">
+                    <span class="status-yellow">Pending</span>
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      class="payment-checkbox"
+                      name="chosen_payments[]"
+                      value="fine id"
+                      data-amount="4.00"
+                      onchange="updateTotal();"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="display-amount">
+              <p>
+                Total Amount to Pay: <span>$</span
+                ><span id="total-amount">0.00</span>
+              </p>
+              <p>Pay now: <span>$</span><span id="paynow-amount">0.00</span></p>
+              <p>Number of Chosen Payments: <span id="chosen-count">0</span></p>
+              <button
+                type="button"
+                id="select-all-button"
+                onclick="toggleSelectAll();"
+              >
+                Select All
+              </button>
+              <button type="submit" class="pay-button" disabled>Pay</button>
+            </div>
+          </form>
         </div>
 
-        <div id="reserved-books" class="shelf-section" style="display: none">
+        <!-- ---------------COMPLETED PAYMENTS------------- -->
+        <div id="completed-payment" class="shelf-section" style="display: none">
           <h2>Your Completed Payments</h2>
           <table class="book-table">
             <thead>
@@ -244,27 +187,31 @@
                   <span class="status-green">Completed</span>
                 </td>
                 <td headers="paid-col">31/10/2024</td>
-                <td>
-                  <form
-                    action=""
-                    method="POST"
-                    onsubmit="return confirm('Are you sure you want to return this book?');"
-                  >
-                    <input type="hidden" name="book_id" value="" />
-                    <input type="hidden" name="user_id" value="" />
-                    <!-- Replace with actual user ID -->
-                    <button
-                      type="submit"
-                      class="shelf-action-button return"
-                      onclick="event.stopPropagation();"
-                    >
-                      Pay
-                    </button>
-                  </form>
+              </tr>
+              <tr onclick="redirectToBookDetails(1)">
+                <td headers="cover-col">
+                  <img
+                    src="img/books/4.jpg"
+                    alt="Book Cover"
+                    class="book-cover"
+                  />
                 </td>
+                <td headers="title-col">
+                  Introduction to Mathematical Statistics
+                </td>
+                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                <td headers="reason-col">3 days</td>
+                <td headers="amount-col">$2.00</td>
+                <td headers="status-col">
+                  <span class="status-green">Completed</span>
+                </td>
+                <td headers="paid-col">31/10/2024</td>
               </tr>
             </tbody>
           </table>
+          <div class="display-amount">
+            <p>Total: <span>$38.00</span></p>
+          </div>
         </div>
       </div>
     </div>
@@ -307,41 +254,86 @@
         selectedTab.classList.add("active-tab");
       }
 
-      // Default to showing the "favourite-books" section
+      // Show "pending-payment" section on click
       document
-        .getElementById("favourite-tab")
+        .getElementById("pending-tab")
         .addEventListener("click", function (event) {
           event.preventDefault();
-          openTab(this, "favourite-books");
+          openTab(this, "pending-payment");
         });
 
-      // Show "borrowed-books" section on click
+      // Show "completed-books" section on click
       document
-        .getElementById("borrowed-tab")
+        .getElementById("completed-tab")
         .addEventListener("click", function (event) {
           event.preventDefault();
-          openTab(this, "borrowed-books");
-        });
-
-      // Show "reserved-books" section on click
-      document
-        .getElementById("reserved-tab")
-        .addEventListener("click", function (event) {
-          event.preventDefault();
-          openTab(this, "reserved-books");
+          openTab(this, "completed-payment");
         });
 
       // Show the "favourite-books" section by default on page load
       document.addEventListener("DOMContentLoaded", function () {
-        openTab(document.getElementById("favourite-tab"), "favourite-books");
+        openTab(document.getElementById("pending-tab"), "pending-payment");
       });
     </script>
 
     <!-- Redirect to Book details page -->
     <script>
       function redirectToBookDetails(bookId) {
-        window.location.href = "book-details.php?book_id=" + bookId;
+        window.open("book-details.php?book_id=" + bookId, "_blank");
       }
+    </script>
+
+    <!-- Display the total and chosen amount -->
+    <script>
+      // Function to update the total amounts and selected count
+      function updateTotal() {
+        const checkboxes = document.querySelectorAll(".payment-checkbox");
+        let totalAmount = 0; // Total for all payments
+        let payNowAmount = 0; // Total for selected payments
+        let chosenCount = 0; // Count of selected payments
+
+        // Loop through each checkbox
+        checkboxes.forEach((checkbox) => {
+          const amount = parseFloat(checkbox.getAttribute("data-amount"));
+          totalAmount += amount; // Sum up all amounts for total display
+
+          // Check if the checkbox is selected
+          if (checkbox.checked) {
+            payNowAmount += amount; // Add to pay now amount if checked
+            chosenCount++; // Increment chosen count
+          }
+        });
+
+        // Update the total amount and chosen count displayed
+        document.getElementById("total-amount").innerText =
+          totalAmount.toFixed(2);
+        document.getElementById("paynow-amount").innerText =
+          payNowAmount.toFixed(2);
+        document.getElementById("chosen-count").innerText = chosenCount;
+
+        // Enable or disable the Pay button based on chosen payments
+        const payButton = document.querySelector(".pay-button");
+        payButton.disabled = chosenCount === 0;
+      }
+
+      // Function to toggle all checkboxes
+      function toggleSelectAll() {
+        const checkboxes = document.querySelectorAll(".payment-checkbox");
+        const allChecked = Array.from(checkboxes).every(
+          (checkbox) => checkbox.checked
+        );
+
+        // Set all checkboxes to the opposite of their current state
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = !allChecked;
+          checkbox.dispatchEvent(new Event("change")); // Trigger change event to update totals
+        });
+      }
+
+      // Initialize total amount at page load
+      document.addEventListener("DOMContentLoaded", () => {
+        updateTotal(); // Call updateTotal on page load to set initial totals
+      });
     </script>
   </body>
 </html>

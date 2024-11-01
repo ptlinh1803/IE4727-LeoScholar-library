@@ -129,3 +129,48 @@
   justify-content: flex-start; /* Align items to the left */
   margin: 0; /* Remove default margin */
 }
+
+.display-amount {
+  margin-left: 31px;
+}
+
+.pay-button {
+  border: 1px solid #11155e;
+  color: #11155e;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.pay-button:hover {
+  color: white;
+  background-color: #11155e;
+}
+
+.pay-button:disabled {
+  background-color: #d3d3d3; /* Light gray background */
+  cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+  color: black; /* Text color */
+  border: none; /* Remove border */
+  opacity: 0.6; /* Optional: make the button look disabled */
+}
+
+#select-all-button {
+  border: 1px solid #ef7c00;
+  color: #ef7c00;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+#select-all-button:hover {
+  color: white;
+  background-color: #ef7c00;
+}
+
+.display-amount span {
+  font-weight: bold;
+}
