@@ -118,39 +118,41 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
         default:
             break;
     }
+  }
+} else {
+  // Show all books by default if no GET
+  $sql_query = "SELECT * FROM books";
 }
 
-  // Prepare and execute the query
-  $results = $conn->query($sql_query);
-  $found_books = []; // Initialize the array
-  if ($results->num_rows > 0) {
-    while ($book_row = $results->fetch_assoc()) {
-        $found_books[] = $book_row; // Store each book in the array
-    }
+$results = $conn->query($sql_query);
+$found_books = []; // Initialize the array
+if ($results->num_rows > 0) {
+  while ($book_row = $results->fetch_assoc()) {
+      $found_books[] = $book_row; // Store each book in the array
   }
+}
 
-  // Get current books per page
-  if (!empty($found_books)) {
-    // Set the number of items per page
-    $booksPerPage = 10;
+// Get current books per page
+if (!empty($found_books)) {
+  // Set the number of items per page
+  $booksPerPage = 10;
 
-    // Get the current page from the URL, default to page 1 if not set
-    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $currentPage = max(1, $currentPage); // Ensure currentPage is at least 1
+  // Get the current page from the URL, default to page 1 if not set
+  $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+  $currentPage = max(1, $currentPage); // Ensure currentPage is at least 1
 
-    // Calculate the offset and total pages
-    $totalBooks = count($found_books);
-    $totalPages = ceil($totalBooks / $booksPerPage);
-    $offset = ($currentPage - 1) * $booksPerPage;
+  // Calculate the offset and total pages
+  $totalBooks = count($found_books);
+  $totalPages = ceil($totalBooks / $booksPerPage);
+  $offset = ($currentPage - 1) * $booksPerPage;
 
-    // Get the books for the current page
-    $booksOnCurrentPage = array_slice($found_books, $offset, $booksPerPage);
-  } else {
-      // Handle the case where there are no books found
-      $booksOnCurrentPage = [];
-      $totalPages = 1;
-      $currentPage = 1;
-  }
+  // Get the books for the current page
+  $booksOnCurrentPage = array_slice($found_books, $offset, $booksPerPage);
+} else {
+    // Handle the case where there are no books found
+    $booksOnCurrentPage = [];
+    $totalPages = 1;
+    $currentPage = 1;
 }
 
 ?>
