@@ -3,6 +3,17 @@ include 'db-connect.php';
 include 'update-loan-fine-status.php';
 session_start();
 
+// Check if there's an alert message
+if (isset($_SESSION['alert'])) {
+  $alertMessage = $_SESSION['alert'];
+  echo "<script>
+      window.addEventListener('load', function() {
+          alert('" . addslashes($alertMessage) . "');
+      });
+  </script>";
+  unset($_SESSION['alert']); // Clear the message after displaying
+}
+
 // Get all branches
 $branchesQuery = "SELECT * FROM branches;";
 $branchesResult = $conn->query($branchesQuery);
@@ -253,7 +264,84 @@ if (!isset($_SESSION['user_id'])) {
     // Redirect back to the same page with the borrowed books tab active
     header("Location: my-shelf.php?active_tab=borrowed");
     exit();
-}
+  }
+
+  // Cancel reservation----------------------------------------------
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_reservation'])) {
+    // Get form data
+    $reservation_id = $_POST['reservation_id'];
+
+    // Prepare the SQL to update the reservation status
+    $updateReservationStatusQuery = "
+      UPDATE reservations 
+      SET status = 'cancelled'
+      WHERE reservation_id = ?";
+    $stmt = $conn->prepare($updateReservationStatusQuery);
+    $stmt->bind_param("i", $reservation_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect back to the same page with the borrowed books tab active
+    header("Location: my-shelf.php?active_tab=reserved");
+    exit();
+  }
+
+  // Loan now---------------------------------------------------------
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['loan_now'])) {
+    // Get form data
+    $reservation_id = $_POST['reservation_id'];
+    $book_id = $_POST['book_id'];
+    $user_id = $_POST['user_id'];
+    $branch_id = $_POST['branch_id'];
+
+    // Prepare the SQL to update the reservation status
+    $updateReservationStatusQuery = "
+      UPDATE reservations 
+      SET status = 'fulfilled'
+      WHERE reservation_id = ?";
+    $stmt = $conn->prepare($updateReservationStatusQuery);
+    $stmt->bind_param("i", $reservation_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Add this book to loans table
+    $fromDate = new DateTime();
+    $loanDate = $fromDate->format('Y-m-d');
+
+    $toDate = clone $fromDate;
+    $toDate->modify('+14 days');
+    $dueDate = $toDate->format('Y-m-d');
+
+    // Check if the user already has a loan for this book at this branch
+    $check_query = "
+      SELECT * FROM loans 
+      WHERE user_id = ? 
+      AND book_id = ? 
+      AND branch_id = ?
+      AND status = 'active'";
+    $stmt = $conn->prepare($check_query);
+    $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
+
+    if ($result->num_rows > 0) {
+      // User has already reserved this book at this branch
+      $_SESSION['alert'] = "You have already borrowed this book from this branch.";
+    } else {
+      $addToLoanQuery = "
+      INSERT INTO loans (user_id, book_id, branch_id, loan_date, due_date) 
+      VALUES (?, ?, ?, ?, ?)";
+      $stmt = $conn->prepare($addToLoanQuery);
+      $stmt->bind_param("iiiss", $user_id, $book_id, $branch_id, $loanDate, $dueDate);
+      $stmt->execute();
+      $stmt->close();
+    }
+
+    // Redirect back to the same page with the borrowed books tab active
+    header("Location: my-shelf.php?active_tab=reserved");
+    exit();
+  }
 }
 
 ?>
@@ -673,7 +761,32 @@ if (!isset($_SESSION['user_id'])) {
                 </tr>
               </thead>
               <tbody>
-              <?php foreach ($reserved_books as $book) { ?>
+              <?php foreach ($reserved_books as $book) {
+                // Prepare the SQL query to check availability
+                $sql_uni_query = "
+                SELECT available_copies 
+                FROM book_availability 
+                WHERE book_id = ? AND branch_id = ?";
+
+                // Prepare the statement
+                $stmt_uni = $conn->prepare($sql_uni_query);
+
+                // Bind parameters: book_id and branch_id
+                $stmt_uni->bind_param("ii", $book['book_id'], $book['branch_id']);
+
+                // Execute the statement
+                $stmt_uni->execute();
+
+                // Get the result
+                $result_uni = $stmt_uni->get_result();
+
+                // Fetch the available copies
+                $availability = $result_uni->fetch_assoc();
+                $available_copies = $availability ? $availability['available_copies'] : 0;
+
+                // Determine if the book is available
+                $available = ($available_copies > 0); // true if available, false if not
+              ?>
                   <tr onclick="redirectToBookDetails(<?php echo $book['book_id']; ?>)">
                     <td headers="cover-col">
                       <img
@@ -691,7 +804,11 @@ if (!isset($_SESSION['user_id'])) {
                     <td headers="reserved-on-col">
                       <?php echo !empty($book['reservation_date']) ? htmlspecialchars($book['reservation_date']) : ''; ?>
                     </td>
-                    <td headers="avail-col">Not available</td>
+                    <td headers="avail-col">
+                      <span class="<?php echo $available ? 'status-green' : 'status-red'; ?>">
+                        <?php echo $available ? "Available" : "Not Available"; ?>
+                      </span>
+                    </td>
                     <td headers="status-col">
                       <?php
                         $status = $book['status'];
@@ -712,40 +829,54 @@ if (!isset($_SESSION['user_id'])) {
                       <form
                         action=""
                         method="POST"
-                        onsubmit="return confirm('Please note that even after you acknowledge, you still need to loan the book separately. Would you like to proceed?');"
+                        onsubmit="return confirm('By borrowing today, your loan starts now with a due date in 14 days. If you have already borrowed this book, it will fulfill the reservation instead of creating a new loan. Proceed?');"
                         class="action-form"
                       >
-                        <input type="hidden" name="book_id" value="" />
-                        <input type="hidden" name="user_id" value="" />
+                      <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>" />
+                      <input type="hidden" name="branch_id" value="<?php echo $book['branch_id']; ?>" />
+                      <input type="hidden" name="reservation_id" value="<?php echo $book['reservation_id']; ?>" />
+                      <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>" />
+                      <input type="hidden" name="loan_now" value="1" />
                         <!-- Replace with actual user ID -->
                         <button
                           type="submit"
                           class="shelf-action-button acknowledge"
                           onclick="event.stopPropagation();"
+                          <?php if ($book['status'] === 'fulfilled' || $book['status'] === 'cancelled' || !$available) { ?>
+                            disabled
+                            style="background-color: #D3D3D3; cursor: not-allowed; color: black; border: none;"
+                          <?php } ?>
                         >
                           Loan now
                         </button>
                       </form>
                       <form
-                        action=""
+                        action="my-shelf.php"
                         method="POST"
                         onsubmit="return confirm('Are you sure you want cancel this reservation?');"
                         class="action-form"
                       >
-                        <input type="hidden" name="book_id" value="" />
-                        <input type="hidden" name="user_id" value="" />
+                        <input type="hidden" name="reservation_id" value="<?php echo $book['reservation_id']; ?>" />
+                        <input type="hidden" name="cancel_reservation" value="1" />
                         <!-- Replace with actual user ID -->
                         <button
                           type="submit"
                           class="shelf-action-button cancel"
                           onclick="event.stopPropagation();"
+                          <?php if ($book['status'] === 'fulfilled' || $book['status'] === 'cancelled') { ?>
+                            disabled
+                            style="background-color: #D3D3D3; cursor: not-allowed; color: black; border: none;"
+                          <?php } ?>
                         >
                           Cancel
                         </button>
                       </form>
                     </td>
                   </tr>
-                <?php } ?>
+                <?php 
+                  // Close the statement
+                  $stmt_uni->close();
+                } ?>
               </tbody>
             </table>
           <?php } else { ?> 
