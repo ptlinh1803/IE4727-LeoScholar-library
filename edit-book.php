@@ -70,7 +70,7 @@ $_SESSION['librarian_id'] = 1;
     <table id="edit-detail-table">
       <!-- Row 1: Book Cover -->
       <tr>
-        <form method="POST" action="edit-book-cover.php">
+        <form method="POST" action="edit-book-details.php">
           <td class="cell">
             <h4>Book Cover</h4>  
             <img src="img/books/<?php echo htmlspecialchars($cover_path); ?>" alt="Book Cover" />
@@ -86,7 +86,7 @@ $_SESSION['librarian_id'] = 1;
 
       <!-- Row 2: Title -->
       <tr>
-        <form method="POST" action="edit-title.php">
+        <form method="POST" action="edit-book-details.php">
           <td class="cell"><h4>Title</h4></td>
           <td class="cell">
             <input type="text" id="title" name="title" value="<?php echo htmlspecialchars($title); ?>" readonly>
@@ -182,6 +182,11 @@ $_SESSION['librarian_id'] = 1;
 </section>
 
   <?php } ?>
+    <!-- footer -->
+    <footer class="footer">
+    <p>&copy; 2024 LeoScholar. All rights reserved.</p>
+  </footer>
+
 
   <script src="toggle-edit.js"></script> <!-- Placeholder for future JS for toggle functionality -->
 </body>
