@@ -3,7 +3,7 @@
 session_start(); // Start the session
 ?>
 
-!-- The script borrows a lot of styles from search-styles.css-->
+<!-- The script borrows a lot of styles from search-styles.css-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,7 +49,7 @@ if (isset($_SESSION['message'])) {
           <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
         </a>
         <div class="dropdown-content">
-          <?php if (!isset($_SESSION['user_id'])) { ?>
+          <?php if (isset($_SESSION['user_id'])) { ?>
             <a href="user-settings.php" class="active-page">Settings</a>
             <a href="#">Payment</a>
             <a href="#" onclick="confirmLogout()">Logout</a>
