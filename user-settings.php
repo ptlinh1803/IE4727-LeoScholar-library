@@ -1,4 +1,9 @@
-<!-- The script borrows a lot of styles from search-styles.css-->
+<?php
+// Start the session
+session_start(); // Start the session
+?>
+
+!-- The script borrows a lot of styles from search-styles.css-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,9 +49,14 @@ if (isset($_SESSION['message'])) {
           <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
         </a>
         <div class="dropdown-content">
-          <a href="user-settings.php" class="active-page">Settings</a>
-          <a href="#">Payment</a>
-          <a href="#" onclick="confirmLogout()">Logout</a>
+          <?php if (!isset($_SESSION['user_id'])) { ?>
+            <a href="user-settings.php" class="active-page">Settings</a>
+            <a href="#">Payment</a>
+            <a href="#" onclick="confirmLogout()">Logout</a>
+          <?php } else { ?>
+            <a href="login.html">Log in</a>
+              <a href="register.html">Register</a>
+            <?php } ?>
         </div>
       </div>
     </div>
@@ -59,8 +69,6 @@ if (isset($_SESSION['message'])) {
 
   <!-- Check if session's user_id is set, if not, display nothing-here.png-->
   <?php
-session_start(); // Start the session
-
 // Check if the session ID is set
 if (!isset($_SESSION['user_id'])) {
     // If not set, display the message
