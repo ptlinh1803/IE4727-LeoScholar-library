@@ -193,7 +193,7 @@ if (!empty($found_books)) {
           <div class="dropdown-content">
             <?php if (isset($_SESSION['user_id'])) { ?>
               <a href="#">Settings</a>
-              <a href="#">Payment</a>
+              <a href="payment.php">Payment</a>
               <a href="#">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
