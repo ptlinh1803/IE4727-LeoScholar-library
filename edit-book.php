@@ -78,7 +78,7 @@ if (isset($_SESSION['message'])) {
 
       <!-- Row 1: Book Cover -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="update-book-details.php" enctype="multipart/form-data">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell">
             <h4>Book Cover</h4>  
@@ -155,7 +155,7 @@ if (isset($_SESSION['message'])) {
 
       <!-- Row 6: E-book -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="update-book-details.php" enctype="multipart/form-data">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell"><h4>E-book</h4></td>
           <td class="cell upload-cell">
@@ -169,7 +169,7 @@ if (isset($_SESSION['message'])) {
 
       <!-- Row 7: Audio -->
       <tr>
-        <form method="POST" action="update-book-details.php">
+        <form method="POST" action="update-book-details.php" enctype="multipart/form-data">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
           <td class="cell"><h4>Audio</h4></td>
           <td class="cell upload-cell">

@@ -4,66 +4,102 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Include database connection
-require 'db-connect.php'; // Adjust the path if necessary
+var_dump($_SERVER['DOCUMENT_ROOT']);
 
-// Check if book_id is set
-if (isset($_POST['book_id'])) {
-    $book_id = $_POST['book_id'];
-} else {
-    $_SESSION['message'] = "Book ID is missing.";
-    header("Location: edit-book.php?book_id=" . urlencode($book_id));
-    exit;
-}
+// // Require database connection
+// require 'db-connect.php';
 
-// Define the allowed fields
-$allowed_fields = ['cover_path', 'title', 'author', 'description', 'about_author', 'ebook_file_path', 'audio_file_path'];
+// // Check if book_id is set
+// if (isset($_POST['book_id'])) {
+//     $book_id = $_POST['book_id'];
+// } else {
+//     $_SESSION['message'] = "Book ID is missing.";
+//     header("Location: edit-book.php");
+//     exit;
+// }
 
-// Find which field to update
-$field_to_update = null;
-$value_to_update = null;
+// // Define the target directories for each file type
+// $coverDir = $_SERVER['DOCUMENT_ROOT'] . "/img/books/";
+// $ebookDir = $_SERVER['DOCUMENT_ROOT'] . "database/";
+// $audioDir = $_SERVER['DOCUMENT_ROOT'] . "database/";
 
-// Check for a single valid field in POST data
-foreach ($allowed_fields as $field) {
-    if (isset($_POST[$field])) {
-        if ($field_to_update !== null) { // More than one field found
-            $_SESSION['message'] = "Only one field can be updated at a time.";
-            header("Location: edit-book.php?book_id=" . urlencode($book_id));
-            exit;
-        }
-        $field_to_update = $field;
-        $value_to_update = $_POST[$field];
-    }
-}
+// // Allowed fields for non-file inputs
+// $allowed_fields = ['title', 'author', 'description', 'about_author'];
 
-// If no valid field is found
-if ($field_to_update === null) {
-    $_SESSION['message'] = "No valid field to update.";
-    header("Location: edit-book.php?book_id=" . urlencode($book_id));
-    exit;
-}
+// // Track update status
+// $updateSuccessful = false;
 
-// Prepare the SQL statement
-$query = "UPDATE books SET $field_to_update = ? WHERE book_id = ?";
-$stmt = $conn->prepare($query);
+// // Process file inputs
+// $file_fields = ['cover_path' => $coverDir, 'ebook_file_path' => $ebookDir, 'audio_file_path' => $audioDir];
+// foreach ($file_fields as $field => $targetDir) {
+//     if (isset($_FILES[$field]) && $_FILES[$field]['error'] == UPLOAD_ERR_OK) {
+//         $tmpName = $_FILES[$field]['tmp_name'];
+//         $fileName = basename($_FILES[$field]['name']);
+//         $targetPath = $targetDir . $fileName;
 
-if (!$stmt) {
-    $_SESSION['message'] = "Error preparing query: " . $conn->error;
-    header("Location: edit-book.php?book_id=" . urlencode($book_id));
-    exit;
-}
+//         // Move the uploaded file to the target directory
+//         if (move_uploaded_file($tmpName, $targetPath)) {
+//             // Update database with the path to the saved file
+//             $query = "UPDATE books SET $field = ? WHERE book_id = ?";
+//             $stmt = $conn->prepare($query);
 
-// Bind parameters and execute the statement
-$stmt->bind_param("si", $value_to_update, $book_id);
-if ($stmt->execute()) {
-    $_SESSION['message'] = ucfirst(str_replace('_', ' ', $field_to_update)) . " updated successfully.";
-} else {
-    $_SESSION['message'] = "Error updating " . $field_to_update . ": " . $stmt->error;
-}
+//             if ($stmt) {
+//                 $stmt->bind_param("si", $targetPath, $book_id);
+//                 if ($stmt->execute()) {
+//                     $updateSuccessful = true;
+//                 } else {
+//                     $_SESSION['message'] = "Error updating $field: " . $stmt->error;
+//                     header("Location: edit-book.php?book_id=" . urlencode($book_id));
+//                     exit;
+//                 }
+//                 $stmt->close();
+//             } else {
+//                 $_SESSION['message'] = "Error preparing query for $field: " . $conn->error;
+//                 header("Location: edit-book.php?book_id=" . urlencode($book_id));
+//                 exit;
+//             }
+//         } else {
+//             $_SESSION['message'] = "Failed to upload file for $field.";
+//             header("Location: edit-book.php?book_id=" . urlencode($book_id));
+//             exit;
+//         }
+//     }
+// }
 
-$stmt->close();
-$conn->close();
+// // Process other fields
+// foreach ($allowed_fields as $field) {
+//     if (isset($_POST[$field])) {
+//         $value = $_POST[$field];
+//         $query = "UPDATE books SET $field = ? WHERE book_id = ?";
+//         $stmt = $conn->prepare($query);
 
-// Redirect back to edit-book.php
-header("Location: edit-book.php?book_id=" . urlencode($book_id));
-exit;
+//         if ($stmt) {
+//             $stmt->bind_param("si", $value, $book_id);
+//             if ($stmt->execute()) {
+//                 $updateSuccessful = true;
+//             } else {
+//                 $_SESSION['message'] = "Error updating $field: " . $stmt->error;
+//                 header("Location: edit-book.php?book_id=" . urlencode($book_id));
+//                 exit;
+//             }
+//             $stmt->close();
+//         } else {
+//             $_SESSION['message'] = "Error preparing query for $field: " . $conn->error;
+//             header("Location: edit-book.php?book_id=" . urlencode($book_id));
+//             exit;
+//         }
+//     }
+// }
+
+// // Final success message if everything was successful
+// if ($updateSuccessful) {
+//     $_SESSION['message'] = "Book details updated successfully.";
+// } else {
+//     $_SESSION['message'] = "No changes were made.";
+// }
+
+// // Close the database connection and redirect
+// $conn->close();
+// header("Location: edit-book.php?book_id=" . urlencode($book_id));
+// exit;
+?>
