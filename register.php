@@ -1,6 +1,6 @@
 <?php
 // Database connection
-require 'db_connect.php';
+require 'db-connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   // Get form data

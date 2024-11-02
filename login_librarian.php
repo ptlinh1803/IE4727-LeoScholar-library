@@ -1,6 +1,6 @@
 <?php
   // The code is basically similar to the login page in lecture 9
-  require "db_connect.php";
+  require "db-connect.php";
 
   // Create new session if it has not been created yet
   if (session_status() == PHP_SESSION_NONE) {
@@ -32,7 +32,7 @@
           $_SESSION['librarian_id'] = $librarian_id;
   
           // Redirect the librarian to the home page
-          header("Location: homepage-member.html");
+          header("Location: homepage-member.php");
       } else {
           // Alert if no matching entry is found
           echo "<script>alert('No matching librarian found. Please check your credentials.'); window.history.back();</script>";
