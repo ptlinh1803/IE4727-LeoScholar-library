@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LeoScholar</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="search-styles.css" />
+    <link rel="stylesheet" href="payment-styles.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="homepage-member.php">
+        <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
+      </a>
+
+      <!-- Hamburger Menu Icon -->
+      <span class="menu-toggle">&#9776;</span>
+
+      <div class="nav-links">
+        <a href="homepage-member.php">Home</a>
+        <a href="#">Search</a>
+        <a href="#">My Shelf</a>
+        <a href="#">Contribute</a>
+        <div class="dropdown">
+          <a href="#" class="profile-link active-page">
+            Profile
+            <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
+          </a>
+          <div class="dropdown-content">
+            <a href="#">Settings</a>
+            <a href="#" class="active-page">Payment</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Header for Payment Page -->
+    <header class="header-payment">
+      <h1>Payment</h1>
+    </header>
+
+    <!-- Container -->
+    <div class="container">
+      <div class="left-side">
+        <div class="shelf-subnav">
+          <a href="#" id="pending-tab" class="tab-link active-tab">Pending</a>
+          <a href="#" id="completed-tab" class="tab-link">Completed</a>
+        </div>
+      </div>
+      <div class="right-side">
+        <!-- ---------------PENDING PAYMENTS------------- -->
+        <div id="pending-payment" class="shelf-section">
+          <h2>Your Pending Payments</h2>
+
+          <form id="payment-form" action="payment.php" method="POST">
+            <table class="book-table">
+              <thead>
+                <tr>
+                  <th id="cover-col"></th>
+                  <th id="title-col">Title</th>
+                  <th id="branch-col">Branch</th>
+                  <th id="reason-col">Overdue</th>
+                  <th id="amount-col">Amount</th>
+                  <th id="status-col">Status</th>
+                  <th id="action-col">Select</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Example Row -->
+                <tr>
+                  <td headers="cover-col">
+                    <img
+                      src="img/books/11.jpg"
+                      alt="Book Cover"
+                      class="book-cover"
+                    />
+                  </td>
+                  <td headers="title-col">
+                    Introduction to Mathematical Statistics
+                  </td>
+                  <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                  <td headers="reason-col">Overdue 3 days</td>
+                  <td headers="amount-col">$3.00</td>
+                  <td headers="status-col">
+                    <span class="status-yellow">Pending</span>
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      class="payment-checkbox"
+                      name="chosen_payments[]"
+                      value="fine id"
+                      data-amount="3.00"
+                      onchange="updateTotal();"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td headers="cover-col">
+                    <img
+                      src="img/books/10.jpg"
+                      alt="Book Cover"
+                      class="book-cover"
+                    />
+                  </td>
+                  <td headers="title-col">
+                    Introduction to Mathematical Statistics
+                  </td>
+                  <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                  <td headers="reason-col">4 days</td>
+                  <td headers="amount-col">$4.00</td>
+                  <td headers="status-col">
+                    <span class="status-yellow">Pending</span>
+                  </td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      class="payment-checkbox"
+                      name="chosen_payments[]"
+                      value="fine id"
+                      data-amount="4.00"
+                      onchange="updateTotal();"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="display-amount">
+              <p>
+                Total Amount to Pay: <span>$</span
+                ><span id="total-amount">0.00</span>
+              </p>
+              <p>Pay now: <span>$</span><span id="paynow-amount">0.00</span></p>
+              <p>Number of Chosen Payments: <span id="chosen-count">0</span></p>
+              <button
+                type="button"
+                id="select-all-button"
+                onclick="toggleSelectAll();"
+              >
+                Select All
+              </button>
+              <button type="submit" class="pay-button" disabled>Pay</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- ---------------COMPLETED PAYMENTS------------- -->
+        <div id="completed-payment" class="shelf-section" style="display: none">
+          <h2>Your Completed Payments</h2>
+          <table class="book-table">
+            <thead>
+              <tr>
+                <th id="cover-col"></th>
+                <th id="title-col">Title</th>
+                <th id="branch-col">Branch</th>
+                <th id="reason-col">Overdue</th>
+                <th id="amount-col">Amount</th>
+                <th id="status-col">Status</th>
+                <th id="paid-col">Paid date</th>
+                <th id="action-col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Example Row -->
+              <tr onclick="redirectToBookDetails(1)">
+                <td headers="cover-col">
+                  <img
+                    src="img/books/3.jpg"
+                    alt="Book Cover"
+                    class="book-cover"
+                  />
+                </td>
+                <td headers="title-col">
+                  Introduction to Mathematical Statistics
+                </td>
+                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                <td headers="reason-col">3 days</td>
+                <td headers="amount-col">$2.00</td>
+                <td headers="status-col">
+                  <span class="status-green">Completed</span>
+                </td>
+                <td headers="paid-col">31/10/2024</td>
+              </tr>
+              <tr onclick="redirectToBookDetails(1)">
+                <td headers="cover-col">
+                  <img
+                    src="img/books/4.jpg"
+                    alt="Book Cover"
+                    class="book-cover"
+                  />
+                </td>
+                <td headers="title-col">
+                  Introduction to Mathematical Statistics
+                </td>
+                <td headers="branch-col">NTU - Lee Wee Nam Library</td>
+                <td headers="reason-col">3 days</td>
+                <td headers="amount-col">$2.00</td>
+                <td headers="status-col">
+                  <span class="status-green">Completed</span>
+                </td>
+                <td headers="paid-col">31/10/2024</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="display-amount">
+            <p>Total: <span>$38.00</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <footer class="footer">
+      <p>&copy; 2024 LeoScholar. All rights reserved.</p>
+    </footer>
+
+    <!-- Toggling nav-links on mobile -->
+    <script>
+      document
+        .querySelector(".menu-toggle")
+        .addEventListener("click", function () {
+          document.querySelector(".navbar").classList.toggle("active");
+        });
+    </script>
+
+    <!-- Sub nav -->
+    <script>
+      // Function to handle tab click
+      function openTab(selectedTab, sectionId) {
+        // Get all book sections
+        const sections = document.querySelectorAll(".shelf-section");
+
+        // Hide all sections
+        sections.forEach((section) => {
+          section.style.display = "none";
+        });
+
+        // Show the selected section
+        document.getElementById(sectionId).style.display = "block"; // Change to "block" for div
+
+        // Remove 'active-tab' class from all tab links
+        document.querySelectorAll(".tab-link").forEach((tab) => {
+          tab.classList.remove("active-tab");
+        });
+
+        // Add 'active-tab' class to the selected tab link
+        selectedTab.classList.add("active-tab");
+      }
+
+      // Show "pending-payment" section on click
+      document
+        .getElementById("pending-tab")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          openTab(this, "pending-payment");
+        });
+
+      // Show "completed-books" section on click
+      document
+        .getElementById("completed-tab")
+        .addEventListener("click", function (event) {
+          event.preventDefault();
+          openTab(this, "completed-payment");
+        });
+
+      // Show the "favourite-books" section by default on page load
+      document.addEventListener("DOMContentLoaded", function () {
+        openTab(document.getElementById("pending-tab"), "pending-payment");
+      });
+    </script>
+
+    <!-- Redirect to Book details page -->
+    <script>
+      function redirectToBookDetails(bookId) {
+        window.open("book-details.php?book_id=" + bookId, "_blank");
+      }
+    </script>
+
+    <!-- Display the total and chosen amount -->
+    <script>
+      // Function to update the total amounts and selected count
+      function updateTotal() {
+        const checkboxes = document.querySelectorAll(".payment-checkbox");
+        let totalAmount = 0; // Total for all payments
+        let payNowAmount = 0; // Total for selected payments
+        let chosenCount = 0; // Count of selected payments
+
+        // Loop through each checkbox
+        checkboxes.forEach((checkbox) => {
+          const amount = parseFloat(checkbox.getAttribute("data-amount"));
+          totalAmount += amount; // Sum up all amounts for total display
+
+          // Check if the checkbox is selected
+          if (checkbox.checked) {
+            payNowAmount += amount; // Add to pay now amount if checked
+            chosenCount++; // Increment chosen count
+          }
+        });
+
+        // Update the total amount and chosen count displayed
+        document.getElementById("total-amount").innerText =
+          totalAmount.toFixed(2);
+        document.getElementById("paynow-amount").innerText =
+          payNowAmount.toFixed(2);
+        document.getElementById("chosen-count").innerText = chosenCount;
+
+        // Enable or disable the Pay button based on chosen payments
+        const payButton = document.querySelector(".pay-button");
+        payButton.disabled = chosenCount === 0;
+      }
+
+      // Function to toggle all checkboxes
+      function toggleSelectAll() {
+        const checkboxes = document.querySelectorAll(".payment-checkbox");
+        const allChecked = Array.from(checkboxes).every(
+          (checkbox) => checkbox.checked
+        );
+
+        // Set all checkboxes to the opposite of their current state
+        checkboxes.forEach((checkbox) => {
+          checkbox.checked = !allChecked;
+          checkbox.dispatchEvent(new Event("change")); // Trigger change event to update totals
+        });
+      }
+
+      // Initialize total amount at page load
+      document.addEventListener("DOMContentLoaded", () => {
+        updateTotal(); // Call updateTotal on page load to set initial totals
+      });
+    </script>
+  </body>
+</html>

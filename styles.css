@@ -184,7 +184,8 @@ body {
 
 /* What would you like to do today section */
 .services {
-  background-image: url("img/ui/bg7-low-opacity.png"); /* Add your background image here */
+  /* background-image: url("img/ui/bg7-low-opacity.png"); */
+  background-color: white;
   background-size: cover;
   background-position: center; /* Center the background image */
   padding: 30px;

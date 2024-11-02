@@ -76,7 +76,7 @@ else {
       <div class="nav-links">
         <a href="homepage-member.php" class="active-page">Home</a>
         <a href="search-page.php">Search</a>
-        <a href="#">My Shelf</a>
+        <a href="my-shelf.php">My Shelf</a>
         <a href="#">Contribute</a>
         <div class="dropdown">
           <a href="#" class="profile-link active-page">
@@ -85,9 +85,15 @@ else {
           </a>
           <div class="dropdown-content">
             <?php if (isset($_SESSION['user_id'])) { ?>
+<<<<<<< HEAD
               <a href="user-settings.php">Settings</a>
-              <a href="#">Payment</a>
+              <a href="payment.php">Payment</a>
               <a href="#" onclick="confirmLogout()">Logout</a>
+=======
+              <a href="#">Settings</a>
+              <a href="payment.php">Payment</a>
+              <a href="#">Logout</a>
+>>>>>>> main
             <?php } else { ?>
               <a href="login.html">Log in</a>
               <a href="register.html">Register</a>

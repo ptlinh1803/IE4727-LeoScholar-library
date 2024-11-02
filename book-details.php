@@ -94,7 +94,8 @@ if (!empty($_GET['book_id'])) {
       JOIN 
           branches ON book_availability.branch_id = branches.branch_id
       WHERE 
-          book_availability.book_id = ?;
+          book_availability.book_id = ?
+          AND book_availability.available_copies > 0;
     ";
 
     $stmt = $conn->prepare($get_availability);
@@ -205,8 +206,13 @@ if (!empty($_GET['book_id'])) {
         $from_date = $_POST['from_date'];
         $to_date = $_POST['to_date']; 
 
-        // Check if the user already has a reservation for this book at this branch
-        $check_query = "SELECT * FROM loans WHERE user_id = ? AND book_id = ? AND branch_id = ?";
+        // Check if the user already has a loan for this book at this branch
+        $check_query = "
+          SELECT * FROM loans 
+          WHERE user_id = ? 
+          AND book_id = ? 
+          AND branch_id = ?
+          AND status = 'active'";
         $stmt = $conn->prepare($check_query);
         $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
         $stmt->execute();
@@ -218,7 +224,7 @@ if (!empty($_GET['book_id'])) {
           $_SESSION['alert'] = "You have already borrowed this book from this branch.";
         } else {
           // Check user's existing loans count
-          $stmt = $conn->prepare("SELECT COUNT(*) AS loan_count FROM loans WHERE user_id = ?");
+          $stmt = $conn->prepare("SELECT COUNT(*) AS loan_count FROM loans WHERE user_id = ? AND status='active'");
           $stmt->bind_param("i", $user_id);
           $stmt->execute();
           $stmt->bind_result($loan_count);
@@ -246,7 +252,12 @@ if (!empty($_GET['book_id'])) {
         }
       } else {
         // Check if the user already has a reservation for this book at this branch
-        $check_query = "SELECT * FROM reservations WHERE user_id = ? AND book_id = ? AND branch_id = ?";
+        $check_query = "
+          SELECT * FROM reservations
+          WHERE user_id = ? 
+          AND book_id = ? 
+          AND branch_id = ?
+          AND status = 'pending'";
         $stmt = $conn->prepare($check_query);
         $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
         $stmt->execute();
@@ -257,14 +268,33 @@ if (!empty($_GET['book_id'])) {
             // User has already reserved this book at this branch
             $_SESSION['alert'] = "You have already reserved this book at this branch.";
         } else {
-            // No existing reservation, proceed to insert into reservations table
-            $reservation_date = date("Y-m-d"); // Get today's date
-            $stmt = $conn->prepare("INSERT INTO reservations (user_id, book_id, branch_id, reservation_date) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("iiis", $user_id, $book_id, $branch_id, $reservation_date);
+            // check if the user is borrowing this book from this branch
+            $check_query_2 = "
+              SELECT * FROM loans 
+              WHERE user_id = ? 
+              AND book_id = ? 
+              AND branch_id = ?
+              AND status = 'active'";
+            $stmt = $conn->prepare($check_query_2);
+            $stmt->bind_param("iii", $user_id, $book_id, $branch_id);
             $stmt->execute();
+            $result = $stmt->get_result();
             $stmt->close();
-    
-            $_SESSION['alert'] = "Reservation successful.";
+
+            if ($result->num_rows > 0) {
+              // User has already reserved this book at this branch
+              $_SESSION['alert'] = "You have already borrowed this book from this branch.";
+            } else {
+              // No existing loan or reservation, proceed to insert into reservations table
+                $reservation_date = date("Y-m-d"); // Get today's date
+                $stmt = $conn->prepare("INSERT INTO reservations (user_id, book_id, branch_id, reservation_date) VALUES (?, ?, ?, ?)");
+                $stmt->bind_param("iiis", $user_id, $book_id, $branch_id, $reservation_date);
+                $stmt->execute();
+                $stmt->close();
+        
+                $_SESSION['alert'] = "Reservation successful.";
+
+            }
         }
       }
 
@@ -304,7 +334,7 @@ if (!empty($_GET['book_id'])) {
       <div class="nav-links">
         <a href="homepage-member.php">Home</a>
         <a href="search-page.php">Search</a>
-        <a href="#">My Shelf</a>
+        <a href="my-shelf.php">My Shelf</a>
         <a href="#">Contribute</a>
         <div class="dropdown">
           <a href="#" class="profile-link active-page">
@@ -314,7 +344,7 @@ if (!empty($_GET['book_id'])) {
           <div class="dropdown-content">
             <?php if (isset($_SESSION['user_id'])) { ?>
               <a href="#">Settings</a>
-              <a href="#">Payment</a>
+              <a href="payment.php">Payment</a>
               <a href="#">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
