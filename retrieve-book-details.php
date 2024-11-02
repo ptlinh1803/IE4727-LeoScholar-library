@@ -10,8 +10,8 @@ $stmt->bind_param("i", $book_id);
 if ($stmt->execute()) {
   $stmt->bind_result($cover_path, $title, $description, $author, $about_author, $ebook_file_path, $audio_file_path);
   if ($stmt->fetch()) {
-    // Assign empty string for any NULL fields
-    $cover_path = $cover_path ?? "";
+    // Assign empty string for any NULL fields, default.png for $cover_path specifically
+    $cover_path = $cover_path ?? "default.png";
     $title = $title ?? "";
     $description = $description ?? "";
     $author = $author ?? "";

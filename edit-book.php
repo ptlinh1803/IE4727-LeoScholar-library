@@ -86,7 +86,7 @@ if (isset($_SESSION['message'])) {
           </td>
           <td class="cell upload-cell">
             <p>Current book cover: <?php echo htmlspecialchars($cover_path); ?></p>
-            <input type="file" id="cover-file" name="cover_path" required>
+            <input type="file" id="cover-file" name="cover_path" accept="image/*" required>
             <!-- <button type="button" class="upload-btn">Upload</button> -->
           </td>
           <td class="cell"><button type="submit" class="main-btn">Save</button></td>
@@ -160,7 +160,7 @@ if (isset($_SESSION['message'])) {
           <td class="cell"><h4>E-book</h4></td>
           <td class="cell upload-cell">
             <p>Current e-book file: <?php echo htmlspecialchars($ebook_file_path); ?></p>
-            <input type="file" id="ebook-file" name="ebook_file_path" required>
+            <input type="file" id="ebook-file" name="ebook_file_path" accept=".pdf" required>
             <!-- <button type="button" class="upload-btn">Upload</button> -->
           </td>
           <td class="cell"><button type="submit" class="main-btn">Save</button></td>
@@ -174,7 +174,7 @@ if (isset($_SESSION['message'])) {
           <td class="cell"><h4>Audio</h4></td>
           <td class="cell upload-cell">
             <p>Current audio file: <?php echo htmlspecialchars($audio_file_path); ?></p>
-            <input type="file" id="audio-file" name="audio_file_path" required>
+            <input type="file" id="audio-file" name="audio_file_path" accept=".mp3" required>
             <!-- <button type="button" class="upload-btn">Upload</button> -->
           </td>
           <td class="cell"><button type="submit" class="main-btn">Save</button></td>

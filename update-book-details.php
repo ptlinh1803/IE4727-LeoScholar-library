@@ -31,12 +31,33 @@ $allowed_fields = ['title', 'author', 'description', 'about_author'];
 $updateSuccessful = false;
 
 // Process file inputs
-$file_fields = ['cover_path' => $coverDir, 'ebook_file_path' => $ebookDir, 'audio_file_path' => $audioDir];
-foreach ($file_fields as $field => $targetDir) {
+$file_fields = [
+    'cover_path' => ['dir' => $coverDir, 'extensions' => ['jpg', 'jpeg', 'png']],
+    'ebook_file_path' => ['dir' => $ebookDir, 'extensions' => ['pdf']],
+    'audio_file_path' => ['dir' => $audioDir, 'extensions' => ['mp3']]
+];
+
+foreach ($file_fields as $field => $info) {
+    $targetDir = $info['dir'];
+    $allowedExtensions = $info['extensions'];
+    
     if (isset($_FILES[$field]) && $_FILES[$field]['error'] == UPLOAD_ERR_OK) {
         $tmpName = $_FILES[$field]['tmp_name'];
         $fileName = basename($_FILES[$field]['name']);
-        $targetPath = $targetDir . "/" . $fileName;
+        $fileExt = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        
+        // Validate file type
+        if (!in_array($fileExt, $allowedExtensions)) {
+            $_SESSION['message'] = "Invalid file type for $field. Allowed types: " . implode(', ', $allowedExtensions) . ".";
+            header("Location: edit-book.php?book_id=" . urlencode($book_id));
+            exit;
+        }
+
+        // Append timestamp to the middle of the file name
+        $fileNameWithoutExt = pathinfo($fileName, PATHINFO_FILENAME);
+        $timestamp = time();
+        $newFileName = $fileNameWithoutExt . '_' . $timestamp . '.' . $fileExt;
+        $targetPath = $targetDir . "/" . $newFileName;
 
         // Check if the directory is writable
         if (!is_writable($targetDir)) {
@@ -46,7 +67,7 @@ foreach ($file_fields as $field => $targetDir) {
         // Move the uploaded file to the target directory
         if (move_uploaded_file($tmpName, $targetPath)) {
             // Store only the file name in the database
-            $fileNameForDb = $fileName;
+            $fileNameForDb = $newFileName;
 
             // Update database with the path to the saved file
             $query = "UPDATE books SET $field = ? WHERE book_id = ?";
