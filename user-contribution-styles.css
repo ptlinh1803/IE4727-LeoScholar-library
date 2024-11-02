@@ -1,0 +1,229 @@
+* {
+  box-sizing: border-box;
+}
+
+.header-contribution {
+  background: linear-gradient(45deg, #d71440, #ef7c00);
+  padding: 20px; /* Smaller padding */
+  color: white;
+  min-height: 150px; /* Reduced header height */
+  display: flex; /* Use flexbox for centering */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  position: relative; /* Allow absolutely positioned children */
+}
+
+.header-contribution h1 {
+  font-size: 40px;
+  color: white;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+  position: relative;
+}
+
+.left-side {
+  width: 13%;
+  background: white;
+  position: relative; /* Make this relative to position the book cover within */
+}
+
+.right-side {
+  width: 87%;
+  padding: 50px;
+  background-color: #f3f3f7;
+  overflow-y: auto;
+}
+
+.shelf-subnav a {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Center vertically */
+  padding: 10px 15px; /* Padding for dropdown links */
+  color: #bbb; /* Text color for dropdown links */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold;
+  min-height: 60px;
+  padding-left: 30px;
+}
+
+.shelf-subnav a:hover {
+  background-color: #f0f0f0; /* Background on hover for dropdown links */
+  color: #333;
+}
+
+.shelf-subnav a.active-tab {
+  color: #333;
+  text-decoration: underline;
+}
+
+.status-green {
+  background-color: aquamarine;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.status-yellow {
+  background-color: #f2ac42;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.status-red {
+  background-color: #ea324c;
+  border-radius: 20px;
+  padding: 5px 10px;
+  color: white;
+  font-size: 14px;
+}
+
+.shelf-action-button {
+  width: 100%;
+  margin: 5px 0; /* Space between buttons */
+  font-family: "Inter", sans-serif;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  padding: 5px 10px;
+  font-size: 14px;
+}
+
+.return {
+  border: 1px solid #ef7c00;
+  color: #ef7c00;
+  background-color: white;
+}
+
+.return:hover {
+  color: white;
+  background-color: #ef7c00;
+}
+
+.cancel {
+  border: 1px solid #ee3124;
+  color: #ee3124;
+  background-color: white;
+}
+
+.cancel:hover {
+  color: white;
+  background-color: #ee3124;
+}
+
+.acknowledge {
+  border: 1px solid #11155e;
+  color: #11155e;
+  background-color: white;
+}
+
+.acknowledge:hover {
+  color: white;
+  background-color: #11155e;
+}
+
+.action-form {
+  display: flex; /* Use flexbox to align items */
+  justify-content: flex-start; /* Align items to the left */
+  margin: 0; /* Remove default margin */
+}
+
+.display-amount {
+  margin-left: 31px;
+}
+
+.pay-button {
+  border: 1px solid #11155e;
+  color: #11155e;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.pay-button:hover {
+  color: white;
+  background-color: #11155e;
+}
+
+.pay-button:disabled {
+  background-color: #d3d3d3; /* Light gray background */
+  cursor: not-allowed; /* Change cursor to indicate it's not clickable */
+  color: black; /* Text color */
+  border: none; /* Remove border */
+  opacity: 0.6; /* Optional: make the button look disabled */
+}
+
+#select-all-button {
+  border: 1px solid #ef7c00;
+  color: #ef7c00;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px 15px;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+#select-all-button:hover {
+  color: white;
+  background-color: #ef7c00;
+}
+
+.display-amount span {
+  font-weight: bold;
+}
+
+.form-container {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin: 0 auto;
+  width: 60%;
+  padding: 25px;
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea,
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+input[type="submit"],
+input[type="reset"] {
+  width: auto;
+  padding: 10px 15px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type="submit"] {
+  border: 1px solid #11155e;
+  background-color: #11155e;
+  color: white;
+}
+
+input[type="submit"]:hover {
+  border: 1px solid #ef7c00;
+  background-color: #ef7c00;
+}
+
+input[type="reset"] {
+  border: 1px solid #ee3124;
+  color: #ee3124;
+  background-color: white;
+}
+
+input[type="reset"]:hover {
+  background-color: #ee3124;
+  color: white;
+}
