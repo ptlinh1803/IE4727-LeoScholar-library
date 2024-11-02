@@ -74,6 +74,7 @@ if (!$result_availability) {
         <td class="cell"><h4><?php echo htmlspecialchars($branch_name); ?></h4></td>
         <td class="cell">
           <form method="POST" action="update-book-availability.php">
+            <input type="hidden" name="book_id" value="<?php echo htmlspecialchars($book_id); ?>">
             <input type="hidden" name="branch_id" value="<?php echo htmlspecialchars($branch_id); ?>">
             <input type="number" min="0" name="available_copies" value="<?php echo htmlspecialchars($available_copies); ?>">
         </td>
