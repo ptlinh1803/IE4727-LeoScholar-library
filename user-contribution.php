@@ -109,6 +109,11 @@ if (!isset($_SESSION['user_id'])) {
         }
     }
 
+    // Set default cover if no file was uploaded
+    if ($cover_path === '') {
+      $cover_path = 'default.png';
+    }
+
     // Prepare the SQL query to insert data into the donations table
     $stmt = $conn->prepare("
       INSERT INTO donations 
