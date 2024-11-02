@@ -41,7 +41,14 @@ if (count($rows) > 1) {
   exit();
 }
 
-// Step 5: If no entry is found, insert new record
+// Step 5: If no entry is found and $available_copies=0, leave the database untouched
+if (count($rows) === 0 && $available_copies == 0) {
+  $_SESSION['message'] = 'No new available copy at the selected branch. Nothing changed.';
+  header("Location: edit-book.php?book_id=$book_id");
+  exit();
+}
+
+// Step 6: If no entry is found, insert new record
 if (count($rows) === 0) {
   // No existing record, we insert a new one
   $insertQuery = "INSERT INTO book_availability (book_id, branch_id, available_copies, shelf) VALUES (?, ?, ?, ?)";
@@ -56,17 +63,17 @@ if (count($rows) === 0) {
   exit();
 }
 
-// Step 6: If one entry is found, check the available copies
+// Step 7: If one entry is found, check the available copies
 $existing_entry = $rows[0];
 
-// Step 7: If $available_copies is less than 0, store error and redirect
+// Step 8: If $available_copies is less than 0, store error and redirect
 if ($available_copies < 0) {
   $_SESSION['message'] = 'Number of available copies must be greater than or equal to 0.';
   header("Location: edit-book.php?book_id=$book_id");
   exit();
 }
 
-// Step 8: If $available_copies is 0, delete the entry
+// Step 9: If $available_copies is 0, delete the entry
 if ($available_copies == 0) {
   $deleteQuery = "DELETE FROM book_availability WHERE book_id = ? AND branch_id = ?";
   $deleteStmt = $conn->prepare($deleteQuery);
@@ -80,7 +87,7 @@ if ($available_copies == 0) {
   exit();
 }
 
-// Step 9: Update the entry if $available_copies > 0
+// Step 10: Update the entry if $available_copies > 0
 $updateQuery = "UPDATE book_availability SET available_copies = ?, shelf = ? WHERE book_id = ? AND branch_id = ?";
 $updateStmt = $conn->prepare($updateQuery);
 if (!$updateStmt || !$updateStmt->bind_param("isii", $available_copies, $shelf, $book_id, $branch_id) || !$updateStmt->execute()) {
@@ -89,7 +96,7 @@ if (!$updateStmt || !$updateStmt->bind_param("isii", $available_copies, $shelf, 
   exit();
 }
 
-// Step 10: Store success message and redirect
+// Step 11: Store success message and redirect
 $_SESSION['message'] = 'Availability data successfully updated.';
 header("Location: edit-book.php?book_id=$book_id");
 exit();
