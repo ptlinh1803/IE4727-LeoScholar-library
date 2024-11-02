@@ -2,6 +2,17 @@
 include 'db-connect.php';
 session_start();
 
+// Check if there's an alert message
+if (isset($_SESSION['alert'])) {
+  $alertMessage = $_SESSION['alert'];
+  echo "<script>
+      window.addEventListener('load', function() {
+          alert('" . addslashes($alertMessage) . "');
+      });
+  </script>";
+  unset($_SESSION['alert']); // Clear the message after displaying
+}
+
 // Get all branches---------------------
 $branchesQuery = "SELECT * FROM branches;";
 $branchesResult = $conn->query($branchesQuery);
@@ -36,7 +47,7 @@ if (!isset($_SESSION['user_id'])) {
 } else {
   $user_id = $_SESSION['user_id'];
 
-  // Get past contribution----------------------------
+  // Get past contributions----------------------------
   $get_past_contribution_query = "
       SELECT d.*, br.university_id, br.branch_name
       FROM donations d
@@ -60,6 +71,66 @@ if (!isset($_SESSION['user_id'])) {
   }
 
   $stmt->close();
+
+  // Upload new contribution----------------------------------
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // inputs
+    $user_id = $_SESSION['user_id'];
+    $isbn = $_POST['isbn'];
+    $title = $_POST['title'];
+    $author = $_POST['author'];
+    $publication_year = $_POST['publication_year'];
+    $category = $_POST['category'];
+    $branch_id = $_POST['branch_id'];
+    $available_copies = $_POST['available_copies'];
+    $book_description = !empty($_POST['book_description']) ? $_POST['book_description'] : '';
+    $about_author = !empty($_POST['about_author']) ? $_POST['about_author'] : '';
+
+    // Handle the cover image upload
+    $cover_path = ''; // Default empty cover_path
+    if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] == UPLOAD_ERR_OK) {
+        $upload_dir = 'img/books/'; // Directory to save the image
+
+        // Get the original file extension
+        $file_ext = pathinfo($_FILES['cover_image']['name'], PATHINFO_EXTENSION);
+
+        // Generate a new file name with a timestamp
+        $new_file_name = 'cover_' . time() . '.' . $file_ext;
+
+        // Full path to save the uploaded file
+        $target_file = $upload_dir . $new_file_name;
+
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $target_file)) {
+            $cover_path = $new_file_name; // Save the new file name in the cover_path variable
+        } else {
+            echo "Error uploading the image.";
+            exit;
+        }
+    }
+
+    // Prepare the SQL query to insert data into the donations table
+    $stmt = $conn->prepare("
+      INSERT INTO donations 
+      (user_id, isbn, title, author, description, about_author, publication_year, category, branch_id, available_copies, cover_path) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("isssssisiis", $user_id, $isbn, $title, $author, $book_description, $about_author, $publication_year, $category, $branch_id, $available_copies, $cover_path);
+
+    // Execute the query and check for success
+    if ($stmt->execute()) {
+        $_SESSION['alert'] = "Thank you for your donation! Our librarians will review and notify you of the decision.";
+    } else {
+      $_SESSION['alert'] = "Error: " . $stmt->error;
+    }
+
+    // Close the statement and connection
+    $stmt->close();
+
+    // Redirect back to the same page with the borrowed books tab active
+    header("Location: user-contribution.php");
+    exit();
+     
+  }
 
 }
 ?>
@@ -137,8 +208,8 @@ if (!isset($_SESSION['user_id'])) {
           <?php if (isset($_SESSION['user_id'])) { ?>
               <div class="form-container">
                 <form
-                  action="your_server_endpoint.php"
-                  method="post"
+                  action="user-contribution.php"
+                  method="POST"
                   enctype="multipart/form-data"
                 >
                   <label for="title">Title *:</label><br />
@@ -218,7 +289,6 @@ if (!isset($_SESSION['user_id'])) {
                     id="cover_image"
                     name="cover_image"
                     accept="image/*"
-                    required
                   /><br /><br />
 
                   <input type="submit" value="Submit" />
