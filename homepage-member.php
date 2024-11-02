@@ -85,15 +85,9 @@ else {
           </a>
           <div class="dropdown-content">
             <?php if (isset($_SESSION['user_id'])) { ?>
-<<<<<<< HEAD
               <a href="user-settings.php">Settings</a>
               <a href="payment.php">Payment</a>
               <a href="#" onclick="confirmLogout()">Logout</a>
-=======
-              <a href="#">Settings</a>
-              <a href="payment.php">Payment</a>
-              <a href="#">Logout</a>
->>>>>>> main
             <?php } else { ?>
               <a href="login.html">Log in</a>
               <a href="register.html">Register</a>
