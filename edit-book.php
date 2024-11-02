@@ -21,13 +21,6 @@ $_SESSION['librarian_id'] = 1;
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<!-- Display any message upon form submission-->
-<?php
-if (isset($_SESSION['message'])) {
-  echo "<script>alert('" . $_SESSION['message'] . "');</script>";
-  unset($_SESSION['message']); // Clear the message after displaying it
-}
-?>
   <!-- Navigation placeholder -->
   <nav class="navbar">
     <a href="homepage-member.php">
@@ -153,7 +146,7 @@ if (isset($_SESSION['message'])) {
         </form>
       </tr>
 
-      <!-- Ro  <script src="validateAvailabilityForm.js" defer></script>w 6: E-book -->
+      <!-- Row 6: E-book -->
       <tr>
         <form method="POST" action="update-book-details.php" enctype="multipart/form-data">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
@@ -202,5 +195,6 @@ if (isset($_SESSION['message'])) {
 
   <script src="toggle-edit.js"></script> <!-- Placeholder for future JS for toggle functionality -->
   <script src="validateAvailabilityForm.js"></script>
+  <?php include "display-session-message.php" ?>
 </body>
 </html>

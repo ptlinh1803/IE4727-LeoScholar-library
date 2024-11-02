@@ -21,14 +21,6 @@ session_start(); // Start the session
 </head>
 
 <body>
-<!-- Display any message upon form submission-->
-<?php
-session_start();
-if (isset($_SESSION['message'])) {
-  echo "<script>alert('" . $_SESSION['message'] . "');</script>";
-  unset($_SESSION['message']); // Clear the message after displaying it
-}
-?>
   <!-- Navbar -->
   <nav class="navbar">
     <a href="homepage-member.php">
@@ -186,7 +178,7 @@ else { //Display the content of the page normally
 
   <script src="display-settings.js"></script>
   <script src="toggle_password.js"></script>
-
+  <?php include "display-session-message.php" ?>
 </body>
 
 </html>
