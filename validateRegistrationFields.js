@@ -1,128 +1,92 @@
-// This script provides functions to validate the fields in and register.html
-// The script consist of 3 parts:
-// 1. Defining all the validation functions
-// 2. Creating a function that takes in the type of the element at hand and apply the validation function accordingly
-// 3. Create a function that iterates the process of part 2 through the entire HTML
+// Function to clear all fields on page load
+function clearFieldsOnLoad() {
+  // List of all input fields to clear on load
+  const fields = [
+    document.getElementById("register-name"),
+    document.getElementById("register-email"),
+    document.getElementById("register-phone"),
+    document.getElementById("register-password"),
+    document.getElementById("register-cf-password")
+  ];
 
+  // Clear each field and reset border color
+  fields.forEach(field => {
+    field.value = ''; // Reset value to empty string
+    field.style.borderColor = ''; // Reset any border styling
+  });
+}
 
-// 1. Validation Functions
+// Run clear fields function on page load
+window.onload = clearFieldsOnLoad;
+
 // Email validation function
-function validateEmail(value) {
+function validateEmail(field) {
   const emailRegex = /^[\w\.-]+@e\.(ntu|nus|smu|sit|sutd|suss)\.edu\.sg$/;
-  return emailRegex.test(value);
+  const isValid = emailRegex.test(field.value);
+  displayValidationResult(field, isValid, "Please enter a valid email address from an approved institution.");
 }
 
 // Password validation function (example: minimum 8 characters, at least one number)
-function validatePassword(value) {
+function validatePassword(field) {
   const passwordRegex = /^(?=.*\d).{8,}$/;
-  return passwordRegex.test(value);
+  const isValid = passwordRegex.test(field.value);
+  displayValidationResult(field, isValid, "Password must be at least 8 characters long and contain a number.");
 }
 
-// Name validation function (example: only letters, spaces and hyphens)
-function validateName(value) {
+// Name validation function (example: only letters, spaces, and hyphens)
+function validateName(field) {
   const nameRegex = /^[A-Za-z\s\-]+$/;
-  return nameRegex.test(value);
+  const isValid = nameRegex.test(field.value);
+  displayValidationResult(field, isValid, "Name should contain only letters, spaces, and hyphens.");
 }
 
 // Phone number validation function (example: Singaporean phone number format)
-function validatePhoneNumber(value) {
+function validatePhoneNumber(field) {
   const phoneRegex = /^\d{8}$/;
-  return phoneRegex.test(value);
+  const isValid = phoneRegex.test(field.value);
+  displayValidationResult(field, isValid, "Please enter a valid Singaporean phone number.");
 }
 
 // Identical password validation function
 function validateIdenticalPasswords() {
-  // Get the password fields by their IDs
   const passwordField = document.getElementById("register-password");
   const confirmPasswordField = document.getElementById("register-cf-password");
+  const submitButton = document.getElementById("register-button");
 
-  // Check if both fields are present before running the validation
-  if (passwordField.value && confirmPasswordField.value) {
-    if (passwordField.value !== confirmPasswordField.value) {
-      passwordField.style.borderColor = 'red';
-      confirmPasswordField.style.borderColor = 'red';
-      alert("Passwords do not match.");
-      return false;
-    } else {
-      passwordField.style.borderColor = '';
-      confirmPasswordField.style.borderColor = '';
-      return true;
-    }
+  if (passwordField.value && confirmPasswordField.value && passwordField.value !== confirmPasswordField.value) {
+    passwordField.style.borderColor = 'red';
+    confirmPasswordField.style.borderColor = 'red';
+    submitButton.disabled = true;
+    submitButton.style.backgroundColor = 'grey';
+    alert("Passwords do not match.");
+  } else {
+    passwordField.style.borderColor = '';
+    confirmPasswordField.style.borderColor = '';
+    updateButtonState();
   }
 }
 
-
-// 2. Detect and apply the right validation function, attach alert messages
-function validateField(field) {
-  const value = field.value;
-  let isValid = false;
-  let errorMessage = '';
-
-  switch (field.name) {
-    case 'email':
-      isValid = validateEmail(value);
-      errorMessage = 'Please enter a valid email address from an approved institution';
-      break;
-    case 'password':
-      isValid = validatePassword(value);
-      errorMessage = 'Both password and confirm password must be at least 8 characters long and contain a number.';
-      break;
-    case 'name':
-      isValid = validateName(value);
-      errorMessage = 'Name should contain only letters, spaces and hyphens.';
-      break;
-    case 'phone':
-      isValid = validatePhoneNumber(value);
-      errorMessage = 'Please enter a valid phone number.';
-      break;
-    default:
-      return true; // If name is not recognized, assume valid
-  }
+// Utility function to display validation results
+function displayValidationResult(field, isValid, errorMessage) {
+  const submitButton = document.getElementById("register-button");
 
   if (!isValid) {
     field.style.borderColor = 'red';
+    submitButton.disabled = true;
+    submitButton.style.backgroundColor = 'grey';
     alert(errorMessage);
   } else {
     field.style.borderColor = '';
+    updateButtonState();
   }
-
-  return isValid;
 }
 
-// 3. Iterate the function in part 2 through the entire page
-function validateAllFields() {
-  const inputFields = document.querySelectorAll('input[name="email"], input[name="password"], input[name="name"], input[name="phone"]');
-  const passwordFields = document.querySelectorAll('input[name="password"]');
-  const registerSubmitButton = document.getElementById('register-button');
+// Function to update the button state based on field validity
+function updateButtonState() {
+  const isFormValid = document.querySelectorAll('.register-input-field').length ===
+    Array.from(document.querySelectorAll('.register-input-field')).filter(field => field.style.borderColor !== '#ef7c00').length;
+  const submitButton = document.getElementById("register-button");
 
-  // Function to update button based on overall field validity
-  function updateButtonState() {
-    const allFieldsValid = Array.from(inputFields).every(field => validateField(field)) && validateIdenticalPasswords();
-    registerSubmitButton.disabled = !allFieldsValid;
-  }
-
-  // Set blur event listeners for individual validation
-  inputFields.forEach((field) => {
-    field.addEventListener('blur', updateButtonState);
-  });
-
-  // Set blur event listeners for identical password validation
-  passwordFields.forEach((field) => {
-    field.addEventListener('blur', updateButtonState);
-  });
+  submitButton.disabled = !isFormValid;
+  submitButton.style.backgroundColor = isFormValid ? '#ef7c00' : 'grey';
 }
-
-// Run the function when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', validateAllFields);
-
-// Prevent form submission if some fields are not validated
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.querySelector('form');
-  if (form) {
-    form.addEventListener('submit', (event) => {
-      if (document.getElementById('register-button').disabled) {
-        alert("Please fill in all the fields correctly first.");
-      }
-    });
-  }
-});
