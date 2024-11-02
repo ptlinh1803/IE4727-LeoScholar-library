@@ -14,7 +14,7 @@ function validateAvailableCopies(input) {
 function validateShelf(input) {
   const submitButton = input.closest('tr').querySelector('button[type="submit"]');
   const shelf = input.value;
-  const shelfRegex = /^[A-Z]{2} [A-Z]\d\-\d$/;
+  const shelfRegex = /^[A-Z]{2} [A-Z]\d+\-\d+$/;
 
   if (shelf !== '' && !shelfRegex.test(shelf)) {
     alert("Shelf format is invalid. Use format: AA B1-2 or leave empty.");
