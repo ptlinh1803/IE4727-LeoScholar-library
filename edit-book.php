@@ -153,7 +153,7 @@ if (isset($_SESSION['message'])) {
         </form>
       </tr>
 
-      <!-- Row 6: E-book -->
+      <!-- Ro  <script src="validateAvailabilityForm.js" defer></script>w 6: E-book -->
       <tr>
         <form method="POST" action="update-book-details.php" enctype="multipart/form-data">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
@@ -201,5 +201,6 @@ if (isset($_SESSION['message'])) {
 
 
   <script src="toggle-edit.js"></script> <!-- Placeholder for future JS for toggle functionality -->
+  <script src="validateAvailabilityForm.js"></script>
 </body>
 </html>

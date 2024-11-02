@@ -70,22 +70,22 @@ if (!$result_availability) {
       $available_copies = $row['available_copies'] !== NULL ? $row['available_copies'] : 0;
       $shelf = $row['shelf'] !== NULL ? $row['shelf'] : "";
       ?>
-      <tr>
-        <td class="cell"><h4><?php echo htmlspecialchars($branch_name); ?></h4></td>
-        <td class="cell">
-          <form method="POST" action="update-book-availability.php">
-            <input type="hidden" name="book_id" value="<?php echo htmlspecialchars($book_id); ?>">
-            <input type="hidden" name="branch_id" value="<?php echo htmlspecialchars($branch_id); ?>">
-            <input type="number" min="0" name="available_copies" value="<?php echo htmlspecialchars($available_copies); ?>">
-        </td>
-        <td class="cell">
-          <input type="text" name="shelf" value="<?php echo htmlspecialchars($shelf); ?>">
-        </td>
-        <td class="cell">
-          <button type="submit" class="main-btn">Save</button>
-          </form>
-        </td>
-      </tr>
+  <tr>
+  <form method="POST" action="update-book-availability.php">
+    <td class="cell"><h4><?php echo htmlspecialchars($branch_name); ?></h4></td>
+    <td class="cell">
+      <input type="hidden" name="book_id" value="<?php echo htmlspecialchars($book_id); ?>">
+      <input type="hidden" name="branch_id" value="<?php echo htmlspecialchars($branch_id); ?>">
+      <input type="number" min="0" name="available_copies" value="<?php echo htmlspecialchars($available_copies); ?>" onchange="validateAvailableCopies(this)">
+    </td>
+    <td class="cell">
+      <input type="text" name="shelf" value="<?php echo htmlspecialchars($shelf); ?>" onchange="validateShelf(this)">
+    </td>
+    <td class="cell">
+      <button type="submit" class="main-btn">Save</button>
+    </td>
+    </form>
+  </tr>
       <?php
     }
     ?>
