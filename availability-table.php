@@ -40,7 +40,7 @@ $query_availability = "
     FROM book_availability 
     WHERE book_id = '$book_id'
   )
-  SELECT b.branch_name, ba.available_copies, ba.shelf 
+  SELECT b.branch_id, b.branch_name, ba.available_copies, ba.shelf 
   FROM Branches b 
   LEFT JOIN BookAvailability ba ON b.branch_id = ba.branch_id
 ";
@@ -53,26 +53,40 @@ if (!$result_availability) {
 ?>
 
 <table id="edit-availability-table">
-<thead>
+  <thead>
     <tr>
       <th>Branches</th>
       <th>No. of Available Copies</th>
       <th>Shelf</th>
+      <th>Submit Change</th>
     </tr>
   </thead>
-<?php
-// 3. Display results in a dynamic table
-while ($row = mysqli_fetch_assoc($result_availability)) {
-  $branch_name = $row['branch_name'];
-  $available_copies = $row['available_copies'] !== NULL ? $row['available_copies'] : 0;
-  $shelf = $row['shelf'] !== NULL ? $row['shelf'] : "";
-  ?>
-  <tr>
-    <td class="cell"><h4><?php echo htmlspecialchars($branch_name); ?></h4></td>
-    <td class="cell"><input type="number" min="0" value="<?php echo htmlspecialchars($available_copies); ?>"></td>
-    <td class="cell"><input type="text" value="<?php echo htmlspecialchars($shelf); ?>"></td>
-  </tr>
-  <?php
-}
-?>
+  <tbody>
+    <?php
+    // Display results in a dynamic table
+    while ($row = mysqli_fetch_assoc($result_availability)) {
+      $branch_id = $row['branch_id'];
+      $branch_name = $row['branch_name'];
+      $available_copies = $row['available_copies'] !== NULL ? $row['available_copies'] : 0;
+      $shelf = $row['shelf'] !== NULL ? $row['shelf'] : "";
+      ?>
+      <tr>
+        <td class="cell"><h4><?php echo htmlspecialchars($branch_name); ?></h4></td>
+        <td class="cell">
+          <form method="POST" action="update-book-availability.php">
+            <input type="hidden" name="branch_id" value="<?php echo htmlspecialchars($branch_id); ?>">
+            <input type="number" min="0" name="available_copies" value="<?php echo htmlspecialchars($available_copies); ?>">
+        </td>
+        <td class="cell">
+          <input type="text" name="shelf" value="<?php echo htmlspecialchars($shelf); ?>">
+        </td>
+        <td class="cell">
+          <button type="submit" class="main-btn">Save</button>
+          </form>
+        </td>
+      </tr>
+      <?php
+    }
+    ?>
+  </tbody>
 </table>

@@ -183,17 +183,14 @@ if (isset($_SESSION['message'])) {
     </table>
   </div>
 
-  <!-- Edit Book Availability Container -->
-  <div class="edit-book-container" id="edit-availability-container">
-    <h1 class="big-blue-h1">Edit Book Availabilities</h1>
-    <h4>Editing availabilities of book: <?php echo htmlspecialchars($title); ?></h4>
-    <form id="book-availalibity-form" method="POST" action="update-book-availability.php">
-    <div class="table-wrapper">
-      <?php include "availability-table.php" ?>
-    </div>
-      <button type="submit" class="main-btn">Submit Book Availabilities</button>
-    </form>
+<!-- Edit Book Availability Container -->
+<div class="edit-book-container" id="edit-availability-container">
+  <h1 class="big-blue-h1">Edit Book Availabilities</h1>
+  <h4>Editing availabilities of book: <?php echo htmlspecialchars($title); ?></h4>
+  <div class="table-wrapper">
+    <?php include "availability-table.php"; ?>
   </div>
+</div>
 </section>
 
   <?php } ?>

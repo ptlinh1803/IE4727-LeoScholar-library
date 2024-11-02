@@ -23,6 +23,10 @@
   background-color: #fceae2;
 }
 
+#table-wrapper {
+  width: 70%;
+}
+
 /* Centering elements */
 .edit-book-container h1 {
   text-align: center;
