@@ -14,37 +14,66 @@ function clearFieldsOnLoad() {
     field.value = ''; // Reset value to empty string
     field.style.borderColor = ''; // Reset any border styling
   });
+
+  // Disable the button by default
+  const submitButton = document.getElementById("register-button");
+  submitButton.disabled = true;
+  submitButton.style.backgroundColor = 'grey';
 }
 
 // Run clear fields function on page load
 window.onload = clearFieldsOnLoad;
 
-// Email validation function
-function validateEmail(field) {
-  const emailRegex = /^[\w\.-]+@e\.(ntu|nus|smu|sit|sutd|suss)\.edu\.sg$/;
-  const isValid = emailRegex.test(field.value);
-  displayValidationResult(field, isValid, "Please enter a valid email address from an approved institution.");
-}
-
-// Password validation function (example: minimum 8 characters, at least one number)
-function validatePassword(field) {
-  const passwordRegex = /^(?=.*\d).{8,}$/;
-  const isValid = passwordRegex.test(field.value);
-  displayValidationResult(field, isValid, "Password must be at least 8 characters long and contain a number.");
-}
-
-// Name validation function (example: only letters, spaces, and hyphens)
-function validateName(field) {
+// Name check function
+function isNameValid(field) {
   const nameRegex = /^[A-Za-z\s\-]+$/;
-  const isValid = nameRegex.test(field.value);
-  displayValidationResult(field, isValid, "Name should contain only letters, spaces, and hyphens.");
+  return nameRegex.test(field.value);
 }
 
-// Phone number validation function (example: Singaporean phone number format)
-function validatePhoneNumber(field) {
+// Name validate function
+function validateName(field) {
+  displayValidationResult(field, isNameValid(field), "Name should contain only letters, spaces, and hyphens.");
+}
+
+// Email check function
+function isEmailValid(field) {
+  const emailRegex = /^[\w\.-]+@e\.(ntu|nus|smu|sit|sutd|suss)\.edu\.sg$/;
+  return emailRegex.test(field.value);
+}
+
+// Email validate function
+function validateEmail(field) {
+  displayValidationResult(field, isEmailValid(field), "Please enter a valid email address from an approved institution.");
+}
+
+// Phone check function
+function isPhoneValid(field) {
   const phoneRegex = /^\d{8}$/;
-  const isValid = phoneRegex.test(field.value);
-  displayValidationResult(field, isValid, "Please enter a valid Singaporean phone number.");
+  return phoneRegex.test(field.value);
+}
+
+// Phone validate function
+function validatePhone(field) {
+  displayValidationResult(field, isPhoneValid(field), "Please enter a valid Singaporean phone number.");
+}
+
+// Password check function
+function isPasswordValid(field) {
+  const passwordRegex = /^(?=.*\d).{8,}$/;
+  return passwordRegex.test(field.value);
+}
+
+// Password validate function
+function validatePassword(field) {
+  displayValidationResult(field, isPasswordValid(field), "Both passwords must have at least 8 characters and 1 number");
+  validateIdenticalPasswords();
+}
+
+// Identical password check function
+function arePasswordsIdentical() {
+  const passwordField = document.getElementById("register-password");
+  const confirmPasswordField = document.getElementById("register-cf-password");
+  return (passwordField.value && confirmPasswordField.value && passwordField.value == confirmPasswordField.value);
 }
 
 // Identical password validation function
@@ -53,7 +82,7 @@ function validateIdenticalPasswords() {
   const confirmPasswordField = document.getElementById("register-cf-password");
   const submitButton = document.getElementById("register-button");
 
-  if (passwordField.value && confirmPasswordField.value && passwordField.value !== confirmPasswordField.value) {
+  if (!arePasswordsIdentical()) {
     passwordField.style.borderColor = 'red';
     confirmPasswordField.style.borderColor = 'red';
     submitButton.disabled = true;
@@ -81,10 +110,18 @@ function displayValidationResult(field, isValid, errorMessage) {
   }
 }
 
-// Function to update the button state based on field validity
+//Function to update the button state based on field validity
 function updateButtonState() {
-  const isFormValid = document.querySelectorAll('.register-input-field').length ===
-    Array.from(document.querySelectorAll('.register-input-field')).filter(field => field.style.borderColor !== '#ef7c00').length;
+  // Get all the fields for validations
+  const nameField = document.getElementById("register-name");
+  const emailField = document.getElementById("register-email");
+  const phoneField = document.getElementById("register-phone");
+  const passwordField = document.getElementById("register-password");
+  const cfPasswordField = document.getElementById("register-cf-password");
+
+  // Combine all the conditions
+  const isFormValid = isNameValid(nameField) && isEmailValid(emailField) && isPhoneValid(phoneField) &&
+    isPasswordValid(passwordField) && isPasswordValid(cfPasswordField) && arePasswordsIdentical();
   const submitButton = document.getElementById("register-button");
 
   submitButton.disabled = !isFormValid;

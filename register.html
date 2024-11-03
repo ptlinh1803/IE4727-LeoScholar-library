@@ -33,13 +33,13 @@
         <!-- Phone Number Input Field -->
         <label for="phone"><b>Phone Number</b><br></label>
         <input type="text" id="register-phone" name="phone" placeholder="12345678" class="register-input-field"
-          onchange="validatePhoneNumber(this)" required>
+          onchange="validatePhone(this)" required>
 
         <!-- Password Input Field -->
         <label for="register-password"><b>Password</b><br></label>
         <div class="password-frame">
           <input type="password" id="register-password" name="password" placeholder="••••••••"
-            class="register-input-field" onchange="validatePassword(this); validateIdenticalPasswords()" required>
+            class="register-input-field" onchange="validatePassword(this)" required>
           <span class="password-visibility" onclick="togglePassword('register-password')">👁️</span>
         </div>
 
@@ -47,7 +47,7 @@
         <label for="register-cf-password"><b>Confirm Password</b><br></label>
         <div class="password-frame">
           <input type="password" id="register-cf-password" name="password" placeholder="••••••••"
-            class="register-input-field" onchange="validateIdenticalPasswords()" required>
+            class="register-input-field" onchange="validatePassword(this)" required>
           <span class="password-visibility" onclick="togglePassword('register-cf-password')">👁️</span>
         </div>
 
