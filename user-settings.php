@@ -46,7 +46,7 @@ session_start(); // Start the session
             <a href="#">Payment</a>
             <a href="#" onclick="confirmLogout()">Logout</a>
           <?php } else { ?>
-            <a href="login.html">Log in</a>
+            <a href="login.php">Log in</a>
               <a href="register.html">Register</a>
             <?php } ?>
         </div>

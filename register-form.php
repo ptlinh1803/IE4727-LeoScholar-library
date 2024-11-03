@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   }
 
   // 5. Success message and redirect
-  echo "<script>alert('Registration successful! You will be redirected to the login page.'); window.location.href = 'login.html';</script>";
+  echo "<script>alert('Registration successful! You will be redirected to the login page.'); window.location.href = 'login.php';</script>";
 
   // Close connections
   $stmt->close();

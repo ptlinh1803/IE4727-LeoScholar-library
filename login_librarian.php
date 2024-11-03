@@ -32,7 +32,7 @@
           $_SESSION['librarian_id'] = $librarian_id;
   
           // Redirect the librarian to the home page
-          header("Location: homepage-member.php");
+          header("Location: homepage-librarian.php");
       } else {
           // Alert if no matching entry is found
           echo "<script>alert('No matching librarian found. Please check your credentials.'); window.history.back();</script>";

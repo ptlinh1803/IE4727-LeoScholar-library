@@ -40,7 +40,7 @@ $_SESSION['librarian_id'] = 1;
             <a href="user-settings.php" class="active-page">Settings</a>
             <a href="#" onclick="confirmLogout()">Logout</a>
           <?php } else { ?>
-            <a href="login.html">Log in</a>
+            <a href="login.php">Log in</a>
             <a href="register.html">Register</a>
           <?php } ?>
         </div>
