@@ -75,7 +75,7 @@ if (!$result_availability) {
       <input type="number" min="0" name="available_copies" value="<?php echo htmlspecialchars($available_copies); ?>" onchange="validateAvailableCopies(this)">
     </td>
     <td class="cell">
-      <input type="text" name="shelf" value="<?php echo htmlspecialchars($shelf); ?>" onchange="validateShelf(this)">
+      <input type="text" name="shelf" value="<?php echo htmlspecialchars($shelf); ?>">
     </td>
     <td class="cell">
       <button type="submit" class="main-btn">Save</button>
