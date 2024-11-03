@@ -3,10 +3,10 @@ include 'db-connect.php';
 session_start();
 
 // if librarian --> cannot access, redirect to edit book details
-// if (isset($_SESSION['librarian_id'])) {
-//   header('Location: homepage-librarian.php'); //change to edit book details page
-//   exit();
-// }
+if (isset($_SESSION['librarian_id'])) {
+  header('Location: homepage-librarian.php'); //change to edit book details page
+  exit();
+}
 
 // Check if there's an alert message
 if (isset($_SESSION['alert'])) {

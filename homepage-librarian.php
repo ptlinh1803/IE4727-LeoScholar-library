@@ -431,6 +431,46 @@ if (isset($_SESSION['librarian_id'])) {
     }
   }
   $stmt->close();
+
+  // Accept contribution------------
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accept_contribution'])) {
+    // Get form data
+    $donation_id = $_POST['donation_id'];
+
+    // Prepare the SQL to update the reservation status
+    $accept_contribution_query = "
+      UPDATE donations 
+      SET status = 'accepted'
+      WHERE donation_id = ?";
+    $stmt = $conn->prepare($accept_contribution_query);
+    $stmt->bind_param("i", $donation_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect back to the same page with the borrowed books tab active
+    header("Location: homepage-librarian.php?active_tab=manage-contribution");
+    exit();
+  }
+
+  // Reject contribution------------
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['reject_contribution'])) {
+    // Get form data
+    $donation_id = $_POST['donation_id'];
+
+    // Prepare the SQL to update the reservation status
+    $reject_contribution_query = "
+      UPDATE donations 
+      SET status = 'rejected'
+      WHERE donation_id = ?";
+    $stmt = $conn->prepare($reject_contribution_query);
+    $stmt->bind_param("i", $donation_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect back to the same page with the borrowed books tab active
+    header("Location: homepage-librarian.php?active_tab=manage-contribution");
+    exit();
+  }
   
 }
 
@@ -992,7 +1032,7 @@ if (isset($_SESSION['librarian_id'])) {
                   <form
                     action=""
                     method="POST"
-                    onsubmit="return confirm('Are you sure you want to return this book?');"
+                    onsubmit="return confirm('Are you sure you want to accept this?');"
                   >
                     <input type="hidden" name="accept_contribution" value="1" />
                     <input type="hidden" name="donation_id" value="<?php echo $pc['donation_id']; ?>" />
@@ -1007,7 +1047,7 @@ if (isset($_SESSION['librarian_id'])) {
                   <form
                     action=""
                     method="POST"
-                    onsubmit="return confirm('You may renew this book only once, extending the due date by 14 days. If you would like to keep it longer after that, please return it first, then borrow it again.');"
+                    onsubmit="return confirm('Are you sure you want to reject this?');"
                   >
                     <input type="hidden" name="reject_contribution" value="1" />
                     <input type="hidden" name="donation_id" value="<?php echo $pc['donation_id']; ?>" />
