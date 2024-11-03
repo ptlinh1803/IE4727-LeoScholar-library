@@ -5,12 +5,12 @@
   }
 
   // Store to test if they *were* logged in
-  $old_user = $_SESSION['user_id'];
+  $old_user = $_SESSION['librarian_id'];
   
   // Destroy session
-  unset($_SESSION['user_id']);
+  unset($_SESSION['librarian_id']);
   session_destroy();
 
   // Take the user back
-  header("Location: homepage-member.php");
+  header("Location: homepage-librarian.php");
 ?>
