@@ -33,7 +33,7 @@
   
           // Redirect the librarian to the home page
           // Temporarily redir to edit-book.php instead
-          header("Location: edit-book.php");
+          header("Location: homepage-librarian.php");
       } else {
           // Alert if no matching entry is found
           echo "<script>alert('No matching librarian found. Please check your credentials.'); window.history.back();</script>";

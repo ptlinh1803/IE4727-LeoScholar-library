@@ -14,6 +14,10 @@ if (session_status() === PHP_SESSION_NONE) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LeoScholar</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="search-styles.css" />
   <link rel="stylesheet" href="settings-styles.css" />
@@ -133,7 +137,9 @@ else { //Display the content of the page normally
             <td>
             <div class="password-input-container">
               <input type="password" id="settings-current-password" name="settings-current-password" required>
-            <span class="password-visibility" onclick="togglePassword('settings-current-password')">👁️</span>
+            <span class="password-visibility" onclick="togglePassword('settings-current-password', this)">
+              <i class="fas fa-eye-slash"></i>
+            </span>
             </div>
           </td>
           </tr>
@@ -143,8 +149,10 @@ else { //Display the content of the page normally
             <div class="password-input-container">
               <input type="password" id="settings-new-password" name="settings-new-password" required
                 onchange="validateUpdatePassword()">
-              <span class="password-visibility" onclick="togglePassword('settings-new-password')">👁️</span>
-</div>
+              <span class="password-visibility" onclick="togglePassword('settings-new-password', this)">
+                <i class="fas fa-eye-slash"></i>
+              </span>
+            </div>
             </td>
           </tr>
           <tr>
@@ -153,7 +161,9 @@ else { //Display the content of the page normally
             <div class="password-input-container">
               <input type="password" id="settings-confirm-new-password" name="settings-new-password" required
                 onchange="validateUpdatePassword()">
-                <span class="password-visibility" onclick="togglePassword('settings-confirm-newpassword')">👁️</span>
+                <span class="password-visibility" onclick="togglePassword('settings-confirm-newpassword', this)">
+                  <i class="fas fa-eye-slash"></i>
+                </span>
               </div>
               </td>
           </tr>

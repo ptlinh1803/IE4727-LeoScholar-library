@@ -1,6 +1,6 @@
 /* Header styles for User Page, adopted from search page */
 .header-settings {
-  background-color: #FFDFD1;
+  background-color: #ffdfd1;
   /* Light blue background color */
   padding: 20px;
   color: black;
@@ -168,14 +168,17 @@ input[type="password"] {
 /* Password visibility button styling */
 .password-input-container {
   position: relative;
+  margin-right: 20px;
+  width: 100%;
   /* Set position to relative for the container */
 }
 
 .password-input-container input {
   width: calc(100% - 30px);
   /* Full width minus space for the icon */
-  padding-right: 30px;
+  padding-right: 10px;
   /* Padding to prevent text overlap with the icon */
+  box-sizing: border-box; /* Ensures padding is included in width */
 }
 
 .password-visibility {
@@ -189,6 +192,6 @@ input[type="password"] {
   /* Adjust for vertical alignment */
   cursor: pointer;
   /* Pointer cursor */
-  font-size: 18px;
+  font-size: 14px;
   /* Size of the icon */
 }

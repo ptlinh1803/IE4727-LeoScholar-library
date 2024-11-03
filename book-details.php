@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // if librarian --> cannot access, redirect to edit book details
 if (isset($_SESSION['librarian_id'])) {
-  header('Location: homepage-librarian.php'); //change to edit book details page
+  header('Location: homepage-librarian.php');
   exit();
 }
 

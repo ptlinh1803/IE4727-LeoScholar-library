@@ -26,7 +26,10 @@ if (isset($_SESSION['user_id']) || isset($_SESSION['librarian_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="login_and_register_style.css" />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" />
-  <!-- <script src="validateLoginFields.js" defer></script> -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
   <title>LeoScholar - Login</title>
 </head>
 
@@ -47,15 +50,12 @@ if (isset($_SESSION['user_id']) || isset($_SESSION['librarian_id'])) {
         <div class="password-frame">
           <input type="password" id="member-password" name="password" class="login-input-field" placeholder="••••••••"
             required>
-          <span class="password-visibility" onclick="togglePassword('member-password')">👁️</span>
+          <span class="password-visibility" onclick="togglePassword('member-password', this)">
+            <i class="fas fa-eye-slash"></i>
+          </span>
         </div>
 
         <div class="options">
-          <div class="remember-me">
-            <input type="checkbox" id="remember-me-member">
-            <label for="remember-me-member" class="checkbox-label">Remember me</label>
-          </div>
-          <a href="#" class="forgot-password">Forgot password?</a>
         </div>
 
         <button type="submit" class="orange-button" name="submit">Login as a Member</button>
@@ -85,15 +85,12 @@ if (isset($_SESSION['user_id']) || isset($_SESSION['librarian_id'])) {
         <div class="password-frame">
           <input type="password" id="librarian-password" name="password" class="login-input-field"
             placeholder="••••••••" required>
-          <span class="password-visibility" onclick="togglePassword('librarian-password')">👁️</span>
+          <span class="password-visibility" onclick="togglePassword('librarian-password', this)">
+            <i class="fas fa-eye-slash"></i>
+          </span>
         </div>
 
         <div class="options">
-          <div class="remember-me">
-            <input type="checkbox" id="remember-me-librarian">
-            <label for="remember-me-librarian" class="checkbox-label">Remember me</label>
-          </div>
-          <a href="#" class="forgot-password">Forgot password?</a>
         </div>
 
         <button type="submit" class="blue-button" name="submit">Login as a Librarian</button>
