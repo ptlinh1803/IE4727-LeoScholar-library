@@ -11,78 +11,252 @@ if (isset($_SESSION['user_id'])) {
 
 // for testing only
 $_SESSION['librarian_id'] = 1;
-$librarian_id = $_SESSION['librarian_id'];
 
-// get librarian info--------------------------------------------------------
-$get_lib_query = "SELECT * FROM librarians WHERE librarian_id = ?";
-$stmt = $conn->prepare($get_lib_query);
-$stmt->bind_param("i", $librarian_id);
-$stmt->execute();
-$librarian_result = $stmt->get_result();
-$librarian = $librarian_result->fetch_assoc();
-$stmt->close();
+if (isset($_SESSION['librarian_id'])) {
+  $librarian_id = $_SESSION['librarian_id'];
 
-// get total number of users--------------------------------------------------
-$university_id = $librarian['university_id'];
-$get_total_students = "SELECT COUNT(*) AS total_users FROM users WHERE university_id = ?";
-$stmt = $conn->prepare($get_total_students);
-$stmt->bind_param("s", $university_id);
-$stmt->execute();
-$total_users_result = $stmt->get_result();
-$total_users_row = $total_users_result->fetch_assoc();
-$total_users = $total_users_row['total_users'];
-$stmt->close();
+  // get librarian info--------------------------------------------------------
+  $get_lib_query = "SELECT * FROM librarians WHERE librarian_id = ?";
+  $stmt = $conn->prepare($get_lib_query);
+  $stmt->bind_param("i", $librarian_id);
+  $stmt->execute();
+  $librarian_result = $stmt->get_result();
+  $librarian = $librarian_result->fetch_assoc();
+  $stmt->close();
 
-// get total number of available copies------------------------------------------
-$get_total_copies = "
-  SELECT SUM(ba.available_copies) AS total_available_copies
-  FROM branches b
-  JOIN book_availability ba ON b.branch_id = ba.branch_id
-  WHERE b.university_id = ?;
-  ";
-$stmt = $conn->prepare($get_total_copies);
-$stmt->bind_param("s", $university_id);
-$stmt->execute();
-$total_copies_result = $stmt->get_result();
-$total_copies_row = $total_copies_result->fetch_assoc();
-$total_copies = $total_copies = $total_copies = $total_copies_row['total_available_copies'] ?? 0;
-$stmt->close();
+  // get all branches in that uni-----------------------------------------------
+  $get_branches_query = "SELECT * FROM branches WHERE university_id = ?";
+  $stmt = $conn->prepare($get_branches_query);
+  $stmt->bind_param("s", $librarian['university_id']);
+  $stmt->execute();
+  $branches_result = $stmt->get_result();
+  $branches = [];
+  if ($branches_result->num_rows > 0) {
+    while ($row = $branches_result->fetch_assoc()) {
+      $branches[] = $row;
+    }
+  }
+  $stmt->close();
 
-// get number of available copies and pending at each branch-----------------------
-$get_summary_table = "
-  WITH CTE1 AS (
-  SELECT b.branch_id, b.branch_name,
-        COALESCE(SUM(ba.available_copies), 0) AS total_available_copies
+  // ------------------------- DATA ANALYTICS -------------------------
+
+  // get total number of users
+  $university_id = $librarian['university_id'];
+  $get_total_students = "SELECT COUNT(*) AS total_users FROM users WHERE university_id = ?";
+  $stmt = $conn->prepare($get_total_students);
+  $stmt->bind_param("s", $university_id);
+  $stmt->execute();
+  $total_users_result = $stmt->get_result();
+  $total_users_row = $total_users_result->fetch_assoc();
+  $total_users = $total_users_row['total_users'];
+  $stmt->close();
+
+  // get total number of available copies
+  $get_total_copies = "
+    SELECT SUM(ba.available_copies) AS total_available_copies
     FROM branches b
-    LEFT JOIN book_availability ba 
-    ON b.branch_id = ba.branch_id
+    JOIN book_availability ba ON b.branch_id = ba.branch_id
+    WHERE b.university_id = ?;
+    ";
+  $stmt = $conn->prepare($get_total_copies);
+  $stmt->bind_param("s", $university_id);
+  $stmt->execute();
+  $total_copies_result = $stmt->get_result();
+  $total_copies_row = $total_copies_result->fetch_assoc();
+  $total_copies = $total_copies = $total_copies = $total_copies_row['total_available_copies'] ?? 0;
+  $stmt->close();
+
+  // get number of available copies and pending at each branch
+  $get_summary_table = "
+    WITH CTE1 AS (
+    SELECT b.branch_id, b.branch_name,
+          COALESCE(SUM(ba.available_copies), 0) AS total_available_copies
+      FROM branches b
+      LEFT JOIN book_availability ba 
+      ON b.branch_id = ba.branch_id
+      WHERE b.university_id = ?
+      GROUP BY b.branch_id
+    ), 
+    CTE2 AS (
+    SELECT b.branch_id, b.branch_name,
+          COALESCE(COUNT(d.donation_id), 0) AS pending_contributions
+    FROM branches b
+    LEFT JOIN donations d ON b.branch_id = d.branch_id AND d.status = 'pending'
     WHERE b.university_id = ?
     GROUP BY b.branch_id
-  ), 
-  CTE2 AS (
-  SELECT b.branch_id, b.branch_name,
-        COALESCE(COUNT(d.donation_id), 0) AS pending_contributions
-  FROM branches b
-  LEFT JOIN donations d ON b.branch_id = d.branch_id AND d.status = 'pending'
-  WHERE b.university_id = ?
-  GROUP BY b.branch_id
-  )
+    )
 
-  SELECT CTE1.branch_id, CTE1.branch_name, CTE1.total_available_copies, CTE2.pending_contributions
-  FROM CTE1 JOIN CTE2
-  ON CTE1.branch_id = CTE2.branch_id;
-";
-$stmt = $conn->prepare($get_summary_table);
-$stmt->bind_param("ss", $university_id, $university_id);
-$stmt->execute();
-$summary_table_result = $stmt->get_result();
-$summary_table = [];
-if ($summary_table_result->num_rows > 0) {
-  while ($row = $summary_table_result->fetch_assoc()) {
-    $summary_table[] = $row;
+    SELECT CTE1.branch_id, CTE1.branch_name, CTE1.total_available_copies, CTE2.pending_contributions
+    FROM CTE1 JOIN CTE2
+    ON CTE1.branch_id = CTE2.branch_id;
+  ";
+  $stmt = $conn->prepare($get_summary_table);
+  $stmt->bind_param("ss", $university_id, $university_id);
+  $stmt->execute();
+  $summary_table_result = $stmt->get_result();
+  $summary_table = [];
+  if ($summary_table_result->num_rows > 0) {
+    while ($row = $summary_table_result->fetch_assoc()) {
+      $summary_table[] = $row;
+    }
   }
+  $stmt->close();
+
+  // ------------------------- MANAGE BOOKS -------------------------
+  // get list of categories
+  $sql_list_categories = "SELECT DISTINCT(category) from books;";
+  $categories_results = $conn->query($sql_list_categories);
+
+  if ($categories_results) {
+    $categories_list = []; // Initialize an array to store the categories
+    while ($row = $categories_results->fetch_assoc()) {
+        $categories_list[] = $row['category']; // Add each category to the array
+    }
+  }
+
+  if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
+    // Capture GET inputs
+    $fulltext_input = $_GET['searchQuery'] ?? '';
+    $title_input = $_GET['title'] ?? '';
+    $author_input = $_GET['author'] ?? '';
+    $category_input = $_GET['category'] ?? '';
+    $isbn_input = $_GET['isbn'] ?? '';
+    $yearFrom_input = $_GET['yearFrom'] ?? '';
+    $yearTo_input = $_GET['yearTo'] ?? '';
+    $formats_input = $_GET['format'] ?? [];
+    $availableAt_input = $_GET['availableAt'] ?? [];
+
+    // Start building the SQL query
+    $sql_query = "
+    SELECT b.* FROM books b
+    WHERE b.book_id IN (
+        SELECT ba.book_id FROM book_availability ba
+        JOIN branches br ON ba.branch_id = br.branch_id
+        JOIN universities u ON br.university_id = u.university_id
+        WHERE u.university_id = '" . $conn->real_escape_string($university_id) . "'
+    )";
+    $where_conditions = [];
+
+    // Add conditions based on input
+    if (!empty($fulltext_input)) {
+      $where_conditions[] = "MATCH(title, author, description, category) AGAINST('" . $conn->real_escape_string($fulltext_input) . "' IN NATURAL LANGUAGE MODE)";
+    }
+
+    if (!empty($title_input)) {
+      $where_conditions[] = "b.title LIKE '%" . $conn->real_escape_string($title_input) . "%'";
+    }
+
+    if (!empty($author_input)) {
+      $where_conditions[] = "b.author LIKE '%" . $conn->real_escape_string($author_input) . "%'";
+    }
+
+    if (!empty($category_input)) {
+      $where_conditions[] = "b.category = '" . $conn->real_escape_string($category_input) . "'";
+    }
+
+    if (!empty($isbn_input)) {
+      $where_conditions[] = "b.isbn LIKE '%" . $conn->real_escape_string($isbn_input) . "%'";
+    }
+
+    if (!empty($yearFrom_input)) {
+      $where_conditions[] = "b.publication_year >= " . (int)$yearFrom_input;
+    }
+
+    if (!empty($yearTo_input)) {
+      $where_conditions[] = "b.publication_year <= " . (int)$yearTo_input;
+    }
+
+    // Handling multiple format choices: include a book if they have any of the selected options (OR)
+    if (!empty($formats_input)) {
+      $format_conditions = [];
+      if (in_array("Hard Copy", $formats_input)) {
+          $format_conditions[] = "b.hard_copy = 1";
+      }
+      if (in_array("E-book", $formats_input)) {
+          $format_conditions[] = "b.ebook_file_path IS NOT NULL AND b.ebook_file_path != ''";
+      }
+      if (in_array("Audio Book", $formats_input)) {
+          $format_conditions[] = "b.audio_file_path IS NOT NULL AND b.audio_file_path != ''";
+      }
+      if (!empty($format_conditions)) {
+          $where_conditions[] = "(" . implode(' OR ', $format_conditions) . ")";
+      }
+    }
+
+    // Handling multiple availableAt choices: include a book if they have any of the selected options (OR)
+    if (!empty($availableAt_input)) {
+      $availableAt_conditions = [];
+      foreach ($availableAt_input as $branch) {
+          $availableAt_conditions[] = "b.book_id IN (
+              SELECT ba.book_id 
+              FROM book_availability ba
+              JOIN branches br 
+              ON ba.branch_id = br.branch_id
+              WHERE br.branch_id = $branch
+          )";
+      }
+      if (!empty($availableAt_conditions)) {
+          $where_conditions[] = "(" . implode(' OR ', $availableAt_conditions) . ")";
+      }
+    }
+
+    // Combine conditions if any exist
+    if (!empty($where_conditions)) {
+      $sql_query .= " AND " . implode(' AND ', $where_conditions);
+    }
+
+    // Handle sorting
+    if (!empty($_GET['sortBy'])) {
+      $sortby = $_GET['sortBy'];
+      $sql_query .= " ORDER BY $sortby";
+    }
+  } else {
+    // Show all books at that library by default if no GET
+    $sql_query = "
+      SELECT * FROM books
+      WHERE book_id IN (
+        SELECT ba.book_id FROM book_availability ba
+        JOIN branches br ON ba.branch_id = br.branch_id
+        JOIN universities u ON br.university_id = u.university_id
+        WHERE u.university_id = '" . $conn->real_escape_string($university_id) . "'
+      )
+    ";
+  }
+
+  
+  $results = $conn->query($sql_query);
+  $found_books = []; // Initialize the array
+  if ($results->num_rows > 0) {
+    while ($book_row = $results->fetch_assoc()) {
+        $found_books[] = $book_row; // Store each book in the array
+    }
+  }
+
+  // Get current books per page
+  if (!empty($found_books)) {
+    // Set the number of items per page
+    $booksPerPage = 10;
+
+    // Get the current page from the URL, default to page 1 if not set
+    $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+    $currentPage = max(1, $currentPage); // Ensure currentPage is at least 1
+
+    // Calculate the offset and total pages
+    $totalBooks = count($found_books);
+    $totalPages = ceil($totalBooks / $booksPerPage);
+    $offset = ($currentPage - 1) * $booksPerPage;
+
+    // Get the books for the current page
+    $booksOnCurrentPage = array_slice($found_books, $offset, $booksPerPage);
+  } else {
+      // Handle the case where there are no books found
+      $booksOnCurrentPage = [];
+      $totalPages = 1;
+      $currentPage = 1;
+  }
+
+  
 }
-$stmt->close();
 
 
 ?>
@@ -130,13 +304,13 @@ $stmt->close();
     <section class="services">
       <h1 class="big-blue-h1">What would you like to do today?</h1>
       <div class="service-button-container lib-service">
-        <button class="warm-gradient-button" id="data-analytics-button">
-          <img src="img/ui/dashboard.png" alt="Data Analytics Icon" />
-          <span>Data Analytics</span>
-        </button>
         <button class="warm-gradient-button" id="manage-books-button">
           <img src="img/ui/book.png" alt="Manage Books Icon" />
           <span>Manage Books</span>
+        </button>
+        <button class="warm-gradient-button" id="data-analytics-button">
+          <img src="img/ui/dashboard.png" alt="Data Analytics Icon" />
+          <span>Data Analytics</span>
         </button>
         <button class="warm-gradient-button" id="add-books-button">
           <img src="img/ui/add.png" alt="Add new Book Icon" />
@@ -196,7 +370,7 @@ $stmt->close();
 
       <!-- Search bar -->
       <div class="lib-search">
-        <form class="search-bar" action="" method="POST">
+        <form class="search-bar" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="GET">
           <button
             type="button"
             class="advanced-search-button"
@@ -213,90 +387,135 @@ $stmt->close();
             type="text"
             class="rounded-right"
             name="searchQuery"
-            placeholder="Search..."
+            placeholder="Quick Search..."
+            value="<?php echo isset($_GET['searchQuery']) ? htmlspecialchars($_GET['searchQuery']) : ''; ?>" 
           />
           <button type="submit" class="submit-button">
             <img src="img/ui/small-search-icon.png" alt="Search Icon" />
           </button>
+          <a href="<?php echo $_SERVER['PHP_SELF']; ?>" class="submit-button reset-button" style="color: white;" onclick="resetForm()">
+            Reset
+          </a>
         </form>
 
         <!-- Advanced Search Form -->
         <form
           class="advanced-search-form"
           id="advancedSearchForm"
-          method="POST"
+          method="GET"
+          action="<?php echo $_SERVER['PHP_SELF']; ?>"
         >
           <div>
-            <label>Title:</label>
-            <input type="text" name="title" />
+            <label>Quick Search:</label>
+            <input
+              type="text"
+              name="searchQuery"
+              value="<?php echo isset($_GET['searchQuery']) ? htmlspecialchars($_GET['searchQuery']) : ''; ?>" 
+            />
           </div>
           <div>
-            <label>Author:</label>
-            <input type="text" name="author" />
-          </div>
-          <div>
-            <label>Category:</label>
-            <input type="text" name="category" />
-          </div>
-          <div class="form-group">
-            <div class="isbn-group">
-              <label for="isbn">ISBN:</label>
-              <input type="text" id="isbn" name="isbn" class="isbn-input" />
+              <label>Title:</label>
+              <input 
+                type="text" 
+                name="title" 
+                value="<?php echo isset($_GET['title']) ? htmlspecialchars($_GET['title']) : ''; ?>" 
+              />
             </div>
-
-            <div class="publication-year-group">
-              <label>Publication Year:</label>
-              <div class="publication-year-group-input">
-                <input
-                  type="number"
-                  name="yearFrom"
-                  placeholder="From"
-                  min="1900"
-                  max="2100"
-                  class="year-input"
-                />
-                <span class="separator">-</span>
-                <input
-                  type="number"
-                  name="yearTo"
-                  placeholder="To"
-                  min="1900"
-                  max="2100"
-                  class="year-input"
-                />
+            <div>
+              <label>Author:</label>
+              <input 
+                type="text" 
+                name="author" 
+                value="<?php echo isset($_GET['author']) ? htmlspecialchars($_GET['author']) : ''; ?>"
+              />
+            </div>
+          <div>
+              <label>Category:</label>
+              <!-- <input type="text" name="category" /> -->
+              <div class="sort-dropdown">
+                <select name="category" id="sortBy" class="sort-dropdown-select">
+                  <option value="">Select a category</option> <!-- Default option -->
+                  <?php foreach ($categories_list as $category) { ?>
+                      <option value="<?php echo htmlspecialchars($category); ?>" 
+                      <?php echo (isset($_GET['category']) && $_GET['category'] == $category) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($category); ?>
+                      </option>
+                  <?php } ?>
+                </select>
+                <img src="img/ui/drop-down-icon.svg" alt="Dropdown Icon" />
               </div>
             </div>
-          </div>
+            <div class="form-group">
+              <div class="isbn-group">
+                <label for="isbn">ISBN:</label>
+                <input 
+                  type="text" 
+                  id="isbn" 
+                  name="isbn" 
+                  class="isbn-input" 
+                  value="<?php echo isset($_GET['isbn']) ? htmlspecialchars($_GET['isbn']) : ''; ?>"
+                />
+              </div>
+
+              <div class="publication-year-group">
+                <label>Publication Year:</label>
+                <div class="publication-year-group-input">
+                  <input
+                    type="number"
+                    name="yearFrom"
+                    placeholder="From"
+                    min="1800"
+                    class="year-input"
+                    value="<?php echo isset($_GET['yearFrom']) ? htmlspecialchars($_GET['yearFrom']) : ''; ?>"
+                  />
+                  <span class="separator">-</span>
+                  <input
+                    type="number"
+                    name="yearTo"
+                    placeholder="To"
+                    min="1800"
+                    class="year-input"
+                    value="<?php echo isset($_GET['yearTo']) ? htmlspecialchars($_GET['yearTo']) : ''; ?>"
+                  />
+                </div>
+              </div>
+            </div>
 
           <div class="form-group">
             <div class="checkbox-dropdown">
-              <label>Format:</label>
-              <div
-                class="checkbox-dropdown-toggle"
-                onclick="toggleDropdown('formatsDropdown')"
-              >
-                <span>Select Formats</span>
-                <img
-                  src="img/ui/drop-down-icon.svg"
-                  alt="Arrow Down Icon"
-                  class="dropdown-icon"
-                />
+                <label>Format:</label>
+                <div
+                  class="checkbox-dropdown-toggle"
+                  onclick="toggleDropdown('formatsDropdown')"
+                >
+                  <span>Select Formats</span>
+                  <img
+                    src="img/ui/drop-down-icon.svg"
+                    alt="Arrow Down Icon"
+                    class="dropdown-icon"
+                  />
+                </div>
+                <div class="checkbox-dropdown-content" id="formatsDropdown">
+                  <label>
+                    <input type="checkbox" name="format[]" value="Hard Copy" 
+                    <?php echo (isset($_GET['format']) && in_array('Hard Copy', $_GET['format'])) ? 'checked' : ''; ?>
+                    />
+                    Hard Copy
+                  </label>
+                  <label>
+                    <input type="checkbox" name="format[]" value="E-book" 
+                    <?php echo (isset($_GET['format']) && in_array('E-book', $_GET['format'])) ? 'checked' : ''; ?>
+                    />
+                    E-book
+                  </label>
+                  <label>
+                    <input type="checkbox" name="format[]" value="Audio Book" 
+                    <?php echo (isset($_GET['format']) && in_array('Audio Book', $_GET['format'])) ? 'checked' : ''; ?>
+                    />
+                    Audio Book
+                  </label>
+                </div>
               </div>
-              <div class="checkbox-dropdown-content" id="formatsDropdown">
-                <label>
-                  <input type="checkbox" name="format" value="Hard Copy" />
-                  Hard Copy
-                </label>
-                <label>
-                  <input type="checkbox" name="format" value="E-book" />
-                  E-book
-                </label>
-                <label>
-                  <input type="checkbox" name="format" value="Audio Book" />
-                  Audio Book
-                </label>
-              </div>
-            </div>
 
             <div class="checkbox-dropdown">
               <label>Available at:</label>
@@ -304,7 +523,7 @@ $stmt->close();
                 class="checkbox-dropdown-toggle"
                 onclick="toggleDropdown('availabilityDropdown')"
               >
-                <span>Select Universities</span>
+                <span>Select Branches</span>
                 <img
                   src="img/ui/drop-down-icon.svg"
                   alt="Arrow Down Icon"
@@ -312,30 +531,14 @@ $stmt->close();
                 />
               </div>
               <div class="checkbox-dropdown-content" id="availabilityDropdown">
-                <label
-                  ><input type="checkbox" name="availableAt" value="NTU" />
-                  NTU</label
-                >
-                <label
-                  ><input type="checkbox" name="availableAt" value="NUS" />
-                  NUS</label
-                >
-                <label
-                  ><input type="checkbox" name="availableAt" value="SMU" />
-                  SMU</label
-                >
-                <label
-                  ><input type="checkbox" name="availableAt" value="SUTD" />
-                  SUTD</label
-                >
-                <label
-                  ><input type="checkbox" name="availableAt" value="SIT" />
-                  SIT</label
-                >
-                <label
-                  ><input type="checkbox" name="availableAt" value="SUSS" />
-                  SUSS</label
-                >
+                <?php foreach($branches as $branch) { ?>
+                  <label>
+                    <input type="checkbox" name="availableAt[]" value="<?php echo htmlspecialchars($branch['branch_id']); ?>" 
+                    <?php echo (isset($_GET['availableAt']) && in_array(htmlspecialchars($branch['branch_id']), $_GET['availableAt'])) ? 'checked' : ''; ?>
+                    />
+                    <?php echo htmlspecialchars($branch['branch_name']); ?>
+                  </label>
+                <?php } ?>
               </div>
             </div>
 
@@ -343,11 +546,19 @@ $stmt->close();
               <label>Sort by:</label>
               <div class="sort-dropdown">
                 <select name="sortBy" id="sortBy" class="sort-dropdown-select">
-                  <option value="none">None</option>
-                  <option value="titleAsc">Title A-Z</option>
-                  <option value="titleDesc">Title Z-A</option>
-                  <option value="newest">Newest</option>
-                  <option value="oldest">Oldest</option>
+                  <option value="">None</option>
+                  <option value="title ASC" <?php echo (isset($_GET['sortBy']) && $_GET['sortBy'] == 'title ASC') ? 'selected' : ''; ?>>
+                    Title A-Z
+                  </option>
+                  <option value="title DESC" <?php echo (isset($_GET['sortBy']) && $_GET['sortBy'] == 'title DESC') ? 'selected' : ''; ?>>
+                    Title Z-A
+                  </option>
+                  <option value="publication_year DESC" <?php echo (isset($_GET['sortBy']) && $_GET['sortBy'] == 'publication_year DESC') ? 'selected' : ''; ?>>
+                    Newest
+                  </option>
+                  <option value="publication_year ASC" <?php echo (isset($_GET['sortBy']) && $_GET['sortBy'] == 'publication_year ASC') ? 'selected' : ''; ?>>
+                    Oldest
+                  </option>
                 </select>
                 <img src="img/ui/drop-down-icon.svg" alt="Dropdown Icon" />
               </div>
@@ -362,87 +573,71 @@ $stmt->close();
       </div>
 
       <!-- Display books -->
-      <table class="book-table">
-        <thead>
-          <tr>
-            <th id="cover-col"></th>
-            <th id="title-col">Title</th>
-            <th id="author-col">Author</th>
-            <th id="category-col">Category</th>
-            <th id="year-col">Publication Year</th>
-            <th id="format-col">Format</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Example Row -->
-          <tr onclick="redirectToBookDetails(1)">
-            <td headers="cover-col">
-              <img src="img/books/1.jpg" alt="Book Cover" class="book-cover" />
-            </td>
-            <td headers="title-col">Introduction to Mathematical Statistics</td>
-            <td headers="author-col">
-              Robert V. Hogg, Joseph W. McKean, Allen T. Craig
-            </td>
-            <td headers="category-col">Mathematics & Statistics</td>
-            <td headers="year-col">2011</td>
-            <td headers="format-col">
-              <div class="format-column">
-                <div>
-                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
-                </div>
-                <div>
-                  <img src="img/ui/cross.png" alt="Not Available" /> E-book
-                </div>
-                <div>
-                  <img src="img/ui/check.png" alt="Available" /> Audio Book
-                </div>
-              </div>
-            </td>
-          </tr>
+      <?php if (!empty($found_books)) { ?>
+        <table class="book-table">
+          <thead>
+            <tr>
+              <th id="cover-col"></th>
+              <th id="title-col">Title</th>
+              <th id="author-col">Author</th>
+              <th id="category-col">Category</th>
+              <th id="year-col">Publication Year</th>
+              <th id="format-col">Format</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($booksOnCurrentPage as $book) { ?>
+              <tr onclick="redirectToEditBookDetails(<?php echo $book['book_id']; ?>)">
+                <td headers="cover-col">
+                <img src="img/books/<?php echo $book['cover_path']; ?>" alt="Book Cover" class="book-cover" />
+                </td>
+                <td headers="title-col">
+                  <?php echo htmlspecialchars($book['title']); ?>
+                </td>
+                <td headers="author-col">
+                  <?php echo htmlspecialchars($book['author']); ?>
+                </td>
+                <td headers="category-col">
+                <?php echo htmlspecialchars($book['category']); ?>
+                </td>
+                <td headers="year-col">
+                  <?php echo htmlspecialchars($book['publication_year']); ?>
+                </td>
+                <td headers="format-col">
+                  <div class="format-column">
+                    <div>
+                      <img src="<?php echo $book['hard_copy'] == 0 ? 'img/ui/cross.png' : 'img/ui/check.png'; ?>" /> Hard Copy
+                    </div>
+                    <div>
+                      <img src="<?php echo !empty($book['ebook_file_path']) ? 'img/ui/check.png' : 'img/ui/cross.png'; ?>" /> E-book
+                    </div>
+                    <div>
+                      <img src="<?php echo !empty($book['audio_file_path']) ? 'img/ui/check.png' : 'img/ui/cross.png'; ?>" /> Audio Book
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
 
-          <tr>
-            <td headers="cover-col">
-              <img src="img/books/2.jpg" alt="Book Cover" class="book-cover" />
-            </td>
-            <td headers="title-col">Linear Algebra and Its Applications</td>
-            <td headers="author-col">Gilbert Strang</td>
-            <td headers="category-col">Mathematics & Statistics</td>
-            <td headers="year-col">2011</td>
-            <td headers="format-col">
-              <div class="format-column">
-                <div>
-                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
-                </div>
-                <div><img src="img/ui/check.png" alt="Available" /> E-book</div>
-                <div>
-                  <img src="img/ui/cross.png" alt="Not Available" /> Audio Book
-                </div>
-              </div>
-            </td>
-          </tr>
+        <div class="pagination">
+            <?php if ($currentPage > 1): ?>
+                <a href="?page=<?php echo $currentPage - 1; ?>" class="arrow">Previous</a>
+            <?php endif; ?>
 
-          <tr>
-            <td headers="cover-col">
-              <img src="img/books/3.jpg" alt="Book Cover" class="book-cover" />
-            </td>
-            <td headers="title-col">Linear Algebra and Its Applications</td>
-            <td headers="author-col">Gilbert Strang</td>
-            <td headers="category-col">Mathematics & Statistics</td>
-            <td headers="year-col">2011</td>
-            <td headers="format-col">
-              <div class="format-column">
-                <div>
-                  <img src="img/ui/check.png" alt="Available" /> Hard Copy
-                </div>
-                <div><img src="img/ui/check.png" alt="Available" /> E-book</div>
-                <div>
-                  <img src="img/ui/cross.png" alt="Not Available" /> Audio Book
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            <span>Page <?php echo $currentPage; ?> of <?php echo $totalPages; ?></span>
+
+            <?php if ($currentPage < $totalPages): ?>
+                <a href="?page=<?php echo $currentPage + 1; ?>" class="arrow">Next</a>
+            <?php endif; ?>
+        </div>
+
+      <?php } else { ?>
+        <div class="no-books-message">
+          <img src="img/ui/nothing-here.png" alt="Nothing here" />
+        </div>
+      <?php } ?>
     </section>
 
     <!-- --------------------------Add new Books section------------------------------ -->
@@ -775,7 +970,7 @@ $stmt->close();
 
       document.addEventListener("DOMContentLoaded", function () {
         const urlParams = new URLSearchParams(window.location.search);
-        const activeTab = urlParams.get("active_tab") || "data-analytics"; // Default to "data-analytics"
+        const activeTab = urlParams.get("active_tab") || "manage-books"; // Default to "manage-books"
 
         // Open the corresponding tab
         const tabToOpen = document.getElementById(`${activeTab}-button`);
@@ -903,6 +1098,22 @@ $stmt->close();
               ? "table-row"
               : "none";
         }
+      }
+    </script>
+
+    <!-- Redirect to Book details page -->
+    <script>
+      function redirectToEditBookDetails(bookId) {
+        // change to the correct edit-book-details page
+        window.open("book-details.php?book_id=" + bookId, "_blank");
+      }
+    </script>
+
+    <!-- Clear all the search inputs with Reset button --> 
+    <script>
+      function resetForm() {
+        // Redirect to the current page without any query parameters
+        window.location.href = window.location.origin + window.location.pathname;
       }
     </script>
   </body>
