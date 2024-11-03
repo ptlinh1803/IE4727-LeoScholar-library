@@ -2,6 +2,12 @@
 include 'db-connect.php';
 session_start();
 
+// if librarian --> cannot access, redirect to homepage-librarian.php
+if (isset($_SESSION['librarian_id'])) {
+  header('Location: homepage-librarian.php');
+  exit();
+}
+
 // for testing only
 $_SESSION['user_id'] = 1;
 

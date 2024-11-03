@@ -3,6 +3,12 @@ include 'db-connect.php';
 include 'update-loan-fine-status.php';
 session_start();
 
+// if librarian --> cannot access, redirect to homepage-librarian.php
+if (isset($_SESSION['librarian_id'])) {
+  header('Location: homepage-librarian.php');
+  exit();
+}
+
 // Check if there's an alert message
 if (isset($_SESSION['alert'])) {
   $alertMessage = $_SESSION['alert'];
