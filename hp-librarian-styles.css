@@ -7,6 +7,10 @@
   min-height: 550px;
 }
 
+.hp-lib-header p {
+  text-align: left;
+}
+
 .lib-service {
   grid-template-columns: repeat(4, 1fr);
   width: 80%;
@@ -275,7 +279,7 @@ p {
 }
 
 .library-table tbody tr:hover {
-  background-color: #eaeaea;
+  background-color: #d1d1ec;
 }
 
 .lib-search {

@@ -2,11 +2,88 @@
 include 'db-connect.php';
 session_start();
 
-// if user --> cannot access, redirect to homepage-member.php
+// if user or guest --> cannot access, redirect to homepage-member.php
 if (isset($_SESSION['user_id'])) {
   header('Location: homepage-member.php');
   exit();
+  // later maybe we need  || !isset($_SESSION['librarian_id']) too
 }
+
+// for testing only
+$_SESSION['librarian_id'] = 1;
+$librarian_id = $_SESSION['librarian_id'];
+
+// get librarian info--------------------------------------------------------
+$get_lib_query = "SELECT * FROM librarians WHERE librarian_id = ?";
+$stmt = $conn->prepare($get_lib_query);
+$stmt->bind_param("i", $librarian_id);
+$stmt->execute();
+$librarian_result = $stmt->get_result();
+$librarian = $librarian_result->fetch_assoc();
+$stmt->close();
+
+// get total number of users--------------------------------------------------
+$university_id = $librarian['university_id'];
+$get_total_students = "SELECT COUNT(*) AS total_users FROM users WHERE university_id = ?";
+$stmt = $conn->prepare($get_total_students);
+$stmt->bind_param("s", $university_id);
+$stmt->execute();
+$total_users_result = $stmt->get_result();
+$total_users_row = $total_users_result->fetch_assoc();
+$total_users = $total_users_row['total_users'];
+$stmt->close();
+
+// get total number of available copies------------------------------------------
+$get_total_copies = "
+  SELECT SUM(ba.available_copies) AS total_available_copies
+  FROM branches b
+  JOIN book_availability ba ON b.branch_id = ba.branch_id
+  WHERE b.university_id = ?;
+  ";
+$stmt = $conn->prepare($get_total_copies);
+$stmt->bind_param("s", $university_id);
+$stmt->execute();
+$total_copies_result = $stmt->get_result();
+$total_copies_row = $total_copies_result->fetch_assoc();
+$total_copies = $total_copies = $total_copies = $total_copies_row['total_available_copies'] ?? 0;
+$stmt->close();
+
+// get number of available copies and pending at each branch-----------------------
+$get_summary_table = "
+  WITH CTE1 AS (
+  SELECT b.branch_id, b.branch_name,
+        COALESCE(SUM(ba.available_copies), 0) AS total_available_copies
+    FROM branches b
+    LEFT JOIN book_availability ba 
+    ON b.branch_id = ba.branch_id
+    WHERE b.university_id = ?
+    GROUP BY b.branch_id
+  ), 
+  CTE2 AS (
+  SELECT b.branch_id, b.branch_name,
+        COALESCE(COUNT(d.donation_id), 0) AS pending_contributions
+  FROM branches b
+  LEFT JOIN donations d ON b.branch_id = d.branch_id AND d.status = 'pending'
+  WHERE b.university_id = ?
+  GROUP BY b.branch_id
+  )
+
+  SELECT CTE1.branch_id, CTE1.branch_name, CTE1.total_available_copies, CTE2.pending_contributions
+  FROM CTE1 JOIN CTE2
+  ON CTE1.branch_id = CTE2.branch_id;
+";
+$stmt = $conn->prepare($get_summary_table);
+$stmt->bind_param("ss", $university_id, $university_id);
+$stmt->execute();
+$summary_table_result = $stmt->get_result();
+$summary_table = [];
+if ($summary_table_result->num_rows > 0) {
+  while ($row = $summary_table_result->fetch_assoc()) {
+    $summary_table[] = $row;
+  }
+}
+$stmt->close();
+
 
 ?>
 
@@ -78,51 +155,39 @@ if (isset($_SESSION['user_id'])) {
       <div class="info-container">
         <div class="info-group">
           <h2>Number of Members from your University</h2>
-          <p class="big-number">180</p>
+          <p class="big-number">
+            <?php echo htmlspecialchars($total_users); ?>
+          </p>
         </div>
 
         <div class="info-group">
           <h2>Number of Books in your University</h2>
-          <p class="big-number">180</p>
+          <p class="big-number">
+            <?php echo htmlspecialchars($total_copies); ?>
+          </p>
         </div>
       </div>
 
-      <table class="library-table">
-        <thead>
-          <tr>
-            <th>Branch</th>
-            <th>Number of Available Books</th>
-            <th>Number of Pending Contributions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Art, Design & Media Library</td>
-            <td>1000</td>
-            <td>10</td>
-          </tr>
-          <tr>
-            <td>Business Library</td>
-            <td>1500</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>Communication & Information Library</td>
-            <td>1300</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Humanities & Social Sciences Library</td>
-            <td>1200</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>Lee Wee Nam Library</td>
-            <td>2000</td>
-            <td>25</td>
-          </tr>
-        </tbody>
-      </table>
+      <?php if (!empty($summary_table)) { ?>
+        <table class="library-table">
+          <thead>
+            <tr>
+              <th>Branch</th>
+              <th>Number of Available Books</th>
+              <th>Number of Pending Contributions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach($summary_table as $row) { ?>
+              <tr>
+                <td><?php echo htmlspecialchars($row['branch_name']); ?></td>
+                <td><?php echo htmlspecialchars($row['total_available_copies']); ?></td>
+                <td><?php echo htmlspecialchars($row['pending_contributions']); ?></td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      <?php } ?>
     </section>
 
     <!---------------------------Manage Books section------------------------------------ -->
