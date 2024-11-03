@@ -171,7 +171,7 @@ else {
 
     <!-- Discover books section -->
     <section class="discover-books">
-      <h1 class="big-blue-h1">Discover books</h1>
+      <h1 class="big-blue-h1">Suggested for You</h1>
       <p><?php echo htmlspecialchars($message); ?></p>
 
       <?php if (!empty($suggested_books)) { ?>

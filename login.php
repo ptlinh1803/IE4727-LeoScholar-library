@@ -62,7 +62,7 @@ if (isset($_SESSION['user_id']) || isset($_SESSION['librarian_id'])) {
 
         <div class="options">
           <p>New Member? <a href="register.html"><u>Register Here</u></a></p>
-          <p><a href="#">Continue as Guest</a></p> <!-- Put in <p> for identical block-level alignment-->
+          <p><a href="index.php">Continue as Guest</a></p> <!-- Put in <p> for identical block-level alignment-->
         </div>
       </form>
     </div>
