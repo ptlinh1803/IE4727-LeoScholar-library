@@ -12,5 +12,5 @@
   session_destroy();
 
   // Take the user back
-  header("Location: homepage-librarian.php");
+  header("Location: index.php");
 ?>

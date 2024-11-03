@@ -356,7 +356,7 @@ if (!empty($_GET['book_id'])) {
               <a href="#">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
-              <a href="register.php">Register</a>
+              <a href="register.html">Register</a>
             <?php } ?>
           </div>
         </div>
@@ -861,23 +861,6 @@ if (!empty($_GET['book_id'])) {
         actionButton.innerText = "Loan";
         actionButton.classList.remove("reserve");
       }
-
-      // Form submission
-      // function submitForm() {
-      //   const actionButton = document.getElementById("actionButton");
-      //   const availableCopiesField = document.getElementById("available-copies");
-      //   const availableCopies = parseInt(availableCopiesField.innerText) || 0; // Get available copies as a number
-
-      //   if (availableCopies > 0) {
-      //     alert("Loan request submitted."); // Alert for loan request
-      //   } else {
-      //     alert("Reservation request submitted."); // Alert for reservation request
-      //   }
-
-      //   // Allow form submission to proceed and refresh the page
-      //   location.reload(); // This will refresh the page
-      //   return true;
-      // }
     </script>
 
     <!-- Script to open "Availability" table -->

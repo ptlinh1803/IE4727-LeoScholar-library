@@ -509,6 +509,7 @@ if (isset($_SESSION['librarian_id'])) {
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="search-styles.css" />
     <link rel="stylesheet" href="hp-librarian-styles.css" />
+    <script src="logout_confirmation.js" defer></script>
   </head>
   <body>
     <!-- Navbar -->
@@ -522,7 +523,7 @@ if (isset($_SESSION['librarian_id'])) {
 
       <div class="nav-links">
         <a href="homepage-librarian.php" class="active-page">Home</a>
-        <a href="#">Logout</a>
+        <a href="#" onclick="confirmLogout()">Logout</a>
       </div>
     </nav>
 
@@ -1106,7 +1107,7 @@ if (isset($_SESSION['librarian_id'])) {
                     <?php echo htmlspecialchars($pc['name']); ?> 
                   <br /><br />
                   <strong>University:</strong>
-                    <?php echo htmlspecialchars($pc['uni_name']); ?> 
+                    <?php echo htmlspecialchars($pc['university_id']); ?> 
                   <br /><br />
                   <strong>Title:</strong>
                     <?php echo htmlspecialchars($pc['title']); ?> 

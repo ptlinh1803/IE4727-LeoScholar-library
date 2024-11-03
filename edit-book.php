@@ -23,32 +23,20 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <!-- Navigation placeholder -->
+  <!-- Navbar -->
   <nav class="navbar">
-    <a href="index.php">
-      <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
-    </a>
-    <span class="menu-toggle">&#9776;</span>
-    <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">Edit Book</a>
-      <div class="dropdown">
-        <a href="#" class="profile-link active-page">
-          Profile
-          <img src="img/ui/drop-down-icon.svg" alt="Arrow Down Icon" />
-        </a>
-        <div class="dropdown-content">
-          <?php if (isset($_SESSION['librarian_id'])) { ?>
-            <a href="user-settings.php" class="active-page">Settings</a>
-            <a href="#" onclick="confirmLogout()">Logout</a>
-          <?php } else { ?>
-            <a href="login.php">Log in</a>
-            <a href="register.html">Register</a>
-          <?php } ?>
-        </div>
+      <a href="homepage-librarian.php">
+        <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
+      </a>
+
+      <!-- Hamburger Menu Icon -->
+      <span class="menu-toggle">&#9776;</span>
+
+      <div class="nav-links">
+        <a href="homepage-librarian.php" class="active-page">Home</a>
+        <a href="#" onclick="confirmLogout()">Logout</a>
       </div>
-    </div>
-  </nav>
+    </nav>
 
   <!-- Check if book_id and librarian_id is set, if not, display nothing-here.png-->
 
