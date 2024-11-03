@@ -32,7 +32,7 @@
           $_SESSION['user_id'] = $user_id;
   
           // Redirect the user to the home page
-          header("Location: homepage-member.php");
+          header("Location: index.php");
       } else {
           // Alert if no matching entry is found
           echo "<script>alert('No matching user found. Please check your credentials.'); window.history.back();</script>";

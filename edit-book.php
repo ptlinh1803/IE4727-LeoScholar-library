@@ -25,7 +25,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
 <body>
   <!-- Navigation placeholder -->
   <nav class="navbar">
-    <a href="homepage-member.php">
+    <a href="index.php">
       <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
     </a>
     <span class="menu-toggle">&#9776;</span>

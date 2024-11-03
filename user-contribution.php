@@ -166,7 +166,7 @@ if (!isset($_SESSION['user_id'])) {
   <body>
     <!-- Navbar -->
     <nav class="navbar">
-      <a href="homepage-member.php">
+      <a href="index.php">
         <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
       </a>
 
@@ -174,7 +174,7 @@ if (!isset($_SESSION['user_id'])) {
       <span class="menu-toggle">&#9776;</span>
 
       <div class="nav-links">
-        <a href="homepage-member.php">Home</a>
+        <a href="index.php">Home</a>
         <a href="search-page.php">Search</a>
         <a href="my-shelf.php">My Shelf</a>
         <a href="user-contribution.php" class="active-page">Contribute</a>

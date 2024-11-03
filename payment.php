@@ -197,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['chosen_payments']) &&
   <body>
     <!-- Navbar -->
     <nav class="navbar">
-      <a href="homepage-member.php">
+      <a href="index.php">
         <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
       </a>
 
@@ -205,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['chosen_payments']) &&
       <span class="menu-toggle">&#9776;</span>
 
       <div class="nav-links">
-        <a href="homepage-member.php">Home</a>
+        <a href="index.php">Home</a>
         <a href="search-page.php">Search</a>
         <a href="my-shelf.php">My Shelf</a>
         <a href="user-contribution.php">Contribute</a>

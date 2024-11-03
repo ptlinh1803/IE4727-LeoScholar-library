@@ -4,9 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-// if user or guest --> cannot access, redirect to homepage-member.php
+// if user or guest --> cannot access, redirect to index.php
 if (isset($_SESSION['user_id']) || !isset($_SESSION['librarian_id'])) {
-  header('Location: homepage-member.php');
+  header('Location: index.php');
   exit();
   // later maybe we need  || !isset($_SESSION['librarian_id']) too
 }

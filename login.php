@@ -8,7 +8,7 @@ if (isset($_SESSION['user_id']) || isset($_SESSION['librarian_id'])) {
     // Redirect to the appropriate homepage based on the session
     if (isset($_SESSION['user_id'])) {
         $_SESSION['message'] = 'You are already logged in!';
-        header('Location: homepage-member.php');
+        header('Location: index.php');
         exit; // Always exit after header redirection
     } elseif (isset($_SESSION['librarian_id'])) {
         $_SESSION['message'] = 'You are already logged in!';

@@ -29,7 +29,7 @@ if (session_status() === PHP_SESSION_NONE) {
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <a href="homepage-member.php">
+    <a href="index.php">
       <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
     </a>
 
@@ -37,7 +37,7 @@ if (session_status() === PHP_SESSION_NONE) {
     <span class="menu-toggle">&#9776;</span>
 
     <div class="nav-links">
-      <a href="homepage-member.php">Home</a>
+      <a href="index.php">Home</a>
       <a href="search-page.php">Search</a>
       <a href="#">My Shelf</a>
       <a href="#">Contribute</a>

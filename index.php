@@ -80,7 +80,7 @@ else {
     
     <!-- Navbar -->
     <nav class="navbar">
-      <a href="homepage-member.php">
+      <a href="index.php">
         <img src="img/ui/leoscholar-logo-transparent.png" alt="Logo" />
       </a>
 
@@ -88,7 +88,7 @@ else {
       <span class="menu-toggle">&#9776;</span>
 
       <div class="nav-links">
-        <a href="homepage-member.php" class="active-page">Home</a>
+        <a href="index.php" class="active-page">Home</a>
         <a href="search-page.php">Search</a>
         <a href="my-shelf.php">My Shelf</a>
         <a href="user-contribution.php">Contribute</a>
@@ -103,7 +103,7 @@ else {
               <a href="payment.php">Payment</a>
               <a href="#" onclick="confirmLogout()">Logout</a>
             <?php } else { ?>
-              <a href="login.html">Log in</a>
+              <a href="login.php">Log in</a>
               <a href="register.html">Register</a>
             <?php } ?>
           </div>
@@ -145,7 +145,7 @@ else {
             alt="Register Membership Icon"
           />
           <!-- Add your icon image here -->
-          <span>Manage Membership</span>
+          <span>Account Settings</span>
         </button>
         <button class="warm-gradient-button">
           <img src="img/ui/search.png" alt="Advanced Search Icon" />
@@ -206,10 +206,10 @@ else {
           <?php if (!isset($_SESSION['user_id'])) { ?>
             <div class="login-register-buttons">
               <button class="see-all-button" onclick="location.href='login.php'">Login</button>
-              <button class="see-all-button" onclick="location.href='register.php'">Register</button>
+              <button class="see-all-button" onclick="location.href='register.html'">Register</button>
             </div>
           <?php } else { ?>
-            <button class="see-all-button" onclick="location.href='settings.php'">Set your preference</button>
+            <button class="see-all-button" onclick="location.href='user-settings.php'">Set your preference</button>
           <?php } ?>
       <?php } ?>
 
