@@ -6,7 +6,7 @@ session_start();
 $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET['book_id'] : null;
 
 // Hardcode the librarian id for now:
-$_SESSION['librarian_id'] = 1;
+// $_SESSION['librarian_id'] = 1;
 ?>
 
 <!DOCTYPE html>
