@@ -144,32 +144,26 @@ else {
             src="img/ui/register-membership.png"
             alt="Register Membership Icon"
           />
-          <!-- Add your icon image here -->
           <span>Account Settings</span>
         </button>
         <button class="warm-gradient-button" onclick="redirectToPage('search-page.php')">
           <img src="img/ui/search.png" alt="Advanced Search Icon" />
-          <!-- Add your icon image here -->
           <span>Discover Books</span>
         </button>
         <button class="warm-gradient-button" onclick="redirectToPage('my-shelf.php')">
           <img src="img/ui/book.png" alt="Loans & Reservations Icon" />
-          <!-- Add your icon image here -->
           <span>Loans & Reservations</span>
         </button>
         <button class="warm-gradient-button" onclick="redirectToPage('payment.php')">
           <img src="img/ui/pay.png" alt="Pay fines & fees Icon" />
-          <!-- Add your icon image here -->
           <span>Pay fines & fees</span>
         </button>
         <button class="warm-gradient-button" onclick="redirectToPage('search-page.php?format%5B%5D=E-book&format%5B%5D=Audio+Book')">
           <img src="img/ui/e-book.png" alt="Digital Resources Icon" />
-          <!-- Add your icon image here -->
           <span>Digital Resources</span>
         </button>
         <button class="warm-gradient-button" onclick="redirectToPage('user-contribution.php')">
           <img src="img/ui/donate.png" alt="Donate a book Icon" />
-          <!-- Add your icon image here -->
           <span>Donate a book</span>
         </button>
       </div>

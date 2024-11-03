@@ -390,7 +390,7 @@ if (isset($_SESSION['librarian_id'])) {
       $cur_max_bookid = $conn->insert_id; // Use insert_id to get the last inserted ID
 
       // Now insert into the book_availability table
-      $branch_ids = $_POST['branches']; // Assuming you are sending branch IDs from the form
+      $branch_ids = $_POST['branches'];
       $available_copies = $_POST['available_copies'];
       $shelves = $_POST['shelf'];
 

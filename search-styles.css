@@ -4,15 +4,14 @@
 
 /* Updated Header styles for Search Page */
 .header-search {
-  /* New header class for search page */
-  background-color: #e8e8ff; /* Light blue background color */
-  padding: 20px; /* Smaller padding */
+  background-color: #e8e8ff;
+  padding: 20px;
   color: black;
-  min-height: 150px; /* Reduced header height */
-  display: flex; /* Use flexbox for centering */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  position: relative; /* Allow absolutely positioned children */
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 /* Styles for Advanced Search Button and Form */
@@ -125,20 +124,20 @@
 
 /* -----------------group ISBN and Publication Year----------------- */
 .form-group {
-  display: flex; /* Use flexbox to align the groups */
-  justify-content: space-between; /* Space between the groups */
-  align-items: flex-start; /* Align items at the top */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .isbn-group,
 .publication-year-group {
-  display: flex; /* Use flexbox for the inner content */
-  flex-direction: column; /* Stack label and input vertically */
+  display: flex;
+  flex-direction: column;
   margin-bottom: 0px;
 }
 
 .publication-year-group-input {
-  display: flex; /* Use flexbox for the inner content */
+  display: flex;
   flex-direction: row;
   align-items: center;
 }
@@ -148,21 +147,21 @@
 }
 
 .isbn-input {
-  width: 100%; /* ~2/3 width for the ISBN input */
-  margin-top: 5px; /* Small space above the input */
+  width: 100%;
+  margin-top: 5px;
 }
 
 .publication-year-group {
-  display: flex; /* Align year inputs horizontally */
+  display: flex;
 }
 
 .year-input {
-  width: 30%; /* ~1/3 width for each year input */
-  margin-top: 5px; /* Small space above the input */
+  width: 30%;
+  margin-top: 5px;
 }
 
 .separator {
-  margin: 0 10px; /* Space between the year inputs */
+  margin: 0 10px;
 }
 
 /* -----------------Style checkbox----------------- */
@@ -191,7 +190,7 @@
 }
 
 .checkbox-dropdown-toggle span {
-  flex-grow: 1; /* Allow text to take up space and push the image to the right */
+  flex-grow: 1;
 }
 
 .checkbox-dropdown-toggle img {
@@ -206,11 +205,11 @@
   border: 1px solid #ccc;
   z-index: 1;
   margin-top: 5px; /* Space between toggle and dropdown */
-  width: 100%; /* Set width as needed */
+  width: 100%;
 }
 
 .checkbox-dropdown-content label {
-  display: block; /* Make each checkbox label a block to stack */
+  display: block;
   padding: 5px;
 }
 
@@ -220,8 +219,8 @@
 
 /* ----------- Style sort by dropdown ------------------- */
 .sort-dropdown {
-  position: relative; /* Position relative to position the icon */
-  display: inline-block; /* Allow the dropdown to behave like a button */
+  position: relative;
+  display: inline-block;
   width: 100%;
 }
 
@@ -230,26 +229,26 @@
 }
 
 .sort-dropdown-select {
-  font-family: "Inter", sans-serif; /* Change to your desired font family */
-  font-size: 14px; /* Set the desired font size */
-  color: gray; /* Set the desired font color */
-  padding: 10px 30px 10px 10px; /* Add padding for text and space for the icon */
-  border: 1px solid #ccc; /* Border around the select */
-  border-radius: 5px; /* Rounded corners */
-  background-color: white; /* Background color */
-  appearance: none; /* Remove default dropdown arrow */
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: gray;
+  padding: 10px 30px 10px 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  appearance: none;
   -webkit-appearance: none; /* For Safari */
   -moz-appearance: none; /* For Firefox */
 }
 
 .sort-dropdown img {
-  position: absolute; /* Position the icon absolutely */
-  top: 50%; /* Center the icon vertically */
-  right: 10px; /* Space from the right */
-  transform: translateY(-50%); /* Adjust to perfectly center vertically */
-  pointer-events: none; /* Ignore mouse events for the icon */
-  height: 14px; /* Adjust icon height */
-  width: auto; /* Maintain aspect ratio */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  height: 14px;
+  width: auto;
 }
 
 /*-- Category button carousel -- */
@@ -308,7 +307,7 @@
   width: 80%;
   margin: 20px auto 60px;
   padding: 10px 0;
-  overflow-x: auto; /* Add horizontal scrolling if needed */
+  overflow-x: auto; /* Add horizontal scrolling */
 }
 
 .search-query {
@@ -358,22 +357,22 @@
 
 /* Add border radius to the first and last cells in the row */
 .book-table tbody tr td:first-child {
-  border-top-left-radius: 10px; /* First cell */
-  border-bottom-left-radius: 10px; /* Last row */
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 .book-table tbody tr td:last-child {
-  border-top-right-radius: 10px; /* Last cell */
-  border-bottom-right-radius: 10px; /* Last row */
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 /* Cover Image Styling */
 .book-cover {
-  width: 100%; /* Full width of the container */
-  height: 85px; /* Fixed height for uniformity */
+  width: 100%;
+  height: 85px;
   min-width: 50px;
-  object-fit: contain; /* Scale image to fit, retaining proportions */
-  background-color: #f3f3f7; /* Gray background to fill uncovered area */
+  object-fit: contain;
+  background-color: #f3f3f7;
   border-radius: 4px;
 }
 
@@ -439,16 +438,16 @@
 @media (max-width: 1024px) {
   /* Set a max width for search-bar and reduce input width */
   .search-bar {
-    flex-direction: column; /* Stack elements vertically on small screens */
+    flex-direction: column;
     align-items: stretch;
     max-width: 100%;
   }
 
   .advanced-search-button,
   .submit-button {
-    width: 30%; /* Make each element fill the available width */
-    border-radius: 20px; /* Fully rounded on small screens */
-    margin: 5px auto; /* Space between stacked elements */
+    width: 30%;
+    border-radius: 20px;
+    margin: 5px auto;
   }
 
   .search-bar .rounded-right {

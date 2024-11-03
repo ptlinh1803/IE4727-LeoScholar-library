@@ -212,7 +212,7 @@ body {
 .description h2,
 .about-author h2 {
   color: #ef7c00;
-  font-size: 20px; /* Set your desired font size */
+  font-size: 20px;
   text-align: left; /* Left align the heading */
   margin-bottom: 10px; /* Distance between h2 and p */
 }
@@ -237,7 +237,7 @@ body {
 
 #see-more-author,
 #see-more-description {
-  color: #11155e; /* Set your desired color */
+  color: #11155e;
   display: none; /* Initially hidden */
   cursor: pointer;
   font-size: 14px;
@@ -249,7 +249,7 @@ body {
 
 .similar-books h2 {
   color: #d71440;
-  font-size: 22px; /* Set your desired font size */
+  font-size: 22px;
   text-align: left; /* Left align the heading */
   margin-bottom: 10px; /* Distance between h2 and p */
 }

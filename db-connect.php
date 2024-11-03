@@ -1,6 +1,6 @@
 <?php
 // db-connect.php
-$host = 'localhost'; // or your database host
+$host = 'localhost';
 $db = 'leoscholar';
 $user = 'root';
 $pass = '';

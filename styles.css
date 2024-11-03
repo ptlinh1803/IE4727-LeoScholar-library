@@ -25,10 +25,6 @@ body {
 .nav-links {
   display: flex;
   gap: 50px; /* Increased space between nav links */
-<<<<<<< HEAD
-=======
-  z-index: 20;
->>>>>>> main
 }
 
 .nav-links a {
@@ -132,7 +128,6 @@ body {
 
 .search-bar select,
 .search-bar input {
-<<<<<<< HEAD
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -140,24 +135,8 @@ body {
 }
 
 .search-bar input {
-  margin-right: 30px; /* Space between input and button */
-  width: 400px;
-=======
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 0px; /* Space between input and select */
-  font-family: "Inter", sans-serif;
-}
-
-.search-bar select {
-  padding: 9px;
-}
-
-.search-bar input {
-  padding: 10px;
   margin-right: 30px; /* Space between input and button */
   width: 500px;
->>>>>>> main
 }
 
 .submit-button {
@@ -451,13 +430,6 @@ body {
     width: 15px; /* Size of the icon */
     height: auto;
   }
-<<<<<<< HEAD
-=======
-
-  .no-books-message img {
-    max-width: 200px;
-  }
->>>>>>> main
 }
 
 /* Small screens: 1 column */
