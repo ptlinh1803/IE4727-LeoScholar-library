@@ -1,6 +1,7 @@
 <?php
 // Include database connection
 require "db-connect.php";
+include "display-session-message.php";
 
 // Prepare and execute the query
 $query = "SELECT cover_path, title, description, author, about_author, ebook_file_path, audio_file_path FROM books WHERE book_id = ?";
@@ -19,11 +20,13 @@ if ($stmt->execute()) {
     $ebook_file_path = $ebook_file_path ?? "";
     $audio_file_path = $audio_file_path ?? "";
   } else {
-    echo "No book found with the given ID.";
-    exit;
+    $_SESSION['alert'] = "No book found with the given ID.";
+    header("Location: homepage-librarian.php");
+    exit();
   }
 } else {
-  echo "Error retrieving book details.";
+  $_SESSION['alert'] = "Error retrieving book details.";
+  header("Location: homepage-librarian.php");
   exit;
 }
 

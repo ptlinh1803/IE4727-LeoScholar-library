@@ -134,6 +134,23 @@ if (isset($_SESSION['librarian_id'])) {
     }
   }
 
+  // Delete books ------------
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_book'])) {
+    // Get form data
+    $book_id = $_POST['book_id'];
+
+    // Prepare the SQL to update the reservation status
+    $delete_book_query = "DELETE FROM books WHERE book_id = ?";
+    $stmt = $conn->prepare($delete_book_query);
+    $stmt->bind_param("i", $book_id);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect back to the same page with the borrowed books tab active
+    header("Location: homepage-librarian.php?active_tab=manage-books");
+    exit();
+  }
+
   if ($_SERVER["REQUEST_METHOD"] == "GET" && !empty($_GET)) {
     // Capture GET inputs
     $fulltext_input = $_GET['searchQuery'] ?? '';
@@ -512,7 +529,7 @@ if (isset($_SESSION['librarian_id'])) {
     <!-- Header -->
     <header class="header hp-lib-header">
       <div>
-        <h2>Welcome to</h2>
+        <h2>Welcome, Librarian!</h2>
         <img src="img/ui/leoscholar-transparent.png" alt="Logo" />
         <p>An Integrated Portal to Manage Your Libraries</p>
       </div>
@@ -803,6 +820,7 @@ if (isset($_SESSION['librarian_id'])) {
               <th id="category-col">Category</th>
               <th id="year-col">Publication Year</th>
               <th id="format-col">Format</th>
+              <th id="action-col"></th>
             </tr>
           </thead>
           <tbody>
@@ -835,6 +853,23 @@ if (isset($_SESSION['librarian_id'])) {
                       <img src="<?php echo !empty($book['audio_file_path']) ? 'img/ui/check.png' : 'img/ui/cross.png'; ?>" /> Audio Book
                     </div>
                   </div>
+                </td>
+                <td>
+                  <form
+                    action=""
+                    method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this book?');"
+                  >
+                    <input type="hidden" name="delete_book" value="1" />
+                    <input type="hidden" name="book_id" value="<?php echo $book['book_id']; ?>" />
+                    <button
+                      type="submit"
+                      class="shelf-action-button cancel"
+                      onclick="event.stopPropagation();"
+                    >
+                      Delete
+                    </button>
+                  </form>
                 </td>
               </tr>
             <?php } ?>
@@ -1297,11 +1332,11 @@ if (isset($_SESSION['librarian_id'])) {
       }
     </script>
 
-    <!-- Redirect to Book details page -->
+    <!-- Redirect to Edit Book details page -->
     <script>
       function redirectToEditBookDetails(bookId) {
         // change to the correct edit-book-details page
-        window.open("book-details.php?book_id=" + bookId, "_blank");
+        window.open("edit-book.php?book_id=" + bookId, "_blank");
       }
     </script>
 
