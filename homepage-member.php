@@ -64,6 +64,9 @@ else {
     <script src="logout_confirmation.js" defer></script>
   </head>
   <body>
+    <!-- After login.php redirect to here, display the session message (do the same for homepage-librarian.php) -->
+    <?php include "display-session-message.php"?>
+    
     <!-- Navbar -->
     <nav class="navbar">
       <a href="homepage-member.php">
