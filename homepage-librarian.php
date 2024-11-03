@@ -9,6 +9,17 @@ if (isset($_SESSION['user_id'])) {
   // later maybe we need  || !isset($_SESSION['librarian_id']) too
 }
 
+// Check if there's an alert message
+if (isset($_SESSION['alert'])) {
+  $alertMessage = $_SESSION['alert'];
+  echo "<script>
+      window.addEventListener('load', function() {
+          alert('" . addslashes($alertMessage) . "');
+      });
+  </script>";
+  unset($_SESSION['alert']); // Clear the message after displaying
+}
+
 // for testing only
 $_SESSION['librarian_id'] = 1;
 
@@ -37,6 +48,13 @@ if (isset($_SESSION['librarian_id'])) {
     }
   }
   $stmt->close();
+
+  // Assuming $branches is an array containing branch data
+  $branchOptions = [];
+  foreach ($branches as $branch) {
+      $branchOptions[] = "<option value=\"" . htmlspecialchars($branch['branch_id']) . "\">" . htmlspecialchars($branch['branch_name']) . "</option>";
+  }
+  $branchOptionsStr = implode("\n", $branchOptions);
 
   // ------------------------- DATA ANALYTICS -------------------------
 
@@ -255,6 +273,141 @@ if (isset($_SESSION['librarian_id'])) {
       $currentPage = 1;
   }
 
+  // ------------------------- ADD NEW BOOKS -------------------------
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // inputs
+    $isbn = $_POST['isbn'];
+    $title = $_POST['title'];
+    $author = $_POST['author'];
+    $publication_year = $_POST['publication_year'];
+    $category = $_POST['category'];
+    $book_description = !empty($_POST['book_description']) ? $_POST['book_description'] : '';
+    $about_author = !empty($_POST['about_author']) ? $_POST['about_author'] : '';
+
+    // Handle the cover image upload
+    $cover_path = ''; // Default empty cover_path
+    if (isset($_FILES['cover_image']) && $_FILES['cover_image']['error'] == UPLOAD_ERR_OK) {
+        $upload_dir = 'img/books/'; // Directory to save the image
+
+        // Get the original file extension
+        $file_ext = pathinfo($_FILES['cover_image']['name'], PATHINFO_EXTENSION);
+
+        // Generate a new file name with a timestamp
+        $new_file_name = 'cover_' . time() . '.' . $file_ext;
+
+        // Full path to save the uploaded file
+        $target_file = $upload_dir . $new_file_name;
+
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $target_file)) {
+            $cover_path = $new_file_name; // Save the new file name in the cover_path variable
+        } else {
+            echo "Error uploading the image.";
+            exit;
+        }
+    }
+
+    // Set default cover if no file was uploaded
+    if ($cover_path === '') {
+      $cover_path = 'default.png';
+    }
+
+    // Handle the E-book upload
+    $e_book_path = ''; // Default empty e_book_path
+    if (isset($_FILES['e_book']) && $_FILES['e_book']['error'] == UPLOAD_ERR_OK) {
+        $upload_dir = 'database/'; // Directory to save the E-book
+
+        // Get the original file extension
+        $file_ext = pathinfo($_FILES['e_book']['name'], PATHINFO_EXTENSION);
+
+        // Generate a new file name with a timestamp
+        $new_file_name = 'ebook_' . time() . '.' . $file_ext;
+
+        // Full path to save the uploaded file
+        $target_file = $upload_dir . $new_file_name;
+
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($_FILES['e_book']['tmp_name'], $target_file)) {
+            $e_book_path = $new_file_name; // Save the new file name in the e_book_path variable
+        } else {
+            $_SESSION['alert'] = "Error uploading the E-book.";
+            exit();
+        }
+    }
+
+    // Handle the Audio Book upload
+    $audio_book_path = ''; // Default empty audio_book_path
+    if (isset($_FILES['audio_book']) && $_FILES['audio_book']['error'] == UPLOAD_ERR_OK) {
+        $upload_dir = 'database/'; // Directory to save the Audio Book
+
+        // Get the original file extension
+        $file_ext = pathinfo($_FILES['audio_book']['name'], PATHINFO_EXTENSION);
+
+        // Generate a new file name with a timestamp
+        $new_file_name = 'audio_' . time() . '.' . $file_ext;
+
+        // Full path to save the uploaded file
+        $target_file = $upload_dir . $new_file_name;
+
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($_FILES['audio_book']['tmp_name'], $target_file)) {
+            $audio_book_path = $new_file_name; // Save the new file name in the audio_book_path variable
+        } else {
+            $_SESSION['alert'] = "Error uploading the Audio Book.";
+            exit();
+        }
+    }
+
+    // Prepare the SQL query to insert data into the donations table
+    $stmt = $conn->prepare("
+      INSERT INTO books 
+      (isbn, title, author, description, about_author, publication_year, category, cover_path, ebook_file_path, audio_file_path) 
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssissss", $isbn, $title, $author, $book_description, $about_author, $publication_year, $category, $cover_path, $e_book_path, $audio_book_path);
+
+    // Execute the query and check for success
+    if ($stmt->execute()) {
+      // Get the current maximum book_id
+      $cur_max_bookid = $conn->insert_id; // Use insert_id to get the last inserted ID
+
+      // Now insert into the book_availability table
+      $branch_ids = $_POST['branches']; // Assuming you are sending branch IDs from the form
+      $available_copies = $_POST['available_copies'];
+      $shelves = $_POST['shelf'];
+
+      foreach ($branch_ids as $index => $branch_id) {
+          $available_copy = $available_copies[$index];
+          $shelf = $shelves[$index];
+
+          // Prepare the insert statement for book_availability
+          $stmt_availability = $conn->prepare("
+              INSERT INTO book_availability (book_id, branch_id, available_copies, shelf) 
+              VALUES (?, ?, ?, ?)"
+          );
+          $stmt_availability->bind_param("iiis", $cur_max_bookid, $branch_id, $available_copy, $shelf);
+
+          // Execute the insert statement for book_availability
+          if (!$stmt_availability->execute()) {
+              $_SESSION['alert'] = "Error inserting into book_availability: " . $stmt_availability->error;
+              break; // Exit loop on error
+          }
+      }
+
+      // If all insertions are successful
+      $_SESSION['alert'] = "Book added successfully!";
+    } else {
+      $_SESSION['alert'] = "Error: " . $stmt->error;
+    }
+
+    // Close the prepared statements
+    $stmt->close();
+    $stmt_availability->close();
+
+    // Redirect back to the same page with the borrowed books tab active
+    header("Location: homepage-librarian.php?active_tab=add-books");
+    exit();
+     
+  }
   
 }
 
@@ -465,6 +618,7 @@ if (isset($_SESSION['librarian_id'])) {
                     name="yearFrom"
                     placeholder="From"
                     min="1800"
+                    max="2024"
                     class="year-input"
                     value="<?php echo isset($_GET['yearFrom']) ? htmlspecialchars($_GET['yearFrom']) : ''; ?>"
                   />
@@ -474,6 +628,7 @@ if (isset($_SESSION['librarian_id'])) {
                     name="yearTo"
                     placeholder="To"
                     min="1800"
+                    max="2024"
                     class="year-input"
                     value="<?php echo isset($_GET['yearTo']) ? htmlspecialchars($_GET['yearTo']) : ''; ?>"
                   />
@@ -647,7 +802,7 @@ if (isset($_SESSION['librarian_id'])) {
       <!-- Form -->
       <div class="form-container">
         <form
-          action=""
+          action="<?php echo $_SERVER['PHP_SELF']; ?>"
           method="POST"
           enctype="multipart/form-data"
           onsubmit="return validateBranches()"
@@ -672,25 +827,25 @@ if (isset($_SESSION['librarian_id'])) {
 
           <label for="category">Category *:</label><br />
           <select id="category" name="category" required>
-            <option value="Computer Science & Technology">
-              Computer Science & Technology
+          <option value="">Select a category</option>
+          <?php foreach ($categories_list as $category) { ?>
+            <option value="<?php echo htmlspecialchars($category); ?>">
+              <?php echo htmlspecialchars($category); ?>
             </option>
-            <option value="Humanities & Social Science">
-              Humanities & Social Science
-            </option>
-            <option value="Business & Finance">Business & Finance</option>
-            <option value="Medicine">Medicine</option></select
-          ><br /><br />
+          <?php } ?>
+          </select><br /><br />
 
           <label for="branch">Branch & Available Copies *:</label><br />
 
           <div id="branchContainer">
             <div class="branch-group">
               <select name="branches[]" required>
-                <option value="">Select Branch</option>
-                <option value="NTU">NTU</option>
-                <option value="NUS">NUS</option>
-                <option value="SMU">SMU</option>
+              <option value="">Select branch</option>
+              <?php foreach ($branches as $branch) { ?>
+                <option value="<?php echo $branch['branch_id'] ?>">
+                  <?php echo $branch['branch_name'] ?>
+                </option>
+              <?php } ?>
               </select>
               <input
                 type="number"
@@ -698,6 +853,12 @@ if (isset($_SESSION['librarian_id'])) {
                 placeholder="Available Copies"
                 required
                 min="0"
+              />
+              <input
+                  type="text"
+                  name="shelf[]"
+                  placeholder="Shelf"
+                  required
               />
               <button type="button" onclick="removeBranch(this)">Remove</button>
             </div>
@@ -739,7 +900,7 @@ if (isset($_SESSION['librarian_id'])) {
           <input
             type="file"
             id="e_book"
-            name="ebook_file_path"
+            name="e_book"
             accept=".pdf,.epub,.mobi"
           /><br /><br />
 
@@ -747,7 +908,7 @@ if (isset($_SESSION['librarian_id'])) {
           <input
             type="file"
             id="audio_book"
-            name="audio_file_path"
+            name="audio_book"
             accept="audio/*"
           /><br /><br />
 
@@ -1027,9 +1188,7 @@ if (isset($_SESSION['librarian_id'])) {
         select.required = true;
         select.innerHTML = `
     <option value="">Select Branch</option>
-    <option value="NTU">NTU</option>
-    <option value="NUS">NUS</option>
-    <option value="SMU">SMU</option>
+    <?php echo $branchOptionsStr; ?>
   `;
 
         const input = document.createElement("input");
@@ -1038,6 +1197,12 @@ if (isset($_SESSION['librarian_id'])) {
         input.placeholder = "Available Copies";
         input.required = true;
         input.min = "0";
+
+        const input2 = document.createElement("input");
+        input2.type = "text";
+        input2.name = "shelf[]";
+        input2.placeholder = "Shelf";
+        input2.required = true;
 
         const removeButton = document.createElement("button");
         removeButton.type = "button";
@@ -1048,6 +1213,7 @@ if (isset($_SESSION['librarian_id'])) {
 
         branchGroup.appendChild(select);
         branchGroup.appendChild(input);
+        branchGroup.appendChild(input2);
         branchGroup.appendChild(removeButton);
 
         branchContainer.appendChild(branchGroup);
