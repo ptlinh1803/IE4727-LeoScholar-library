@@ -274,7 +274,7 @@ if (isset($_SESSION['librarian_id'])) {
   }
 
   // ------------------------- ADD NEW BOOKS -------------------------
-  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+  if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_new_book']) && $_POST['add_new_book'] == '1') {
     // inputs
     $isbn = $_POST['isbn'];
     $title = $_POST['title'];
@@ -408,6 +408,29 @@ if (isset($_SESSION['librarian_id'])) {
     exit();
      
   }
+
+  // ---------------------- MANAGE CONTRIBUTIONS --------------------------------------
+  // get all current pending contributions at a university
+  $get_pending_contributions = "
+    SELECT d.*, us.name, us.university_id, u.name as uni_name, br.branch_name
+    FROM donations d
+    JOIN branches br ON d.branch_id = br.branch_id
+    JOIN universities u ON br.university_id = u.university_id
+    JOIN users us ON us.user_id = d.user_id
+    WHERE u.university_id = ?
+    AND d.status = 'pending';
+  ";
+  $stmt = $conn->prepare($get_pending_contributions);
+  $stmt->bind_param("s", $university_id);
+  $stmt->execute();
+  $pending_contributions_result = $stmt->get_result();
+  $pending_contributions = [];
+  if ($pending_contributions_result->num_rows > 0) {
+    while ($row = $pending_contributions_result->fetch_assoc()) {
+      $pending_contributions[] = $row;
+    }
+  }
+  $stmt->close();
   
 }
 
@@ -807,6 +830,8 @@ if (isset($_SESSION['librarian_id'])) {
           enctype="multipart/form-data"
           onsubmit="return validateBranches()"
         >
+          <input type="hidden" name="add_new_book" value="1">
+
           <label for="title">Title *:</label><br />
           <input type="text" id="title" name="title" required /><br /><br />
 
@@ -923,148 +948,111 @@ if (isset($_SESSION['librarian_id'])) {
       <h1 class="big-blue-h1">Manage Contributions</h1>
       <p>Click on each row to see more details</p>
 
-      <table class="book-table">
-        <thead>
-          <tr>
-            <th id="cover-col"></th>
-            <th id="title-col">Title</th>
-            <th id="author-col">Author</th>
-            <th id="branch-col">Branch</th>
-            <th id="copies-col">Copies</th>
-            <th id="status-col">Status</th>
-            <th id="time-col">Created at</th>
-            <th id="action-col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Example Row -->
-          <tr onclick="toggleDetails(this)">
-            <td headers="cover-col">
-              <img src="img/books/3.jpg" alt="Book Cover" class="book-cover" />
-            </td>
-            <td headers="title-col">Introduction to Mathematical Statistics</td>
-            <td headers="author-col">Harry Potter</td>
-            <td headers="branch-col">NTU - Lee Wee Nam Library</td>
-            <td headers="copies-col">1</td>
-            <td headers="status-col">
-              <span class="status-yellow">Pending</span>
-            </td>
-            <td headers="time-col">31/10/2024</td>
-            <td>
-              <form
-                action=""
-                method="POST"
-                onsubmit="return confirm('Are you sure you want to return this book?');"
-              >
-                <input type="hidden" name="book_id" value="" />
-                <input type="hidden" name="branch_id" value="" />
-                <input type="hidden" name="loan_id" value="" />
-                <input type="hidden" name="user_id" value="" />
-                <input type="hidden" name="return_book" value="1" />
-                <button
-                  type="submit"
-                  class="shelf-action-button acknowledge"
-                  onclick="event.stopPropagation();"
-                >
-                  Accept
-                </button>
-              </form>
-              <form
-                action=""
-                method="POST"
-                onsubmit="return confirm('You may renew this book only once, extending the due date by 14 days. If you would like to keep it longer after that, please return it first, then borrow it again.');"
-              >
-                <input type="hidden" name="loan_id" value="" />
-                <input type="hidden" name="renew_book" value="1" />
-                <!-- Replace with actual user ID -->
-                <button
-                  type="submit"
-                  class="shelf-action-button cancel"
-                  onclick="event.stopPropagation();"
-                >
-                  Reject
-                </button>
-              </form>
-            </td>
-          </tr>
-          <!-- Hidden Details Row -->
-          <tr class="hidden-details">
-            <td colspan="8">
-              <strong>Description:</strong> A comprehensive guide to statistical
-              methods.
-              <br />
-              <strong>About the Author:</strong> Harry Potter, a renowned author
-              in statistics.
-              <br />
-              <strong>More Details:</strong> Published by XYZ Publications, 2023
-              Edition.
-            </td>
-          </tr>
-          <tr onclick="toggleDetails(this)">
-            <td headers="cover-col">
-              <img src="img/books/4.jpg" alt="Book Cover" class="book-cover" />
-            </td>
-            <td headers="title-col">Introduction to Mathematical Statistics</td>
-            <td headers="author-col">Harry Potter</td>
-            <td headers="branch-col">NTU - Lee Wee Nam Library</td>
-            <td headers="copies-col">1</td>
-            <td headers="status-col">
-              <span class="status-yellow">Pending</span>
-            </td>
-            <td headers="time-col">31/10/2024</td>
-
-            <td>
-              <form
-                action=""
-                method="POST"
-                onsubmit="return confirm('Are you sure you want to return this book?');"
-              >
-                <input type="hidden" name="book_id" value="" />
-                <input type="hidden" name="branch_id" value="" />
-                <input type="hidden" name="loan_id" value="" />
-                <input type="hidden" name="user_id" value="" />
-                <input type="hidden" name="return_book" value="1" />
-                <button
-                  type="submit"
-                  class="shelf-action-button acknowledge"
-                  onclick="event.stopPropagation();"
-                >
-                  Accept
-                </button>
-              </form>
-              <form
-                action=""
-                method="POST"
-                onsubmit="return confirm('You may renew this book only once, extending the due date by 14 days. If you would like to keep it longer after that, please return it first, then borrow it again.');"
-              >
-                <input type="hidden" name="loan_id" value="" />
-                <input type="hidden" name="renew_book" value="1" />
-                <!-- Replace with actual user ID -->
-                <button
-                  type="submit"
-                  class="shelf-action-button cancel"
-                  onclick="event.stopPropagation();"
-                >
-                  Reject
-                </button>
-              </form>
-            </td>
-          </tr>
-          <!-- Hidden Details Row -->
-          <tr class="hidden-details">
-            <td colspan="8">
-              <strong>Description:</strong> A comprehensive guide to statistical
-              methods.
-              <br />
-              <strong>About the Author:</strong> Harry Potter, a renowned author
-              in statistics.
-              <br />
-              <strong>More Details:</strong> Published by XYZ Publications, 2023
-              Edition.
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <?php if(!empty($pending_contributions)) { ?>
+        <table class="book-table">
+          <thead>
+            <tr>
+              <th id="cover-col"></th>
+              <th id="title-col">Title</th>
+              <th id="author-col">Author</th>
+              <th id="branch-col">Branch</th>
+              <th id="copies-col">Copies</th>
+              <th id="status-col">Status</th>
+              <th id="time-col">Created at</th>
+              <th id="action-col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Example Row -->
+            <?php foreach ($pending_contributions as $pc) { ?>
+              <tr onclick="toggleDetails(this)">
+                <td headers="cover-col">
+                  <img 
+                    src="img/books/<?php echo isset($pc['cover_path']) && !empty($pc['cover_path']) ? $pc['cover_path'] : 'default.png'; ?>"
+                    alt="Book Cover" 
+                    class="book-cover" />
+                </td>
+                <td headers="title-col">
+                  <?php echo htmlspecialchars($pc['title']); ?>
+                </td>
+                <td headers="author-col">
+                  <?php echo htmlspecialchars($pc['author']); ?>
+                </td>
+                <td headers="branch-col">
+                  <?php echo htmlspecialchars($pc['branch_name']); ?>
+                </td>
+                <td headers="copies-col"><?php echo $pc['available_copies']; ?></td>
+                <td headers="status-col">
+                  <span class="status-yellow">Pending</span>
+                </td>
+                <td headers="time-col">
+                  <?php echo date('Y-m-d', strtotime($pc['created_at'])); ?>
+                </td>
+                <td>
+                  <form
+                    action=""
+                    method="POST"
+                    onsubmit="return confirm('Are you sure you want to return this book?');"
+                  >
+                    <input type="hidden" name="accept_contribution" value="1" />
+                    <input type="hidden" name="donation_id" value="<?php echo $pc['donation_id']; ?>" />
+                    <button
+                      type="submit"
+                      class="shelf-action-button acknowledge"
+                      onclick="event.stopPropagation();"
+                    >
+                      Accept
+                    </button>
+                  </form>
+                  <form
+                    action=""
+                    method="POST"
+                    onsubmit="return confirm('You may renew this book only once, extending the due date by 14 days. If you would like to keep it longer after that, please return it first, then borrow it again.');"
+                  >
+                    <input type="hidden" name="reject_contribution" value="1" />
+                    <input type="hidden" name="donation_id" value="<?php echo $pc['donation_id']; ?>" />
+                    <!-- Replace with actual user ID -->
+                    <button
+                      type="submit"
+                      class="shelf-action-button cancel"
+                      onclick="event.stopPropagation();"
+                    >
+                      Reject
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              <!-- Hidden Details Row -->
+              <tr class="hidden-details">
+                <td colspan="8">
+                  <strong>Contributor:</strong>
+                    <?php echo htmlspecialchars($pc['name']); ?> 
+                  <br /><br />
+                  <strong>University:</strong>
+                    <?php echo htmlspecialchars($pc['uni_name']); ?> 
+                  <br /><br />
+                  <strong>Title:</strong>
+                    <?php echo htmlspecialchars($pc['title']); ?> 
+                  <br /><br />
+                  <strong>Author(s):</strong>
+                    <?php echo htmlspecialchars($pc['author']); ?> 
+                  <br /><br />
+                  <strong>Description:</strong>
+                    <?php echo nl2br(htmlspecialchars($pc['description'])); ?>
+                  <br /><br />
+                  <strong>About the Author:</strong>
+                    <?php echo nl2br(htmlspecialchars($pc['about_author'])); ?>
+                  <br /><br />
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      <?php } else { ?>
+        <div class="no-books-message">
+          <img src="img/ui/nothing-here.png" alt="Nothing here" />
+        </div>
+      <?php } ?>
     </section>
 
     <!-- footer -->
