@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Oct 31, 2024 at 05:12 PM
+-- Generation Time: Nov 03, 2024 at 03:56 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `leoscholar`
 --
+CREATE DATABASE IF NOT EXISTS leoscholar;
+USE leoscholar;
 
 -- --------------------------------------------------------
 
@@ -108,12 +110,12 @@ CREATE TABLE `book_availability` (
 --
 
 INSERT INTO `book_availability` (`availability_id`, `book_id`, `branch_id`, `available_copies`, `shelf`) VALUES
-(1, 1, 5, 2, 'AB F1-1'),
+(1, 1, 5, 3, 'AB F1-1'),
 (2, 1, 6, 2, 'XY F2-2'),
 (3, 2, 5, 4, 'UV F3-5'),
 (4, 2, 6, 4, 'CD F1-4'),
 (5, 3, 5, 2, 'EF F2-3'),
-(6, 3, 6, 1, 'GH F2-6'),
+(6, 3, 6, 2, 'GH F2-6'),
 (7, 4, 5, 5, 'IJ F3-1'),
 (8, 4, 6, 4, 'KL F1-2'),
 (9, 4, 8, 1, 'MN F2-4'),
@@ -147,7 +149,7 @@ INSERT INTO `book_availability` (`availability_id`, `book_id`, `branch_id`, `ava
 (37, 15, 5, 4, 'QR F1-3'),
 (38, 15, 6, 1, 'ST F2-4'),
 (39, 15, 10, 1, 'UV F1-5'),
-(40, 16, 4, 4, 'WX F2-1'),
+(40, 16, 4, 3, 'WX F2-1'),
 (41, 16, 10, 1, 'YZ F3-6'),
 (42, 17, 4, 2, 'AB F3-2'),
 (43, 17, 10, 3, 'CD F1-2'),
@@ -160,7 +162,7 @@ INSERT INTO `book_availability` (`availability_id`, `book_id`, `branch_id`, `ava
 (50, 20, 11, 3, 'QR F2-6'),
 (51, 21, 2, 5, 'ST F1-5'),
 (52, 21, 11, 4, 'UV F1-3'),
-(53, 22, 5, 4, 'WX F2-4'),
+(53, 22, 5, 3, 'WX F2-4'),
 (54, 22, 8, 2, 'YZ F3-1'),
 (55, 23, 5, 2, 'AB F2-6'),
 (56, 23, 8, 3, 'CD F1-6'),
@@ -184,13 +186,16 @@ INSERT INTO `book_availability` (`availability_id`, `book_id`, `branch_id`, `ava
 (74, 32, 6, 3, 'OP F3-3'),
 (75, 33, 5, 4, 'QR F1-5'),
 (76, 34, 4, 4, 'ST F2-6'),
-(77, 34, 9, 4, 'UV F1-4'),
+(77, 34, 9, 3, 'UV F1-4'),
 (78, 34, 10, 4, 'WX F2-2'),
 (79, 35, 3, 1, 'YZ F3-1'),
 (80, 35, 4, 2, 'AB F1-3'),
 (81, 36, 3, 5, 'CD F1-6'),
 (82, 36, 6, 1, 'EF F2-1'),
-(83, 36, 9, 4, 'ST F2-4');
+(83, 36, 9, 4, 'ST F2-4'),
+(84, 25, 5, 1, NULL),
+(88, 26, 5, 1, NULL),
+(94, 28, 5, 1, 'FG G1-9');
 
 -- --------------------------------------------------------
 
@@ -246,7 +251,9 @@ INSERT INTO `category_preference` (`pref_id`, `user_id`, `category`) VALUES
 (3, 1, 'Computer Science & Technology'),
 (4, 2, 'Computer Science & Technology'),
 (5, 2, 'Humanities & Social Science'),
-(6, 2, 'Business & Finance');
+(6, 2, 'Business & Finance'),
+(7, 4, 'Arts & Design'),
+(8, 4, 'Fiction & Novels');
 
 -- --------------------------------------------------------
 
@@ -302,6 +309,20 @@ CREATE TABLE `donations` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `donations`
+--
+
+INSERT INTO `donations` (`donation_id`, `user_id`, `isbn`, `title`, `author`, `description`, `about_author`, `publication_year`, `category`, `cover_path`, `branch_id`, `available_copies`, `status`, `created_at`) VALUES
+(1, 1, '', 'Test New Contribution Title', 'Test New Contribution Author', '', '', '2000', 'Arts & Design', 'cover_1730543591.jpg', 1, 1, 'accepted', '2024-11-02 10:33:11'),
+(2, 1, '123456789', 'Test Contribution 2 Title', 'Test Contribution 2 Author', 'This is a test', 'This is a test', '2020', 'Computer Science & Technology', 'cover_1730543832.png', 5, 2, 'pending', '2024-11-02 10:37:12'),
+(3, 1, '', 'Test Contribution 3 title', 'Test Contribution 3 author', 'Test Test Description', 'Test test i\'m the author', '2001', 'Computer Science & Technology', 'cover_1730544060.png', 6, 1, 'pending', '2024-11-02 10:41:00'),
+(4, 1, '', 'Test contribution 4 title', 'Test contribution 4 author', '', '', '1999', 'Business & Finance', '', 2, 1, 'rejected', '2024-11-02 10:44:07'),
+(5, 1, '', 'Test contribution 5 title', 'Test contribution 5 author', '', '', '2009', 'Natural Sciences', 'default.png', 9, 3, 'pending', '2024-11-02 10:54:59'),
+(6, 1, '', 'test contribution 6 title', 'test contribution 6 author', '', '', '1980', 'Humanities & Social Science', 'default.png', 4, 1, 'pending', '2024-11-02 10:55:49'),
+(7, 4, '', 'Test contribution 1 new user title', 'Test contribution 1 new user author', '\"This classic textbook builds theoretical statistics from the first principles of probability theory. Starting from the basics of probability, the authors develop the theory of statistical inference using techniques, definitions, and concepts that are statistical and natural extensions, and consequences, of previous concepts. It covers all topics from a standard inference course including: distributions, random variables, data reduction, point estimation, hypothesis testing, and interval estimation.\r\n\r\nFeatures\r\n- The classic graduate-level textbook on statistical inference\r\n- Develops elements of statistical theory from first principles of probability\r\n- Written in a lucid style accessible to anyone with some background in calculus\r\n- Covers all key topics of a standard course in inference\r\n- Hundreds of examples throughout to aid understanding\r\n- Each chapter includes an extensive set of graduated exercises\r\n\r\nStatistical Inference, Second Edition is primarily aimed at graduate students of statistics, but can be used by advanced undergraduate students majoring in statistics who have a solid mathematics background. It also stresses the more practical uses of statistical theory, being more concerned with understanding basic statistical concepts and deriving reasonable statistical procedures, while less focused on formal optimality considerations.\r\n\r\nThis is a reprint of the second edition originally published by Cengage Learning, Inc. in 2001.\"', '\"Professor George Casella completed his undergraduate education at Fordham University and graduate education at Purdue University. He served on the faculty of Rutgers University, Cornell University, and the University of Florida. His contributions focused on the area of statistics including Monte Carlo methods, model selection, and genomic analysis. He was particularly active in Bayesian and empirical Bayes methods, with works connecting with the Stein phenomenon, on assessing and accelerating the convergence of Markov chain Monte Carlo methods, as in his Rao-Blackwellisation technique, and recasting lasso as Bayesian posterior mode estimation with independent Laplace priors.\r\n\r\nCasella was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics in 1988, and he was made an Elected Fellow of the International Statistical Institute in 1989. In 2009, he was made a Foreign Member of the Spanish Royal Academy of Sciences.\r\n\r\nAfter receiving his doctorate in statistics from Purdue University, Professor Roger Berger held academic positions at Florida State University and North Carolina State University. He also spent two years with the National Science Foundation before coming to Arizona State University in 2004. Berger is co-author of the textbook \"\"Statistical Inference,\"\" now in its second edition. This book has been translated into Chinese and Portuguese. His articles have appeared in publications including Journal of the American Statistical Association, Statistical Science, Biometrics and Statistical Methods in Medical Research. Berger\'s areas of expertise include hypothesis testing, (bio)equivalence, generalized linear models, biostatistics, and statistics education.\r\n\r\nBerger was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics.\"', '1999', 'Mathematics & Statistics', 'cover_1730643890.JPG', 2, 1, 'rejected', '2024-11-03 14:24:50'),
+(8, 4, '', 'Test test test title ', 'Test test test author', '\"This classic textbook builds theoretical statistics from the first principles of probability theory. Starting from the basics of probability, the authors develop the theory of statistical inference using techniques, definitions, and concepts that are statistical and natural extensions, and consequences, of previous concepts. It covers all topics from a standard inference course including: distributions, random variables, data reduction, point estimation, hypothesis testing, and interval estimation.\r\n\r\nFeatures\r\n- The classic graduate-level textbook on statistical inference\r\n- Develops elements of statistical theory from first principles of probability\r\n- Written in a lucid style accessible to anyone with some background in calculus\r\n- Covers all key topics of a standard course in inference\r\n- Hundreds of examples throughout to aid understanding\r\n- Each chapter includes an extensive set of graduated exercises\r\n\r\nStatistical Inference, Second Edition is primarily aimed at graduate students of statistics, but can be used by advanced undergraduate students majoring in statistics who have a solid mathematics background. It also stresses the more practical uses of statistical theory, being more concerned with understanding basic statistical concepts and deriving reasonable statistical procedures, while less focused on formal optimality considerations.\r\n\r\nThis is a reprint of the second edition originally published by Cengage Learning, Inc. in 2001.\"', '\"Professor George Casella completed his undergraduate education at Fordham University and graduate education at Purdue University. He served on the faculty of Rutgers University, Cornell University, and the University of Florida. His contributions focused on the area of statistics including Monte Carlo methods, model selection, and genomic analysis. He was particularly active in Bayesian and empirical Bayes methods, with works connecting with the Stein phenomenon, on assessing and accelerating the convergence of Markov chain Monte Carlo methods, as in his Rao-Blackwellisation technique, and recasting lasso as Bayesian posterior mode estimation with independent Laplace priors.\r\n\r\nCasella was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics in 1988, and he was made an Elected Fellow of the International Statistical Institute in 1989. In 2009, he was made a Foreign Member of the Spanish Royal Academy of Sciences.\r\n\r\nAfter receiving his doctorate in statistics from Purdue University, Professor Roger Berger held academic positions at Florida State University and North Carolina State University. He also spent two years with the National Science Foundation before coming to Arizona State University in 2004. Berger is co-author of the textbook \"\"Statistical Inference,\"\" now in its second edition. This book has been translated into Chinese and Portuguese. His articles have appeared in publications including Journal of the American Statistical Association, Statistical Science, Biometrics and Statistical Methods in Medical Research. Berger\'s areas of expertise include hypothesis testing, (bio)equivalence, generalized linear models, biostatistics, and statistics education.\r\n\r\nBerger was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics.\"', '2000', 'Mathematics & Statistics', 'default.png', 9, 2, 'accepted', '2024-11-03 14:27:23');
+
 -- --------------------------------------------------------
 
 --
@@ -329,7 +350,8 @@ INSERT INTO `favourite_books` (`fav_id`, `user_id`, `book_id`) VALUES
 (42, 1, 2),
 (45, 1, 37),
 (46, 1, 39),
-(47, 1, 38);
+(49, 1, 19),
+(51, 4, 15);
 
 -- --------------------------------------------------------
 
@@ -347,6 +369,21 @@ CREATE TABLE `fines` (
   `paid_date` date DEFAULT NULL,
   `paid` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `fines`
+--
+
+INSERT INTO `fines` (`fine_id`, `user_id`, `loan_id`, `amount`, `reason`, `issued_date`, `paid_date`, `paid`) VALUES
+(16, 1, 10, 1.00, 'Overdue 2 days', '2024-11-03', NULL, 0),
+(17, 1, 11, 8.50, 'Overdue 17 days', '2024-11-03', NULL, 0),
+(18, 1, 12, 9.00, 'Overdue 18 days', '2024-11-02', NULL, 1),
+(19, 1, 13, 9.50, 'Overdue 19 days', '2024-11-03', NULL, 0),
+(21, 1, 15, 1.00, 'Overdue 2 days', '2024-11-02', NULL, 1),
+(22, 1, 16, 1.50, 'Overdue 3 days', '2024-11-02', NULL, 1),
+(23, 1, 17, 2.00, 'Overdue 4 days', '2024-11-02', NULL, 1),
+(24, 1, 18, 2.50, 'Overdue 5 days', '2024-11-02', NULL, 1),
+(31, 1, 5, 0.50, 'Overdue 1 days', '2024-11-03', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -389,19 +426,34 @@ CREATE TABLE `loans` (
   `loan_date` date DEFAULT NULL,
   `return_date` date DEFAULT NULL,
   `due_date` date DEFAULT NULL,
-  `status` enum('active','returned','overdue') DEFAULT 'active'
+  `status` enum('active','returned','overdue') DEFAULT 'active',
+  `renewed` tinyint(1) DEFAULT 0,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `loans`
 --
 
-INSERT INTO `loans` (`loan_id`, `user_id`, `book_id`, `branch_id`, `loan_date`, `return_date`, `due_date`, `status`) VALUES
-(3, 1, 1, 5, '2024-11-01', NULL, '2024-11-02', 'active'),
-(4, 1, 5, 8, '2024-11-01', NULL, '2024-11-02', 'active'),
-(5, 1, 2, 5, '2024-11-01', NULL, '2024-11-02', 'active'),
-(6, 1, 11, 5, '2024-11-01', NULL, '2024-11-15', 'active'),
-(7, 1, 19, 7, '2024-11-01', NULL, '2024-11-14', 'active');
+INSERT INTO `loans` (`loan_id`, `user_id`, `book_id`, `branch_id`, `loan_date`, `return_date`, `due_date`, `status`, `renewed`, `created_at`) VALUES
+(3, 1, 1, 5, '2024-11-01', '2024-11-01', '2024-11-02', 'returned', 0, '2024-11-01 16:10:14'),
+(4, 1, 5, 8, '2024-11-01', NULL, '2024-11-16', 'active', 1, '2024-11-01 16:10:14'),
+(5, 1, 2, 5, '2024-11-01', NULL, '2024-11-02', 'overdue', 0, '2024-11-01 16:10:14'),
+(6, 1, 11, 5, '2024-11-01', NULL, '2024-11-15', 'active', 0, '2024-11-01 16:10:14'),
+(7, 1, 19, 7, '2024-11-01', NULL, '2024-11-14', 'active', 0, '2024-11-01 16:10:14'),
+(8, 1, 16, 4, '2024-11-03', NULL, '2024-11-10', 'active', 0, '2024-11-01 16:10:14'),
+(10, 1, 3, 6, '2024-10-17', '2024-11-01', '2024-10-30', 'returned', 0, '2024-11-01 16:10:14'),
+(11, 1, 25, 5, '2024-10-01', '2024-11-01', '2024-10-15', 'returned', 0, '2024-11-01 16:10:14'),
+(12, 1, 26, 5, '2024-10-01', '2024-11-02', '2024-10-15', 'returned', 0, '2024-11-01 16:10:14'),
+(13, 1, 27, 5, '2024-10-01', NULL, '2024-10-15', 'overdue', 0, '2024-11-01 16:10:14'),
+(15, 1, 29, 6, '2024-10-01', '2024-10-17', '2024-10-15', 'returned', 0, '2024-11-01 16:10:14'),
+(16, 1, 30, 6, '2024-10-01', '2024-10-18', '2024-10-15', 'returned', 0, '2024-11-01 16:10:14'),
+(17, 1, 31, 6, '2024-10-01', '2024-10-19', '2024-10-15', 'returned', 0, '2024-11-01 16:10:14'),
+(18, 1, 32, 6, '2024-10-01', '2024-10-20', '2024-10-15', 'returned', 0, '2024-11-01 16:10:14'),
+(21, 1, 36, 9, '2024-11-01', NULL, '2024-11-15', 'active', 0, '2024-11-01 16:10:14'),
+(22, 1, 34, 9, '2024-11-02', NULL, '2024-11-10', 'active', 0, '2024-11-01 16:10:14'),
+(23, 1, 22, 5, '2024-11-09', NULL, '2024-11-16', 'active', 0, '2024-11-01 16:15:52'),
+(25, 4, 34, 4, '2024-11-04', '2024-11-03', '2024-11-23', 'returned', 1, '2024-11-03 11:46:42');
 
 -- --------------------------------------------------------
 
@@ -415,15 +467,21 @@ CREATE TABLE `reservations` (
   `book_id` int(11) NOT NULL,
   `branch_id` int(11) NOT NULL,
   `reservation_date` date DEFAULT NULL,
-  `status` enum('pending','fulfilled','cancelled') DEFAULT 'pending'
+  `status` enum('pending','fulfilled','cancelled') DEFAULT 'pending',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reservations`
 --
 
-INSERT INTO `reservations` (`reservation_id`, `user_id`, `book_id`, `branch_id`, `reservation_date`, `status`) VALUES
-(10, 1, 19, 12, '2024-10-31', 'pending');
+INSERT INTO `reservations` (`reservation_id`, `user_id`, `book_id`, `branch_id`, `reservation_date`, `status`, `created_at`) VALUES
+(10, 1, 19, 12, '2024-10-31', 'cancelled', '2024-11-01 16:11:01'),
+(11, 1, 25, 10, '2024-10-31', 'pending', '2024-11-01 16:11:01'),
+(13, 1, 36, 9, '2024-11-01', 'fulfilled', '2024-11-01 16:11:01'),
+(14, 1, 34, 9, '2024-11-01', 'fulfilled', '2024-11-01 16:11:01'),
+(15, 1, 27, 12, '2024-11-01', 'cancelled', '2024-11-01 16:17:41'),
+(16, 4, 29, 7, '2024-11-03', 'pending', '2024-11-03 14:23:30');
 
 -- --------------------------------------------------------
 
@@ -486,7 +544,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`user_id`, `name`, `email`, `password`, `phone`, `university_id`, `created_at`) VALUES
 (1, 'Pham Thuy Linh', 'thuylinh001@e.ntu.edu.sg', '12be439712901640aa0a9e271b65d9fc', '12345678', 'NTU', '2024-10-24 18:16:27'),
 (2, 'Tran Huu Nghia', 'huunghia002@e.ntu.edu.sg', 'bbe3b53eb5210306e9dcfda8be238e9a', '87654321', 'NTU', '2024-10-24 18:16:27'),
-(3, 'Test User', 'testuser1@e.ntu.edu.sg', '2c4bed4d73c86619fcf1627fb72011fa', '11111111', 'NTU', '2024-10-25 15:22:47');
+(3, 'Test User', 'testuser1@e.ntu.edu.sg', '2c4bed4d73c86619fcf1627fb72011fa', '11111111', 'NTU', '2024-10-25 15:22:47'),
+(4, 'Tran Thuy Duong', 'thuyduong001@e.ntu.edu.sg', '7c79dd68b400e6b0c9f99f8f221dae26', '99999999', 'NTU', '2024-11-03 04:42:59');
 
 --
 -- Indexes for dumped tables
@@ -505,7 +564,7 @@ ALTER TABLE `books` ADD FULLTEXT KEY `idx_books_search` (`title`,`author`,`descr
 --
 ALTER TABLE `book_availability`
   ADD PRIMARY KEY (`availability_id`),
-  ADD KEY `book_id` (`book_id`),
+  ADD UNIQUE KEY `unique_book_branch` (`book_id`,`branch_id`),
   ADD KEY `branch_id` (`branch_id`);
 
 --
@@ -549,7 +608,8 @@ ALTER TABLE `favourite_books`
 --
 ALTER TABLE `fines`
   ADD PRIMARY KEY (`fine_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `fk_loan_id` (`loan_id`);
 
 --
 -- Indexes for table `librarians`
@@ -608,13 +668,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `book_availability`
 --
 ALTER TABLE `book_availability`
-  MODIFY `availability_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
+  MODIFY `availability_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `branches`
@@ -626,7 +686,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `category_preference`
 --
 ALTER TABLE `category_preference`
-  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `digital_resources`
@@ -638,19 +698,19 @@ ALTER TABLE `digital_resources`
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `donation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `donation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `favourite_books`
 --
 ALTER TABLE `favourite_books`
-  MODIFY `fav_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `fav_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `fines`
 --
 ALTER TABLE `fines`
-  MODIFY `fine_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `fine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `librarians`
@@ -662,13 +722,13 @@ ALTER TABLE `librarians`
 -- AUTO_INCREMENT for table `loans`
 --
 ALTER TABLE `loans`
-  MODIFY `loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -680,7 +740,7 @@ ALTER TABLE `reviews`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -723,7 +783,8 @@ ALTER TABLE `favourite_books`
 -- Constraints for table `fines`
 --
 ALTER TABLE `fines`
-  ADD CONSTRAINT `fines_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fines_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_loan_id` FOREIGN KEY (`loan_id`) REFERENCES `loans` (`loan_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `librarians`
