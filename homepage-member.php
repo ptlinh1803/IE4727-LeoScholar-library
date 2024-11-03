@@ -70,8 +70,12 @@ else {
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="logout_confirmation.js" defer></script>
   </head>
   <body>
+    <!-- After login.php redirect to here, display the session message (do the same for homepage-librarian.php) -->
+    <?php include "display-session-message.php"?>
+    
     <!-- Navbar -->
     <nav class="navbar">
       <a href="homepage-member.php">
@@ -93,12 +97,12 @@ else {
           </a>
           <div class="dropdown-content">
             <?php if (isset($_SESSION['user_id'])) { ?>
-              <a href="#">Settings</a>
+              <a href="user-settings.php">Settings</a>
               <a href="payment.php">Payment</a>
-              <a href="#">Logout</a>
+              <a href="#" onclick="confirmLogout()">Logout</a>
             <?php } else { ?>
-              <a href="login.php">Log in</a>
-              <a href="register.php">Register</a>
+              <a href="login.html">Log in</a>
+              <a href="register.html">Register</a>
             <?php } ?>
           </div>
         </div>

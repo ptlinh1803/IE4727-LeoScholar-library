@@ -1,0 +1,194 @@
+/* Header styles for User Page, adopted from search page */
+.header-settings {
+  background-color: #FFDFD1;
+  /* Light blue background color */
+  padding: 20px;
+  color: black;
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Setting Buttons section */
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Layout adopted from search-page.html so I need a container between settings-options and button-container */
+.button-container-container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  overflow: visible;
+  width: 100%;
+  /* Set a fixed width */
+}
+
+/* Settings sections */
+#settings-section {
+  background-color: #f3f3f7;
+  width: 60%;
+  margin: 20px auto 60px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 10px;
+  padding: 10px;
+  width: 100%;
+  max-width: 600px;
+  align-items: center;
+}
+
+.category-list label {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.category-list label:hover {
+  background-color: #f9f9f9;
+}
+
+.category-checkbox {
+  margin-right: 10px;
+}
+
+.settings-submit-button {
+  background-color: #ee3124;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 20px auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.settings-submit-button:hover {
+  background-color: #d02820;
+}
+
+/* Styling for the button in fav-categories since that form follows a grid layout */
+#save-categories-button {
+  grid-column: span 2;
+  /* Adjust based on your column setup */
+  justify-self: center;
+}
+
+/* Stylings for forms: Personal Info and Change Password */
+.form-heading {
+  text-align: center;
+  margin-bottom: 20px;
+  /* Space below the heading */
+}
+
+.form-container {
+  width: 100%;
+  margin: 0 auto;
+  /* Adjust form width as needed */
+}
+
+/* Additional stylings for tables */
+.table-container {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  border-radius: 8px;
+  /* Round corners */
+  overflow: hidden;
+  /* Ensures borders don't overflow */
+}
+
+th {
+  text-align: center;
+  border: 1px solid #ddd;
+  background-color: #11155e;
+  /* Header background color */
+  color: #ffffff;
+  /* Header text color */
+  padding: 12px;
+  /* Increased padding */
+  font-size: 1.1em;
+  /* Slightly larger font size */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+  /* Light background for even rows */
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+  /* Highlight on hover */
+}
+
+td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  /* Increased padding */
+  font-size: 1em;
+  /* Consistent font size */
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  /* Make input fields full width */
+  box-sizing: border-box;
+  /* Include padding and border in the width calculation */
+}
+
+/* Password visibility button styling */
+.password-input-container {
+  position: relative;
+  /* Set position to relative for the container */
+}
+
+.password-input-container input {
+  width: calc(100% - 30px);
+  /* Full width minus space for the icon */
+  padding-right: 30px;
+  /* Padding to prevent text overlap with the icon */
+}
+
+.password-visibility {
+  position: absolute;
+  /* Position it absolutely */
+  right: 10px;
+  /* Position it to the right */
+  top: 50%;
+  /* Center it vertically */
+  transform: translateY(-50%);
+  /* Adjust for vertical alignment */
+  cursor: pointer;
+  /* Pointer cursor */
+  font-size: 18px;
+  /* Size of the icon */
+}

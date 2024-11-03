@@ -1,0 +1,246 @@
+/* ====== Shared Resources between Login and Register Pages ====== */
+
+body {
+  font-family: "Inter", sans-serif;
+  background-image: url("img/ui/bg1.png");
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Typefaces */
+h1 {
+  font-size: 25px;
+  font-weight: normal;
+  color: #333;
+  margin: 0;
+}
+
+h3 {
+  font-size: 15px;
+  font-weight: normal;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+h4 {
+  font-size: 12px;
+  font-weight: normal;
+  color: #999;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+h5 {
+  font-size: 12px;
+  font-weight: normal;
+  color: #666;
+  margin: 10px 0 5px 0;
+  text-align: center;
+}
+
+p,
+label {
+  font-size: 10px;
+  color: #555;
+  margin-top: 10px;
+}
+
+/* Updated section for visibility icon inside password field */
+.password-frame {
+  width: 100%;
+}
+
+.password-visibility {
+  right: 100px;
+  /* Center vertically within the input */
+  cursor: pointer;
+  font-size: 16px;
+  color: #999;
+  pointer-events: auto;
+}
+
+.password-frame {
+  position: relative;
+  display: flex;
+}
+
+.password-visibility {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  /* Adjust as needed */
+  cursor: pointer;
+}
+
+.orange-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #EF7C00;
+}
+
+.blue-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  background-color: #11155E;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.options a {
+  font-size: 10px;
+  color: #666;
+  text-decoration: underline;
+}
+
+#remember-me-member:checked {
+  accent-color: #EF7C00;
+  /* Orange for Member */
+}
+
+#remember-me-librarian:checked {
+  accent-color: #11155E;
+  /* Blue for Librarian */
+}
+
+/* ====== Login Page Exclusive Resources ====== */
+
+.content-container {
+  display: flex;
+  width: 1000px;
+  height: 550px;
+  margin: 20px;
+  overflow: hidden;
+  padding: 5px;
+}
+
+#login-left-column,
+#login-right-column {
+  flex: 1;
+  padding: 10px 0px;
+  box-sizing: border-box;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+#vertical-divider {
+  width: 2px;
+  background-color: #ccc;
+  margin: 5px 120px;
+}
+
+.login-logo {
+  height: 80px;
+  margin: 20px 0;
+}
+
+.login-input-field {
+  width: 260px;
+  /* It needs to be at this exact value for the width to not change upon toggle_password(), no clue why*/
+  padding: 12px;
+  margin-top: 0px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 12px;
+}
+
+.login-input-field:focus {
+  border-color: #666;
+}
+
+/* Additional space and alignment for labels, fields, etc. */
+label {
+  margin-bottom: 5px;
+  display: block;
+}
+
+.checkbox-label {
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+/* ====== Registration Page Exclusive Resources ====== */
+#register-left-column {
+  flex: 1;
+  box-sizing: border-box;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-image: url("img/ui/register-left-column.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: none;
+}
+
+#register-right-column {
+  flex: 1;
+  padding: 30px 30px;
+  box-sizing: border-box;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-color: #FFDFD1;
+}
+
+.register-input-field {
+  width: 410px;
+  padding: 10px;
+  margin-top: 0px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 12px;
+}
+
+.register-input-field:focus {
+  border-color: #666;
+}
+
+#register-button {
+  margin: 20px 0;
+}
+
+#register-options {
+  display: flex;
+  justify-content: space-between;
+  width: 436px;
+  margin-top: 0px;
+  /* Hard-coded through trial-error for now */
+}
+
+#register-options a {
+  font-size: 10px;
+  color: #666;
+  text-decoration: underline;
+}

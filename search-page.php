@@ -175,6 +175,7 @@ if (!empty($found_books)) {
     />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="search-styles.css" />
+    <script src="logout_confirmation.js" defer></script>
   </head>
   <body>
     <!-- Navbar -->
@@ -198,12 +199,12 @@ if (!empty($found_books)) {
           </a>
           <div class="dropdown-content">
             <?php if (isset($_SESSION['user_id'])) { ?>
-              <a href="#">Settings</a>
+              <a href="user-settings.php">Settings</a>
               <a href="payment.php">Payment</a>
-              <a href="#">Logout</a>
+              <a href="#" onclick="confirmLogout()">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
-              <a href="register.php">Register</a>
+              <a href="register.html">Register</a>
             <?php } ?>
           </div>
         </div>
