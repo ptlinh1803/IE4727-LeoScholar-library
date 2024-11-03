@@ -1,6 +1,8 @@
 <?php
 // Start session
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 // Get book_id from URL parameter
 $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET['book_id'] : null;

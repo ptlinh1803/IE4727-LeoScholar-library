@@ -1,9 +1,11 @@
 <?php 
 include 'db-connect.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 // if user or guest --> cannot access, redirect to homepage-member.php
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id']) || !isset($_SESSION['librarian_id'])) {
   header('Location: homepage-member.php');
   exit();
   // later maybe we need  || !isset($_SESSION['librarian_id']) too
@@ -21,7 +23,7 @@ if (isset($_SESSION['alert'])) {
 }
 
 // for testing only
-$_SESSION['librarian_id'] = 1;
+// $_SESSION['librarian_id'] = 1;
 
 if (isset($_SESSION['librarian_id'])) {
   $librarian_id = $_SESSION['librarian_id'];

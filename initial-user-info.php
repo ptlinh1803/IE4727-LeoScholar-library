@@ -1,6 +1,8 @@
 <?php
 // Step 1: Start session
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 // Step 2: Check if user_id is set
 if (!isset($_SESSION['user_id'])) {

@@ -4,7 +4,9 @@
 // ini_set('display_errors', 1);
 
 // 1. Start the session
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 // 2. Check if session id is set
 if (!isset($_SESSION['user_id'])) {

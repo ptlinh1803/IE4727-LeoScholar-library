@@ -1,6 +1,8 @@
 <?php
 include 'db-connect.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 // if librarian --> cannot access, redirect to homepage-librarian.php
 if (isset($_SESSION['librarian_id'])) {

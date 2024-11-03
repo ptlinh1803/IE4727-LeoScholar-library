@@ -1,6 +1,8 @@
 <?php
 // Start the session
-session_start(); // Start the session
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 ?>
 
 <!-- The script borrows a lot of styles from search-styles.css-->
