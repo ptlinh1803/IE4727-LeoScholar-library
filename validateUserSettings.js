@@ -81,6 +81,7 @@ function validateUpdateInfo() {
 
   // Set button state.disabled to the opposite of field validity
   submitInfoButton.disabled = !(validateField(name) && validateField(phone));
+  submitInfoButton.style.backgroundColor = submitInfoButton.disabled ? "grey" : "#ee3124";
 }
 
 // 4. Function to validate update-password
@@ -90,6 +91,7 @@ function validateUpdatePassword() {
 
   // Set button state.disable to the opposite of field validity
   submitPasswordButton.disabled = !(validateField(newPassword) && validateIdenticalPasswords());
+  submitPasswordButton.style.backgroundColor = submitPasswordButton.disabled ? "grey" : "#ee3124";
 
   // Check for whether the new password is the same as the old password will be applied at the backend instead
 }
