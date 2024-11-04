@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Nov 03, 2024 at 03:56 PM
+-- Generation Time: Nov 04, 2024 at 07:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -112,7 +112,7 @@ CREATE TABLE `book_availability` (
 INSERT INTO `book_availability` (`availability_id`, `book_id`, `branch_id`, `available_copies`, `shelf`) VALUES
 (1, 1, 5, 3, 'AB F1-1'),
 (2, 1, 6, 2, 'XY F2-2'),
-(3, 2, 5, 4, 'UV F3-5'),
+(3, 2, 5, 5, 'UV F3-5'),
 (4, 2, 6, 4, 'CD F1-4'),
 (5, 3, 5, 2, 'EF F2-3'),
 (6, 3, 6, 2, 'GH F2-6'),
@@ -140,7 +140,7 @@ INSERT INTO `book_availability` (`availability_id`, `book_id`, `branch_id`, `ava
 (28, 10, 8, 3, 'YZ F3-2'),
 (29, 11, 5, 3, 'AB F1-5'),
 (30, 11, 6, 2, 'CD F2-1'),
-(31, 12, 5, 4, 'EF F3-4'),
+(31, 12, 5, 5, 'EF F3-4'),
 (32, 12, 6, 1, 'GH F1-6'),
 (33, 13, 5, 3, 'IJ F2-2'),
 (34, 13, 6, 4, 'KL F1-4'),
@@ -253,7 +253,10 @@ INSERT INTO `category_preference` (`pref_id`, `user_id`, `category`) VALUES
 (5, 2, 'Humanities & Social Science'),
 (6, 2, 'Business & Finance'),
 (7, 4, 'Arts & Design'),
-(8, 4, 'Fiction & Novels');
+(8, 4, 'Fiction & Novels'),
+(9, 3, 'Arts & Design'),
+(10, 3, 'Fiction & Novels'),
+(11, 3, 'Medicine');
 
 -- --------------------------------------------------------
 
@@ -321,7 +324,8 @@ INSERT INTO `donations` (`donation_id`, `user_id`, `isbn`, `title`, `author`, `d
 (5, 1, '', 'Test contribution 5 title', 'Test contribution 5 author', '', '', '2009', 'Natural Sciences', 'default.png', 9, 3, 'pending', '2024-11-02 10:54:59'),
 (6, 1, '', 'test contribution 6 title', 'test contribution 6 author', '', '', '1980', 'Humanities & Social Science', 'default.png', 4, 1, 'pending', '2024-11-02 10:55:49'),
 (7, 4, '', 'Test contribution 1 new user title', 'Test contribution 1 new user author', '\"This classic textbook builds theoretical statistics from the first principles of probability theory. Starting from the basics of probability, the authors develop the theory of statistical inference using techniques, definitions, and concepts that are statistical and natural extensions, and consequences, of previous concepts. It covers all topics from a standard inference course including: distributions, random variables, data reduction, point estimation, hypothesis testing, and interval estimation.\r\n\r\nFeatures\r\n- The classic graduate-level textbook on statistical inference\r\n- Develops elements of statistical theory from first principles of probability\r\n- Written in a lucid style accessible to anyone with some background in calculus\r\n- Covers all key topics of a standard course in inference\r\n- Hundreds of examples throughout to aid understanding\r\n- Each chapter includes an extensive set of graduated exercises\r\n\r\nStatistical Inference, Second Edition is primarily aimed at graduate students of statistics, but can be used by advanced undergraduate students majoring in statistics who have a solid mathematics background. It also stresses the more practical uses of statistical theory, being more concerned with understanding basic statistical concepts and deriving reasonable statistical procedures, while less focused on formal optimality considerations.\r\n\r\nThis is a reprint of the second edition originally published by Cengage Learning, Inc. in 2001.\"', '\"Professor George Casella completed his undergraduate education at Fordham University and graduate education at Purdue University. He served on the faculty of Rutgers University, Cornell University, and the University of Florida. His contributions focused on the area of statistics including Monte Carlo methods, model selection, and genomic analysis. He was particularly active in Bayesian and empirical Bayes methods, with works connecting with the Stein phenomenon, on assessing and accelerating the convergence of Markov chain Monte Carlo methods, as in his Rao-Blackwellisation technique, and recasting lasso as Bayesian posterior mode estimation with independent Laplace priors.\r\n\r\nCasella was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics in 1988, and he was made an Elected Fellow of the International Statistical Institute in 1989. In 2009, he was made a Foreign Member of the Spanish Royal Academy of Sciences.\r\n\r\nAfter receiving his doctorate in statistics from Purdue University, Professor Roger Berger held academic positions at Florida State University and North Carolina State University. He also spent two years with the National Science Foundation before coming to Arizona State University in 2004. Berger is co-author of the textbook \"\"Statistical Inference,\"\" now in its second edition. This book has been translated into Chinese and Portuguese. His articles have appeared in publications including Journal of the American Statistical Association, Statistical Science, Biometrics and Statistical Methods in Medical Research. Berger\'s areas of expertise include hypothesis testing, (bio)equivalence, generalized linear models, biostatistics, and statistics education.\r\n\r\nBerger was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics.\"', '1999', 'Mathematics & Statistics', 'cover_1730643890.JPG', 2, 1, 'rejected', '2024-11-03 14:24:50'),
-(8, 4, '', 'Test test test title ', 'Test test test author', '\"This classic textbook builds theoretical statistics from the first principles of probability theory. Starting from the basics of probability, the authors develop the theory of statistical inference using techniques, definitions, and concepts that are statistical and natural extensions, and consequences, of previous concepts. It covers all topics from a standard inference course including: distributions, random variables, data reduction, point estimation, hypothesis testing, and interval estimation.\r\n\r\nFeatures\r\n- The classic graduate-level textbook on statistical inference\r\n- Develops elements of statistical theory from first principles of probability\r\n- Written in a lucid style accessible to anyone with some background in calculus\r\n- Covers all key topics of a standard course in inference\r\n- Hundreds of examples throughout to aid understanding\r\n- Each chapter includes an extensive set of graduated exercises\r\n\r\nStatistical Inference, Second Edition is primarily aimed at graduate students of statistics, but can be used by advanced undergraduate students majoring in statistics who have a solid mathematics background. It also stresses the more practical uses of statistical theory, being more concerned with understanding basic statistical concepts and deriving reasonable statistical procedures, while less focused on formal optimality considerations.\r\n\r\nThis is a reprint of the second edition originally published by Cengage Learning, Inc. in 2001.\"', '\"Professor George Casella completed his undergraduate education at Fordham University and graduate education at Purdue University. He served on the faculty of Rutgers University, Cornell University, and the University of Florida. His contributions focused on the area of statistics including Monte Carlo methods, model selection, and genomic analysis. He was particularly active in Bayesian and empirical Bayes methods, with works connecting with the Stein phenomenon, on assessing and accelerating the convergence of Markov chain Monte Carlo methods, as in his Rao-Blackwellisation technique, and recasting lasso as Bayesian posterior mode estimation with independent Laplace priors.\r\n\r\nCasella was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics in 1988, and he was made an Elected Fellow of the International Statistical Institute in 1989. In 2009, he was made a Foreign Member of the Spanish Royal Academy of Sciences.\r\n\r\nAfter receiving his doctorate in statistics from Purdue University, Professor Roger Berger held academic positions at Florida State University and North Carolina State University. He also spent two years with the National Science Foundation before coming to Arizona State University in 2004. Berger is co-author of the textbook \"\"Statistical Inference,\"\" now in its second edition. This book has been translated into Chinese and Portuguese. His articles have appeared in publications including Journal of the American Statistical Association, Statistical Science, Biometrics and Statistical Methods in Medical Research. Berger\'s areas of expertise include hypothesis testing, (bio)equivalence, generalized linear models, biostatistics, and statistics education.\r\n\r\nBerger was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics.\"', '2000', 'Mathematics & Statistics', 'default.png', 9, 2, 'accepted', '2024-11-03 14:27:23');
+(8, 4, '', 'Test test test title ', 'Test test test author', '\"This classic textbook builds theoretical statistics from the first principles of probability theory. Starting from the basics of probability, the authors develop the theory of statistical inference using techniques, definitions, and concepts that are statistical and natural extensions, and consequences, of previous concepts. It covers all topics from a standard inference course including: distributions, random variables, data reduction, point estimation, hypothesis testing, and interval estimation.\r\n\r\nFeatures\r\n- The classic graduate-level textbook on statistical inference\r\n- Develops elements of statistical theory from first principles of probability\r\n- Written in a lucid style accessible to anyone with some background in calculus\r\n- Covers all key topics of a standard course in inference\r\n- Hundreds of examples throughout to aid understanding\r\n- Each chapter includes an extensive set of graduated exercises\r\n\r\nStatistical Inference, Second Edition is primarily aimed at graduate students of statistics, but can be used by advanced undergraduate students majoring in statistics who have a solid mathematics background. It also stresses the more practical uses of statistical theory, being more concerned with understanding basic statistical concepts and deriving reasonable statistical procedures, while less focused on formal optimality considerations.\r\n\r\nThis is a reprint of the second edition originally published by Cengage Learning, Inc. in 2001.\"', '\"Professor George Casella completed his undergraduate education at Fordham University and graduate education at Purdue University. He served on the faculty of Rutgers University, Cornell University, and the University of Florida. His contributions focused on the area of statistics including Monte Carlo methods, model selection, and genomic analysis. He was particularly active in Bayesian and empirical Bayes methods, with works connecting with the Stein phenomenon, on assessing and accelerating the convergence of Markov chain Monte Carlo methods, as in his Rao-Blackwellisation technique, and recasting lasso as Bayesian posterior mode estimation with independent Laplace priors.\r\n\r\nCasella was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics in 1988, and he was made an Elected Fellow of the International Statistical Institute in 1989. In 2009, he was made a Foreign Member of the Spanish Royal Academy of Sciences.\r\n\r\nAfter receiving his doctorate in statistics from Purdue University, Professor Roger Berger held academic positions at Florida State University and North Carolina State University. He also spent two years with the National Science Foundation before coming to Arizona State University in 2004. Berger is co-author of the textbook \"\"Statistical Inference,\"\" now in its second edition. This book has been translated into Chinese and Portuguese. His articles have appeared in publications including Journal of the American Statistical Association, Statistical Science, Biometrics and Statistical Methods in Medical Research. Berger\'s areas of expertise include hypothesis testing, (bio)equivalence, generalized linear models, biostatistics, and statistics education.\r\n\r\nBerger was named as a Fellow of the American Statistical Association and the Institute of Mathematical Statistics.\"', '2000', 'Mathematics & Statistics', 'default.png', 9, 2, 'accepted', '2024-11-03 14:27:23'),
+(9, 1, '', 'Test Contribution 4/11/2024 Title', 'Test Contribution 4/11/2024 Author', '\"The World’s Most Successful Majors Biology Text and Media Program are Better than Ever!\r\n\r\nThe Eleventh Edition of the best-selling Campbell BIOLOGY sets students on the path to success in biology through its clear and engaging narrative, superior skills instruction, innovative use of art and photos, and fully integrated media resources to enhance teaching and learning.\r\n\r\nTo engage learners in developing a deeper understanding of biology, the Eleventh Edition challenges them to apply their knowledge and skills to a variety of new hands-on activities and exercises in the text and online.  Content updates throughout the text reflect rapidly evolving research, and new learning tools include Problem-Solving Exercises, Visualizing Figures, Visual Skills Questions, and more.\"', '\"Lisa A. Urry\r\nLisa Urry (Chapter 1 and Units 1, 2, and 3) is Professor of Biology and Chair of the Biology Department at Mills College in Oakland, California, and a Visiting Scholar at the University of California, Berkeley. After graduating from Tufts University with a double major in biology and French, Lisa completed her Ph.D. in molecular and developmental biology at Massachusetts Institute of Technology (MIT) in the MIT/Woods Hole Oceanographic Institution Joint Program. She has published a number of research papers, most of them focused on gene expression during embryonic and larval development in sea urchins. Lisa has taught a variety of courses, from introductory biology to developmental biology and senior seminar. As a part of her mission to increase understanding of evolution, Lisa also teaches a nonmajors course called Evolution for Future Presidents and is on the Teacher Advisory Board for the Understanding Evolution website developed by the University of California Museum of Paleontology. Lisa is also deeply committed to promoting opportunities for women and underrepresented minorities in science.\r\n\r\n\r\nNeil A. Campbell\r\nNeil Campbell (1946–2004) combined the investigative nature of a research scientist with the soul of an experienced and caring teacher. He earned his M.A. in zoology from the University of California, Los Angeles, and his Ph.D. in plant biology from the University of California, Riverside, where he received the Distinguished Alumnus Award in 2001. Neil published numerous research articles on desert and coastal plants and how the sensitive plant (Mimosa) and other legumes move their leaves. His 30 years of teaching in diverse environments included introductory biology courses at Cornell University, Pomona College, and San Bernardino Valley College, where he received the college’s first Outstanding Professor Award in 1986. He was a visiting scholar in the Department of Botany and Plant Sciences at the University of California, Riverside. Neil was the lead author of Campbell Biology: Concepts & Connections, Campbell Essential Biology, and CAMPBELL BIOLOGY.\r\n\r\n\"', '2024', 'Arts & Design', 'default.png', 1, 1, 'rejected', '2024-11-04 15:59:56');
 
 -- --------------------------------------------------------
 
@@ -346,12 +350,12 @@ INSERT INTO `favourite_books` (`fav_id`, `user_id`, `book_id`) VALUES
 (6, 2, 6),
 (7, 2, 7),
 (32, 1, 1),
-(41, 1, 8),
 (42, 1, 2),
 (45, 1, 37),
 (46, 1, 39),
 (49, 1, 19),
-(51, 4, 15);
+(51, 4, 15),
+(52, 1, 35);
 
 -- --------------------------------------------------------
 
@@ -375,15 +379,18 @@ CREATE TABLE `fines` (
 --
 
 INSERT INTO `fines` (`fine_id`, `user_id`, `loan_id`, `amount`, `reason`, `issued_date`, `paid_date`, `paid`) VALUES
-(16, 1, 10, 1.00, 'Overdue 2 days', '2024-11-03', NULL, 0),
-(17, 1, 11, 8.50, 'Overdue 17 days', '2024-11-03', NULL, 0),
+(16, 1, 10, 1.00, 'Overdue 2 days', '2024-11-04', NULL, 1),
+(17, 1, 11, 8.50, 'Overdue 17 days', '2024-11-04', NULL, 1),
 (18, 1, 12, 9.00, 'Overdue 18 days', '2024-11-02', NULL, 1),
-(19, 1, 13, 9.50, 'Overdue 19 days', '2024-11-03', NULL, 0),
+(19, 1, 13, 10.50, 'Overdue 21 days', '2024-11-05', NULL, 0),
 (21, 1, 15, 1.00, 'Overdue 2 days', '2024-11-02', NULL, 1),
 (22, 1, 16, 1.50, 'Overdue 3 days', '2024-11-02', NULL, 1),
 (23, 1, 17, 2.00, 'Overdue 4 days', '2024-11-02', NULL, 1),
 (24, 1, 18, 2.50, 'Overdue 5 days', '2024-11-02', NULL, 1),
-(31, 1, 5, 0.50, 'Overdue 1 days', '2024-11-03', NULL, 0);
+(31, 1, 5, 1.00, 'Overdue 2 days', '2024-11-04', NULL, 1),
+(32, 1, 31, 2.50, 'Overdue 5 days', '2024-11-05', NULL, 0),
+(33, 1, 32, 2.00, 'Overdue 4 days', '2024-11-05', NULL, 0),
+(34, 1, 33, 2.00, 'Overdue 4 days', '2024-11-05', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -438,10 +445,10 @@ CREATE TABLE `loans` (
 INSERT INTO `loans` (`loan_id`, `user_id`, `book_id`, `branch_id`, `loan_date`, `return_date`, `due_date`, `status`, `renewed`, `created_at`) VALUES
 (3, 1, 1, 5, '2024-11-01', '2024-11-01', '2024-11-02', 'returned', 0, '2024-11-01 16:10:14'),
 (4, 1, 5, 8, '2024-11-01', NULL, '2024-11-16', 'active', 1, '2024-11-01 16:10:14'),
-(5, 1, 2, 5, '2024-11-01', NULL, '2024-11-02', 'overdue', 0, '2024-11-01 16:10:14'),
+(5, 1, 2, 5, '2024-11-01', '2024-11-04', '2024-11-02', 'returned', 0, '2024-11-01 16:10:14'),
 (6, 1, 11, 5, '2024-11-01', NULL, '2024-11-15', 'active', 0, '2024-11-01 16:10:14'),
 (7, 1, 19, 7, '2024-11-01', NULL, '2024-11-14', 'active', 0, '2024-11-01 16:10:14'),
-(8, 1, 16, 4, '2024-11-03', NULL, '2024-11-10', 'active', 0, '2024-11-01 16:10:14'),
+(8, 1, 16, 4, '2024-11-03', NULL, '2024-11-24', 'active', 1, '2024-11-01 16:10:14'),
 (10, 1, 3, 6, '2024-10-17', '2024-11-01', '2024-10-30', 'returned', 0, '2024-11-01 16:10:14'),
 (11, 1, 25, 5, '2024-10-01', '2024-11-01', '2024-10-15', 'returned', 0, '2024-11-01 16:10:14'),
 (12, 1, 26, 5, '2024-10-01', '2024-11-02', '2024-10-15', 'returned', 0, '2024-11-01 16:10:14'),
@@ -453,7 +460,15 @@ INSERT INTO `loans` (`loan_id`, `user_id`, `book_id`, `branch_id`, `loan_date`, 
 (21, 1, 36, 9, '2024-11-01', NULL, '2024-11-15', 'active', 0, '2024-11-01 16:10:14'),
 (22, 1, 34, 9, '2024-11-02', NULL, '2024-11-10', 'active', 0, '2024-11-01 16:10:14'),
 (23, 1, 22, 5, '2024-11-09', NULL, '2024-11-16', 'active', 0, '2024-11-01 16:15:52'),
-(25, 4, 34, 4, '2024-11-04', '2024-11-03', '2024-11-23', 'returned', 1, '2024-11-03 11:46:42');
+(25, 4, 34, 4, '2024-11-04', '2024-11-03', '2024-11-23', 'returned', 1, '2024-11-03 11:46:42'),
+(26, 1, 1, 5, '2024-11-05', '2024-11-04', '2024-11-24', 'returned', 1, '2024-11-04 13:41:40'),
+(27, 1, 35, 3, '2024-11-06', '2024-11-04', '2024-11-11', 'returned', 0, '2024-11-04 14:19:27'),
+(28, 2, 35, 3, '2024-11-04', '2024-11-04', '2024-11-18', 'returned', 0, '2024-11-04 14:33:14'),
+(29, 1, 35, 3, '2024-11-05', '2024-11-04', '2024-11-08', 'returned', 0, '2024-11-04 14:46:49'),
+(30, 2, 35, 3, '2024-11-04', '2024-11-04', '2024-11-18', 'returned', 0, '2024-11-04 14:48:48'),
+(31, 1, 10, 8, '2024-10-20', NULL, '2024-10-31', 'overdue', 0, '2024-11-04 18:06:35'),
+(32, 1, 11, 5, '2024-10-25', NULL, '2024-11-01', 'overdue', 0, '2024-11-04 18:06:35'),
+(33, 1, 12, 5, '2024-10-25', '2024-11-05', '2024-11-01', 'returned', 0, '2024-11-04 18:06:35');
 
 -- --------------------------------------------------------
 
@@ -481,7 +496,10 @@ INSERT INTO `reservations` (`reservation_id`, `user_id`, `book_id`, `branch_id`,
 (13, 1, 36, 9, '2024-11-01', 'fulfilled', '2024-11-01 16:11:01'),
 (14, 1, 34, 9, '2024-11-01', 'fulfilled', '2024-11-01 16:11:01'),
 (15, 1, 27, 12, '2024-11-01', 'cancelled', '2024-11-01 16:17:41'),
-(16, 4, 29, 7, '2024-11-03', 'pending', '2024-11-03 14:23:30');
+(16, 4, 29, 7, '2024-11-03', 'pending', '2024-11-03 14:23:30'),
+(17, 2, 35, 3, '2024-11-04', 'fulfilled', '2024-11-04 14:26:51'),
+(18, 2, 35, 3, '2024-11-04', 'fulfilled', '2024-11-04 14:47:26'),
+(19, 2, 14, 9, '2024-11-04', 'cancelled', '2024-11-04 14:53:46');
 
 -- --------------------------------------------------------
 
@@ -668,13 +686,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `books`
 --
 ALTER TABLE `books`
-  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `book_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `book_availability`
 --
 ALTER TABLE `book_availability`
-  MODIFY `availability_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `availability_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `branches`
@@ -686,7 +704,7 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `category_preference`
 --
 ALTER TABLE `category_preference`
-  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `pref_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `digital_resources`
@@ -698,19 +716,19 @@ ALTER TABLE `digital_resources`
 -- AUTO_INCREMENT for table `donations`
 --
 ALTER TABLE `donations`
-  MODIFY `donation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `donation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `favourite_books`
 --
 ALTER TABLE `favourite_books`
-  MODIFY `fav_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `fav_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `fines`
 --
 ALTER TABLE `fines`
-  MODIFY `fine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `fine_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `librarians`
@@ -722,13 +740,13 @@ ALTER TABLE `librarians`
 -- AUTO_INCREMENT for table `loans`
 --
 ALTER TABLE `loans`
-  MODIFY `loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `loan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `reservation_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `reviews`
