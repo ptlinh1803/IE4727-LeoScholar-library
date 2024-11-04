@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Registration - LeoScholar</title>
   <link rel="stylesheet" href="login_and_register_style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <script src="validateRegistrationFields.js" defer></script>
 </head>
 
@@ -40,7 +41,9 @@
         <div class="password-frame">
           <input type="password" id="register-password" name="password" placeholder="••••••••"
             class="register-input-field" onchange="validatePassword(this)" required />
-          <span class="password-visibility" onclick="togglePassword('register-password')">👁️</span>
+          <span class="password-visibility" onclick="togglePassword('register-password', this)">
+            <i class="fas fa-eye-slash"></i>
+          </span>
         </div>
 
         <!-- Confirm Password Input Field -->
@@ -48,7 +51,9 @@
         <div class="password-frame">
           <input type="password" id="register-cf-password" name="password" placeholder="••••••••"
             class="register-input-field" onchange="validatePassword(this)" required />
-          <span class="password-visibility" onclick="togglePassword('register-cf-password')">👁️</span>
+          <span class="password-visibility" onclick="togglePassword('register-cf-password', this)">
+            <i class="fas fa-eye-slash"></i>
+          </span>
         </div>
 
         <!-- Register Button -->
