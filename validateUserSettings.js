@@ -1,5 +1,14 @@
 // The script contains the functions necessary to validate user input fields in user-settings.js
 
+// 0. Disable submit button by default:
+function disableSubmitOnLoad() {
+  const submitButton = document.getElementById("submit-update-password");
+  submitButton.disabled = true;
+  submitButton.style.backgroundColor = 'grey';
+}
+
+window.onload = disableSubmitOnLoad;
+
 // 1. Validation function
 // Name validation function (example: only letters, spaces and hyphens)
 function validateName(value) {
@@ -30,7 +39,7 @@ function validateIdenticalPasswords() {
     if (passwordField.value !== confirmPasswordField.value) {
       passwordField.style.borderColor = 'red';
       confirmPasswordField.style.borderColor = 'red';
-      alert("New passwords do not match.");
+      // alert("New passwords do not match.");
       return false;
     } else {
       passwordField.style.borderColor = '';
