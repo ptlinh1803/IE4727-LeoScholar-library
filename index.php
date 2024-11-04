@@ -104,7 +104,7 @@ else {
               <a href="#" onclick="confirmLogout()">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
-              <a href="register.html">Register</a>
+              <a href="register.php">Register</a>
             <?php } ?>
           </div>
         </div>
@@ -200,7 +200,7 @@ else {
           <?php if (!isset($_SESSION['user_id'])) { ?>
             <div class="login-register-buttons">
               <button class="see-all-button" onclick="location.href='login.php'">Login</button>
-              <button class="see-all-button" onclick="location.href='register.html'">Register</button>
+              <button class="see-all-button" onclick="location.href='register.php'">Register</button>
             </div>
           <?php } else { ?>
             <button class="see-all-button" onclick="location.href='user-settings.php'">Set your preference</button>

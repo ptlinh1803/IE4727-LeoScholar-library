@@ -222,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['chosen_payments']) &&
               <a href="#" onclick="confirmLogout()">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
-              <a href="register.html">Register</a>
+              <a href="register.php">Register</a>
             <?php } ?>
           </div>
         </div>

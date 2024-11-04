@@ -397,7 +397,7 @@ if (!isset($_SESSION['user_id'])) {
               <a href="#" onclick="confirmLogout()">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
-              <a href="register.html">Register</a>
+              <a href="register.php">Register</a>
             <?php } ?>
           </div>
         </div>

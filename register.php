@@ -1,3 +1,24 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+// Check if the user is already logged in
+if (isset($_SESSION['user_id']) || isset($_SESSION['librarian_id'])) {
+    // Redirect to the appropriate homepage based on the session
+    if (isset($_SESSION['user_id'])) {
+        $_SESSION['message'] = 'Please log out first to register a new account!';
+        header('Location: index.php');
+        exit; // Always exit after header redirection
+    } elseif (isset($_SESSION['librarian_id'])) {
+        $_SESSION['message'] = 'Please log out first to register a new account!';
+        header('Location: homepage-librarian.php');
+        exit; // Always exit after header redirection
+    }
+}
+?>
+
+<!-- The rest of the form is pure HTML -->
 <!DOCTYPE html>
 <html lang="en">
 

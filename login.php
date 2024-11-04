@@ -17,6 +17,7 @@ if (isset($_SESSION['user_id']) || isset($_SESSION['librarian_id'])) {
     }
 }
 ?>
+
 <!-- The rest of the form is pure HTML-->
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +62,7 @@ if (isset($_SESSION['user_id']) || isset($_SESSION['librarian_id'])) {
         <button type="submit" class="orange-button" name="submit">Login as a Member</button>
 
         <div class="options">
-          <p>New Member? <a href="register.html"><u>Register Here</u></a></p>
+          <p>New Member? <a href="register.php"><u>Register Here</u></a></p>
           <p><a href="index.php">Continue as Guest</a></p> <!-- Put in <p> for identical block-level alignment-->
         </div>
       </form>

@@ -356,7 +356,7 @@ if (!empty($_GET['book_id'])) {
               <a href="#">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
-              <a href="register.html">Register</a>
+              <a href="register.php">Register</a>
             <?php } ?>
           </div>
         </div>

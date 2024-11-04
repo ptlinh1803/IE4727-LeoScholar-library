@@ -1,4 +1,5 @@
-// This script provides functions to validate the fields in and register.html
+// NOT IN USE! Login does not need to be validated, unlike registration
+// This script provides functions to validate the fields in login.php
 // The script consist of 3 parts:
 // 1. Defining all the validation functions
 // 2. Creating a function that takes in the type of the element at hand and apply the validation function accordingly
