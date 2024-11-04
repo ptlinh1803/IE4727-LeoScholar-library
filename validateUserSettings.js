@@ -15,7 +15,7 @@ function validatePhoneNumber(value) {
 
 // Password validation function (example: minimum 8 characters, at least one number)
 function validatePassword(value) {
-  const passwordRegex = /^(?=.*\d).{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>-_])[\w!@#$%^&*(),.?":{}|<>-_]{8,}$/;
   return passwordRegex.test(value);
 }
 
@@ -49,7 +49,7 @@ function validateField(field) {
   switch (field.name) {
     case 'settings-new-password':
       isValid = validatePassword(value);
-      errorMessage = 'Passwords must be at least 8 characters long and contain a number.';
+      errorMessage = 'Passwords must have at least 8 characters and 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character.';
       break;
     case 'settings-name':
       isValid = validateName(value);

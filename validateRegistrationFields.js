@@ -59,13 +59,13 @@ function validatePhone(field) {
 
 // Password check function
 function isPasswordValid(field) {
-  const passwordRegex = /^(?=.*\d).{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>-_])[\w!@#$%^&*(),.?":{}|<>-_]{8,}$/;
   return passwordRegex.test(field.value);
 }
 
 // Password validate function
 function validatePassword(field) {
-  displayValidationResult(field, isPasswordValid(field), "Both passwords must have at least 8 characters and 1 number");
+  displayValidationResult(field, isPasswordValid(field), "Passwords must have at least 8 characters and 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character");
   validateIdenticalPasswords();
 }
 
