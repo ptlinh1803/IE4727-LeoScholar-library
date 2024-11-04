@@ -95,7 +95,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
       <tr>
         <form method="POST" action="update-book-details.php">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
-          <td class="cell"><h4>Author</h4></td>
+          <td class="cell"><h4>Author(s)</h4></td>
           <td class="cell">
             <input type="text" id="author" name="author" value="<?php echo htmlspecialchars($author); ?>" readonly>
             <button class="edit-icon" type="button" onclick="toggleEdit('author')">
@@ -125,7 +125,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
       <tr>
         <form method="POST" action="update-book-details.php">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
-          <td class="cell"><h4>About Author</h4></td>
+          <td class="cell"><h4>About Author(s)</h4></td>
           <td class="cell">
             <textarea readonly id="about_author" name="about_author" rows="6"><?php echo htmlspecialchars($about_author); ?></textarea>
             <button class="edit-icon" type="button" onclick="toggleEdit('about_author')">
