@@ -328,6 +328,7 @@ if (!empty($_GET['book_id'])) {
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
     />
+    <script src="logout_confirmation.js" defer></script>
   </head>
   <body>
     <!-- Navbar -->
@@ -353,7 +354,7 @@ if (!empty($_GET['book_id'])) {
             <?php if (isset($_SESSION['user_id'])) { ?>
               <a href="#">Settings</a>
               <a href="payment.php">Payment</a>
-              <a href="#">Logout</a>
+              <a href="#" onclick="confirmLogout()">Logout</a>
             <?php } else { ?>
               <a href="login.php">Log in</a>
               <a href="register.php">Register</a>

@@ -334,14 +334,21 @@ if (!isset($_SESSION['user_id'])) {
     $stmt->close();
 
     if ($result->num_rows > 0) {
-      // User has already reserved this book at this branch
+      // User has already borrowed this book at this branch
       $_SESSION['alert'] = "You have already borrowed this book from this branch.";
     } else {
+      // create new loan
       $addToLoanQuery = "
       INSERT INTO loans (user_id, book_id, branch_id, loan_date, due_date) 
       VALUES (?, ?, ?, ?, ?)";
       $stmt = $conn->prepare($addToLoanQuery);
       $stmt->bind_param("iiiss", $user_id, $book_id, $branch_id, $loanDate, $dueDate);
+      $stmt->execute();
+      $stmt->close();
+
+      // reduce the available copies at the chosen branch
+      $stmt = $conn->prepare("UPDATE book_availability SET available_copies = available_copies - 1 WHERE book_id = ? AND branch_id = ?");
+      $stmt->bind_param("ii", $book_id, $branch_id);
       $stmt->execute();
       $stmt->close();
     }
