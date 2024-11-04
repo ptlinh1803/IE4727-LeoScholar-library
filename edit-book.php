@@ -34,7 +34,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
 
       <div class="nav-links">
         <a href="homepage-librarian.php" class="active-page">Home</a>
-        <a href="#" onclick="confirmLogout()">Logout</a>
+        <a href="#" onclick="confirmLogoutLibrarian()">Logout</a>
       </div>
     </nav>
 

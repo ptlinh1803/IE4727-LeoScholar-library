@@ -523,7 +523,7 @@ if (isset($_SESSION['librarian_id'])) {
 
       <div class="nav-links">
         <a href="homepage-librarian.php" class="active-page">Home</a>
-        <a href="#" onclick="confirmLogout()">Logout</a>
+        <a href="#" onclick="confirmLogoutLibrarian()">Logout</a>
       </div>
     </nav>
 
