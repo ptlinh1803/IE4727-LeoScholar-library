@@ -65,8 +65,9 @@ function isPasswordValid(field) {
 
 // Password validate function
 function validatePassword(field) {
-  displayValidationResult(field, isPasswordValid(field), "Passwords must have at least 8 characters and 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character");
+  displayValidationResult(field, isPasswordValid(field), "Passwords must have at least 8 characters and 1 uppercase letter, 1 lowercase letter, 1 number & 1 special character.");
   validateIdenticalPasswords();
+  updateButtonState(); //call it again just to be sure
 }
 
 // Identical password check function
@@ -87,12 +88,13 @@ function validateIdenticalPasswords() {
     confirmPasswordField.style.borderColor = 'red';
     submitButton.disabled = true;
     submitButton.style.backgroundColor = 'grey';
-    alert("Passwords do not match.");
+    // Remove the alert as it causes the field to lose focus
+    // alert("Passwords do not match."); 
   } else {
     passwordField.style.borderColor = '';
     confirmPasswordField.style.borderColor = '';
-    updateButtonState();
   }
+  updateButtonState();
 }
 
 // Utility function to display validation results
@@ -106,8 +108,8 @@ function displayValidationResult(field, isValid, errorMessage) {
     alert(errorMessage);
   } else {
     field.style.borderColor = '';
-    updateButtonState();
   }
+  updateButtonState(); //should run regardless of whether the field is valid or not
 }
 
 //Function to update the button state based on field validity

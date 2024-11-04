@@ -1,123 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registration - LeoScholar</title>
-    <link rel="stylesheet" href="login_and_register_style.css" />
-    <script src="validateRegistrationFields.js" defer></script>
-  </head>
 
-  <body>
-    <div class="content-container">
-      <!-- Left Div with Background Image and Logo -->
-      <div id="register-left-column"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration - LeoScholar</title>
+  <link rel="stylesheet" href="login_and_register_style.css" />
+  <script src="validateRegistrationFields.js" defer></script>
+</head>
 
-      <!-- Right Div with Registration Form -->
-      <div id="register-right-column">
-        <h1>Membership Registration</h1>
-        <h5>For both Staffs & Students</h5>
+<body>
+  <div class="content-container">
+    <!-- Left Div with Background Image and Logo -->
+    <div id="register-left-column"></div>
 
-        <form action="register-form.php" method="POST">
-          <!-- Name Input Field -->
-          <label for="name"><b>Name</b><br /></label>
-          <input
-            type="text"
-            id="register-name"
-            name="name"
-            placeholder="E.g. Pham Thuy Linh"
-            class="register-input-field"
-            onchange="validateName(this)"
-            required
-          />
+    <!-- Right Div with Registration Form -->
+    <div id="register-right-column">
+      <h1>Membership Registration</h1>
+      <h5>For both Staffs & Students</h5>
 
-          <!-- University Email Input Field -->
-          <label for="email"><b>University Email Address</b><br /></label>
-          <input
-            type="email"
-            id="register-email"
-            name="email"
-            placeholder="username@domain.sg"
-            class="register-input-field"
-            onchange="validateEmail(this)"
-            required
-          />
+      <form action="register-form.php" method="POST">
+        <!-- Name Input Field -->
+        <label for="name"><b>Name</b><br /></label>
+        <input type="text" id="register-name" name="name" placeholder="E.g. Pham Thuy Linh" class="register-input-field"
+          onchange="validateName(this)" required />
 
-          <!-- Phone Number Input Field -->
-          <label for="phone"><b>Phone Number</b><br /></label>
-          <input
-            type="text"
-            id="register-phone"
-            name="phone"
-            placeholder="12345678"
-            class="register-input-field"
-            onchange="validatePhone(this)"
-            required
-          />
+        <!-- University Email Input Field -->
+        <label for="email"><b>University Email Address</b><br /></label>
+        <input type="email" id="register-email" name="email" placeholder="username@domain.sg"
+          class="register-input-field" onchange="validateEmail(this)" required />
 
-          <!-- Password Input Field -->
-          <label for="register-password"><b>Password</b><br /></label>
-          <div class="password-frame">
-            <input
-              type="password"
-              id="register-password"
-              name="password"
-              placeholder="••••••••"
-              class="register-input-field"
-              onchange="validatePassword(this)"
-              required
-            />
-            <span
-              class="password-visibility"
-              onclick="togglePassword('register-password')"
-              >👁️</span
-            >
-          </div>
+        <!-- Phone Number Input Field -->
+        <label for="phone"><b>Phone Number</b><br /></label>
+        <input type="text" id="register-phone" name="phone" placeholder="12345678" class="register-input-field"
+          onchange="validatePhone(this)" required />
 
-          <!-- Confirm Password Input Field -->
-          <label for="register-cf-password"
-            ><b>Confirm Password</b><br
-          /></label>
-          <div class="password-frame">
-            <input
-              type="password"
-              id="register-cf-password"
-              name="password"
-              placeholder="••••••••"
-              class="register-input-field"
-              onchange="validatePassword(this)"
-              required
-            />
-            <span
-              class="password-visibility"
-              onclick="togglePassword('register-cf-password')"
-              >👁️</span
-            >
-          </div>
-
-          <!-- Register Button -->
-          <button
-            type="submit"
-            class="orange-button"
-            id="register-button"
-            name="submit"
-            disabled
-          >
-            Register
-          </button>
-        </form>
-
-        <!-- Options Section -->
-        <div id="register-options">
-          <p>
-            Already a User? <u><a href="login.php">Login now</a></u>
-          </p>
-          <p><a href="index.php">Use as Guest</a></p>
+        <!-- Password Input Field -->
+        <label for="register-password"><b>Password</b><br /></label>
+        <div class="password-frame">
+          <input type="password" id="register-password" name="password" placeholder="••••••••"
+            class="register-input-field" onchange="validatePassword(this)" required />
+          <span class="password-visibility" onclick="togglePassword('register-password')">👁️</span>
         </div>
+
+        <!-- Confirm Password Input Field -->
+        <label for="register-cf-password"><b>Confirm Password</b><br /></label>
+        <div class="password-frame">
+          <input type="password" id="register-cf-password" name="password" placeholder="••••••••"
+            class="register-input-field" onchange="validatePassword(this)" required />
+          <span class="password-visibility" onclick="togglePassword('register-cf-password')">👁️</span>
+        </div>
+
+        <!-- Register Button -->
+        <button type="submit" class="orange-button" id="register-button" name="submit" disabled>
+          Register
+        </button>
+      </form>
+
+      <!-- Options Section -->
+      <div id="register-options">
+        <p>
+          Already a User? <u><a href="login.php">Login now</a></u>
+        </p>
+        <p><a href="index.php">Use as Guest</a></p>
       </div>
     </div>
+  </div>
 
-    <!-- Optional JavaScript for Password Visibility Toggle -->
-    <script src="toggle_password.js"></script>
-  </body>
+  <!-- Optional JavaScript for Password Visibility Toggle -->
+  <script src="toggle_password.js"></script>
+</body>
+
 </html>
