@@ -161,7 +161,7 @@ else { //Display the content of the page normally
             <div class="password-input-container">
               <input type="password" id="settings-confirm-new-password" name="settings-new-password" required
                 onchange="validateUpdatePassword()">
-                <span class="password-visibility" onclick="togglePassword('settings-confirm-newpassword', this)">
+                <span class="password-visibility" onclick="togglePassword('settings-confirm-new-password', this)">
                   <i class="fas fa-eye-slash"></i>
                 </span>
               </div>

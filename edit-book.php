@@ -21,6 +21,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
   <link rel="stylesheet" href="search-styles.css">
   <link rel="stylesheet" href="edit-book.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="logout_confirmation.js"></script>
 </head>
 <body>
   <!-- Navbar -->
@@ -33,7 +34,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
       <span class="menu-toggle">&#9776;</span>
 
       <div class="nav-links">
-        <a href="homepage-librarian.php" class="active-page">Home</a>
+        <a href="homepage-librarian.php">Home</a>
         <a href="#" onclick="confirmLogoutLibrarian()">Logout</a>
       </div>
     </nav>
@@ -95,7 +96,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
       <tr>
         <form method="POST" action="update-book-details.php">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
-          <td class="cell"><h4>Author</h4></td>
+          <td class="cell"><h4>Author(s)</h4></td>
           <td class="cell">
             <input type="text" id="author" name="author" value="<?php echo htmlspecialchars($author); ?>" readonly>
             <button class="edit-icon" type="button" onclick="toggleEdit('author')">
@@ -125,7 +126,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
       <tr>
         <form method="POST" action="update-book-details.php">
           <input type="hidden" name="book_id" value="<?php echo $book_id; ?>">
-          <td class="cell"><h4>About Author</h4></td>
+          <td class="cell"><h4>About Author(s)</h4></td>
           <td class="cell">
             <textarea readonly id="about_author" name="about_author" rows="6"><?php echo htmlspecialchars($about_author); ?></textarea>
             <button class="edit-icon" type="button" onclick="toggleEdit('about_author')">
