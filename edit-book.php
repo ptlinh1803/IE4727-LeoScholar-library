@@ -21,6 +21,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
   <link rel="stylesheet" href="search-styles.css">
   <link rel="stylesheet" href="edit-book.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="logout_confirmation.js"></script>
 </head>
 <body>
   <!-- Navbar -->
