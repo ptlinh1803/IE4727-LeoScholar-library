@@ -33,7 +33,7 @@ $book_id = isset($_GET['book_id']) && is_numeric($_GET['book_id']) ? (int) $_GET
       <span class="menu-toggle">&#9776;</span>
 
       <div class="nav-links">
-        <a href="homepage-librarian.php" class="active-page">Home</a>
+        <a href="homepage-librarian.php">Home</a>
         <a href="#" onclick="confirmLogoutLibrarian()">Logout</a>
       </div>
     </nav>
