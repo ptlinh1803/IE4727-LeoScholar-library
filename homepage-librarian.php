@@ -139,10 +139,16 @@ if (isset($_SESSION['librarian_id'])) {
     // Get form data
     $book_id = $_POST['book_id'];
 
-    // Prepare the SQL to update the reservation status
-    $delete_book_query = "DELETE FROM books WHERE book_id = ?";
+    // Prepare the SQL to update the availability of that book at that university to 0
+    // without affecting the availability at other univeristies
+    $delete_book_query = "
+      UPDATE book_availability AS ba
+      JOIN branches AS b ON ba.branch_id = b.branch_id
+      SET ba.available_copies = 0
+      WHERE ba.book_id = ? AND b.university_id = ?;
+      ";
     $stmt = $conn->prepare($delete_book_query);
-    $stmt->bind_param("i", $book_id);
+    $stmt->bind_param("is", $book_id, $university_id);
     $stmt->execute();
     $stmt->close();
 
@@ -171,6 +177,7 @@ if (isset($_SESSION['librarian_id'])) {
         JOIN branches br ON ba.branch_id = br.branch_id
         JOIN universities u ON br.university_id = u.university_id
         WHERE u.university_id = '" . $conn->real_escape_string($university_id) . "'
+        AND ba.available_copies > 0
     )";
     $where_conditions = [];
 
@@ -256,6 +263,7 @@ if (isset($_SESSION['librarian_id'])) {
         JOIN branches br ON ba.branch_id = br.branch_id
         JOIN universities u ON br.university_id = u.university_id
         WHERE u.university_id = '" . $conn->real_escape_string($university_id) . "'
+        AND ba.available_copies > 0
       )
     ";
   }
