@@ -59,7 +59,7 @@ function validatePhone(field) {
 
 // Password check function
 function isPasswordValid(field) {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>-_])[\w!@#$%^&*(),.?":{}|<>-_]{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>_-])[\w!@#$%^&*(),.?":{}|<>_-]{8,}$/;
   return passwordRegex.test(field.value);
 }
 

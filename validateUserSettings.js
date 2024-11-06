@@ -24,7 +24,7 @@ function validatePhoneNumber(value) {
 
 // Password validation function (example: minimum 8 characters, at least one number)
 function validatePassword(value) {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>-_])[\w!@#$%^&*(),.?":{}|<>-_]{8,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>_-])[\w!@#$%^&*(),.?":{}|<>_-]{8,}$/;
   return passwordRegex.test(value);
 }
 
